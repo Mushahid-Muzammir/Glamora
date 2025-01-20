@@ -7,7 +7,7 @@
         <p class="text-[12] font-medium text-black text-center mb-8">
           Connect with us to get yourself groomed!
         </p>
-        <form class="flex flex-col">
+        <form [formGroup] = "LoginForm" (ngSubmit)="onLogin()" class="flex flex-col">
           <label>Email</label>
           <mat-form-field  class="w-[80%] h-[60px] ">
             <input matInput type="text" formControlName="email" name="email"  />
@@ -17,8 +17,9 @@
             <input matInput type="password" formControlName="password" name="password"  />
           </mat-form-field>
           <button
+          type="submit"
+          [disabled] = "LoginForm.invalid"
             class="w-[80%] h-[50px] rounded-[30px] text-[20px] font-semibold text-white bg-blue-500 hover:bg-blue-600 transition duration-300"
-            routerLink="home"
             >
             Login
           </button>

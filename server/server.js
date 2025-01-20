@@ -2,6 +2,8 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import { authenticateToken } from "./controllers/auth_controller.js";
 import {userRouter} from "./routes/user_route.js"
 
 const app = express();
