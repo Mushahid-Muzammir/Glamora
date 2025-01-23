@@ -40,8 +40,9 @@ onLogin(){
     {
       next: (res) => {
         alert("Login Successful");
+        this.authService.setLoggedIn(true);
         this.router.navigate(['/home']);
-               this.LoginForm.reset();
+        this.LoginForm.reset();
       },
       error: (err) => {
         console.log(err);

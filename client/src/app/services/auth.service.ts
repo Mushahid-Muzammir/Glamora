@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 
 const authUrl = "http://localhost:5000/auth"
@@ -20,7 +20,18 @@ export interface LoginData {
 })
 export class AuthService {
 
-  http = inject(HttpClient);
+  constructor(private http: HttpClient) {}
+  private isLoggedin = false;
+
+  setLoggedIn(value: boolean){
+    this.isLoggedin = value;
+    sessionStorage.setItem('loggedIn', JSON.stringify(value));
+  }
+
+  getLoggedIn(): boolean{
+    const status = sessionStorage.getItem('loggedIn');
+    return status ? JSON.parse(status) : this.isLoggedin;
+  }
 
   registerService(regObject: RegisterData)
   {

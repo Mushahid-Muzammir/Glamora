@@ -6,6 +6,8 @@ import { SelectBranchComponent } from './pages/select-branch/select-branch.compo
 import { SelectServiceComponent } from './pages/select-service/select-service.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { SelectDateComponent } from './pages/select-date/select-date.component';
+import { ProductsComponent } from './pages/products/products.component';
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -15,6 +17,10 @@ export const routes: Routes = [
 { path: 'branch', component :SelectBranchComponent},
 { path: 'service', component :SelectServiceComponent},
 { path: 'about', component :AboutComponent},
-{ path: 'contact', component :ContactComponent}
+{ path: 'contact', component :ContactComponent},
+{ path: 'date', component :SelectDateComponent},
+{ path: 'products', component :ProductsComponent},
+
+
 
 ];

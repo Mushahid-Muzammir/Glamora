@@ -10,9 +10,8 @@
             <p class="text-6xl font-medium text-black">So Is Your Look</p>
             <p class="text-2xl">We Got You Covered With Everything</p>
           </div>
-          <button class="w-[50%] px-5 py-3 bg-[#6482ad] text-[15px] font-bold text-black rounded-md"
-          
-          >
+          <button class="w-[50%] px-5 py-3 bg-[#6482ad] text-[15px] font-bold text-black rounded-md"         
+          (click)="startService()">
             Book Now
           </button>
         </div>
@@ -142,7 +141,10 @@
         </div>
       </div>
       <div class="w-full flex justify-center  mt-12">
-        <button class="px-[55px] py-[20px] rounded-[30px] bg-[#6482ad]/30 text-[15px] font-bold text-black">SHOP NOW</button>
+        <button class="px-[55px] py-[20px] rounded-[30px] bg-[#6482ad]/30 text-[15px] font-bold text-black"
+        routerLink="/products">
+          SHOP NOW
+        </button>
       </div>
     </div>
     

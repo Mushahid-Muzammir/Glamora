@@ -16,15 +16,22 @@
       SHOP
     </a>
 
-  <div class="flex justify-start items-start absolute left-[900px] top-[12px] text-black">
-
-    <button class="text-[15px] font-bold text-left  px-[53px] py-[18px] bg-[#6482ac]"
-     routerLink="/login">
-     Login
-    </button>   
+  <div  class="flex justify-start items-start absolute left-[900px] top-[12px] text-black">
+    <button *ngIf="!authService.getLoggedIn()"
+     class="text-[15px] font-bold text-left px-[53px] py-[18px] bg-[#6482ac]"
+     routerLink= "/login">
+      Login
+    </button> 
+      
     <button class="text-[15px] font-bold mx-8 px-[53px] py-[18px] hover:bg-[#6482ad] border border-black rounded-[40px]"
-    routerLink="/branch">
+      (click)="startService()">
       Book Now
+    </button>
+
+    <button *ngIf="authService.getLoggedIn()"
+     class="text-[15px] font-bold text-left px-[53px] py-[18px] bg-[#6482ac]"
+      (click)="LogOut()">
+      LogOut
     </button>
 
   </div>  
