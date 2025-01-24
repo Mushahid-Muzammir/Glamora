@@ -1,337 +1,92 @@
-<div class="w-full h-screen relative overflow-hidden bg-[#F2F2F2] px-5">
-        <div class="w-64 text-black flex flex-col">     
-          <nav class="flex-1 justify-center items-center py-2 space-y-12 bg-white rounded-[30px] shadow-lg mt-10 h-auto">
-            <div class="flex items-center justify-center h-20 ">
-                <h1 class="text-2xl font-bold uppercase">Glamora</h1>
-            </div>
-            <div class="flex flex-col px-6 space-y-3">
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/dashboard.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Dashboard
-              </a>
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/appointments.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Appointments
-              </a>
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/customers.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Customers
-              </a>
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/employees.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Employees
-              </a>
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/services.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Services
-              </a>
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/inventory.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Inventory
-              </a>
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/analytics.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Analytics
-              </a>
-            </div>
-            <div class="px-6">
-              <a href="#" class="flex block py-2 px-4 rounded-lg text-lg font-semibold hover:bg-blue-500 transition">
-                <img src="images/logout.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                Logout
-              </a>
-            </div>
-        </nav>          
+<div class="w-full h-screen flex flex-row gap-12 overflow-hidden bg-[#F2F2F2] px-5 py-5">
+  <app-sidebar></app-sidebar>
+  <div>
+    <app-topbar></app-topbar>
+    <div class="flex flex-row gap-8 mt-6">
+      <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+        <div class="w-full flex flex-row justify-center">
+          <img src="images/sales.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+          <p class="text-lg font-medium text-left text-black">
+            Today Sales
+          </p>
         </div>
-      
+        <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+          LKR. 4900
+        </p>
+      </div>
 
-
-
-
-    <div class="w-[1391px] h-[981px] absolute left-[336px] top-[100px] bg-[#f2f2f2]"></div>
-    <div class="w-[291px] h-[130px] absolute left-[394px] top-[129px]">
-      <div class="w-[291px] h-[130px] absolute left-[-1px] top-[-1px] rounded-[40px] bg-white"></div>
-      
-      <p class="w-[152.43px] h-[34.21px] absolute left-[79.9px] top-[23.44px] text-xl font-medium text-left text-black">
-        Today Sales
-      </p>
-      <p class="w-[158.82px] h-[38.12px] absolute left-[34.53px] top-[78.85px] text-[28px] font-semibold text-left text-black">
-        LKR. 4900
-      </p>
+      <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+        <div class="w-full flex flex-row justify-center">
+          <img src="images/revenue.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+          <p class="text-lg font-medium text-left text-black">
+            Today Revenue
+          </p>
+        </div>
+        <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+          LKR. 4900
+        </p>
+      </div>
+  
+      <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+        <div class="w-full flex flex-row justify-center">
+          <img src="images/appointments.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+          <p class="text-lg font-medium text-left text-green-700">
+            Total Appointments
+          </p>
+        </div>
+        <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+          LKR. 4900
+        </p>
+      </div>
+  
+      <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+        <div class="w-full flex flex-row justify-center">
+          <img src="images/employees.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+          <p class="text-lg font-medium text-left text-black">
+            Active Employees
+          </p>
+        </div>
+        <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+          LKR. 4900
+        </p>
+      </div>
     </div>
-    <div class="w-[295px] h-[130px] absolute left-[710px] top-[129px]">
-      <div class="w-[295px] h-[130px] absolute left-[-1px] top-[-1px] rounded-[40px] bg-white"></div>
-    </div>
-    <div class="w-[295px] h-[130px] absolute left-[1029px] top-[129px]">
-      <div class="w-[295px] h-[130px] absolute left-[-1px] top-[-1px] rounded-[40px] bg-white"></div>
-    </div>
-    <div class="w-[295px] h-[130px] absolute left-[1344px] top-[129px]">
-      <div class="w-[295px] h-[130px] absolute left-[-1px] top-[-1px] rounded-[40px] bg-white"></div>
-    </div>
-    <div class="w-[921px] h-56 absolute left-[402px] top-[285px] rounded-[40px] bg-white"></div>
-    <div class="w-[1236px] h-[499px] absolute left-[402px] top-[535px] rounded-[40px] bg-white"></div>
-    <p class="w-[171px] h-[35px] absolute left-[801px] top-[146px] text-xl font-medium text-left text-black">
-      Revenue Today
-    </p>
-    <p class="w-[197px] h-[35px] absolute left-[1104px] top-[149px] text-xl font-medium text-left text-black">
-      Total Appointments
-    </p>
-    <p class="w-[177px] h-[30px] absolute left-[1421px] top-[148px] text-xl font-medium text-left text-black">
-      Active Employees
-    </p>
-    <p class="w-[184px] h-[39px] absolute left-[456px] top-[296px] text-2xl font-medium text-left text-black">
-      Available Slots
-    </p>
-    <p class="w-[314px] h-[61px] absolute left-[457px] top-[561px] text-[26px] font-medium text-left text-black">
-      Appointments Schedule
-    </p>
-    <p class="w-40 h-[34px] absolute left-[474px] top-[636px] text-2xl font-medium text-left text-[#a0a0a0]">
-      Client Name
-    </p>
-    <p class="w-40 h-[34px] absolute left-[454.01px] top-[349px] text-2xl font-medium text-left text-[#a0a0a0]">
-      Start time
-    </p>
-    <p class="w-40 h-[34px] absolute left-[701.01px] top-[349px] text-2xl font-medium text-left text-[#a0a0a0]">
-      End time
-    </p>
-    <p class="w-40 h-[34px] absolute left-[941px] top-[349px] text-2xl font-medium text-left text-[#a0a0a0]">
-      Action
-    </p>
-    <p class="w-[121px] h-[35px] absolute left-[833px] top-[638px] text-2xl font-medium text-left text-[#a0a0a0]">
-      Start time
-    </p>
-    <p class="w-[110px] h-8 absolute left-[1001px] top-[638px] text-2xl font-medium text-left text-[#a0a0a0]">
-      End time
-    </p>
-    <p class="w-[83px] h-8 absolute left-[1174px] top-[638px] text-2xl font-medium text-left text-[#a0a0a0]">
-      Status
-    </p>
-    <p class="w-[92px] h-8 absolute left-[672px] top-[638px] text-2xl font-medium text-left text-[#a0a0a0]">
-      Service
-    </p>
-    <p
-      class="w-[191px] h-8 absolute left-[1344px] top-[638px] text-2xl font-medium text-left text-[#a0a0a0]"
-    >
-      Payment Status
-    </p>
-    <p
-      class="w-[162px] h-[34px] absolute left-[474px] top-[715px] text-2xl font-medium text-left text-black"
-    >
-      Client
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[672px] top-[717px] text-2xl font-medium text-left text-black"
-    >
-      Hair Cut
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[833px] top-[715px] text-2xl font-medium text-left text-black"
-    >
-      10.00
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[1001px] top-[717px] text-2xl font-medium text-left text-black"
-    >
-      10.30
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[454px] top-[404px] text-2xl font-medium text-left text-black"
-    >
-      12.00
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[701px] top-[402px] text-2xl font-medium text-left text-black"
-    >
-      12.30
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1343px] top-[710px] rounded-[40px] bg-[#7cf04e]"
-    ></div>
-    <p
-      class="w-[46px] h-[33px] absolute left-[1398px] top-[713px] text-xl font-semibold text-left text-white"
-    >
-      Paid
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1141px] top-[710px] rounded-[40px] bg-[#7cf04e]"
-    ></div>
-    <p
-      class="w-[54px] h-[33px] absolute left-[1188px] top-[713px] text-xl font-semibold text-left text-white"
-    >
-      Done
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1141px] top-[785px] rounded-[40px] bg-[#847ae3]"
-    ></div>
-    <p
-      class="w-[89px] h-[33px] absolute left-[1171px] top-[787px] text-xl font-semibold text-left text-white"
-    >
-      Ongoing
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[911px] top-[408px] rounded-[40px] bg-[#847ae3]"
-    ></div>
-    <p
-      class="w-[54px] h-[26px] absolute left-[958px] top-[415px] text-xl font-semibold text-left text-white"
-    >
-      Book
-    </p>
-    <p
-      class="w-[162px] h-[34px] absolute left-[474px] top-[790px] text-2xl font-medium text-left text-black"
-    >
-      Client
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[672px] top-[792px] text-2xl font-medium text-left text-black"
-    >
-      Hair Cut
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[833px] top-[790px] text-2xl font-medium text-left text-black"
-    >
-      11.00
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[1001px] top-[792px] text-2xl font-medium text-left text-black"
-    >
-      11.30
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1343px] top-[785px] rounded-[40px] bg-[#7cf04e]"
-    ></div>
-    <p
-      class="w-[46px] h-[33px] absolute left-[1398px] top-[788px] text-xl font-semibold text-left text-white"
-    >
-      Paid
-    </p>
-    <p
-      class="w-[162px] h-[34px] absolute left-[474px] top-[865px] text-2xl font-medium text-left text-black"
-    >
-      Client
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[672px] top-[867px] text-2xl font-medium text-left text-black"
-    >
-      Hair Cut
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[833px] top-[865px] text-2xl font-medium text-left text-black"
-    >
-      13.00
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[1001px] top-[867px] text-2xl font-medium text-left text-black"
-    >
-      13.30
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1343px] top-[860px] rounded-[40px] bg-[#e9dcdc]"
-    ></div>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1343px] top-[860px] rounded-[40px] bg-[#e9dcdc]"
-    ></div>
-    <p
-      class="w-[84px] h-[33px] absolute left-[1382px] top-[863px] text-xl font-semibold text-left text-[#666]"
-    >
-      Pending
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1141px] top-[860px] rounded-[40px] bg-[#e9dcdc]"
-    ></div>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1141px] top-[860px] rounded-[40px] bg-[#e9dcdc]"
-    ></div>
-    <p
-      class="w-[84px] h-[33px] absolute left-[1180px] top-[863px] text-xl font-semibold text-left text-[#666]"
-    >
-      Pending
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1141px] top-[935px] rounded-[40px] bg-[#e9dcdc]"
-    ></div>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1141px] top-[935px] rounded-[40px] bg-[#e9dcdc]"
-    ></div>
-    <p
-      class="w-[84px] h-[33px] absolute left-[1180px] top-[938px] text-xl font-semibold text-left text-[#666]"
-    >
-      Pending
-    </p>
-    <p
-      class="w-[162px] h-[34px] absolute left-[474px] top-[940px] text-2xl font-medium text-left text-black"
-    >
-      Client
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[672px] top-[942px] text-2xl font-medium text-left text-black"
-    >
-      Hair Cut
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[833px] top-[942px] text-2xl font-medium text-left text-black"
-    >
-      15.00
-    </p>
-    <p
-      class="w-[130px] h-8 absolute left-[1001px] top-[942px] text-2xl font-medium text-left text-black"
-    >
-      15.30
-    </p>
-    <div
-      class="w-[147px] h-[38px] absolute left-[1343px] top-[935px] rounded-[40px] bg-[#7cf04e]"
-    ></div>
-    <p
-      class="w-[46px] h-5 absolute left-[1398px] top-[945px] text-xl font-semibold text-left text-white"
-    >
-      Paid
-    </p>
-    <div
-      class="w-[428px] h-[52px] absolute left-[851px] top-[561px] rounded-[20px] bg-white border border-[#c5c5c5]"
-    ></div>
-    <div
-      class="w-[147px] h-[52px] absolute left-[1381px] top-[561px] rounded-[20px] bg-[#6482ad] border border-[#c5c5c5]"
-    ></div>
-    <p
-      class="w-[396px] h-[30px] absolute left-[878px] top-[567px] text-xl font-medium text-left text-[#444]"
-    >
-      Search here...
-    </p>
-    <p
-      class="w-[68px] h-9 absolute left-[1423px] top-[567px] text-xl font-medium text-left text-white"
-    >
-      See All
-    </p>
-    <p
-      class="w-[146px] h-[43px] absolute left-[765px] top-[193px] text-[28px] font-semibold text-left text-black"
-    >
-      LKR. 4000
-    </p>
+      <div class="bg-white mt-6 rounded-[30px] p-6">
+        <div class="flex flex-row items-center justify-between">
+          <h1 class="text-xl font-bold text-black">Today's Appointments</h1>
+          <div>
+            <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
+          </div>
+          <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Add Appointment</button>
+        </div>
+        <table class="w-full mt-6 rounded-[30px]">       
+          <thead>
+            <tr>
+              <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Client Name</th>
+              <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Service</th>
+              <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Start</th>
+              <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">End</th>
+              <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Payment Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="py-4 px-8 border-b border-gray-200">10:00 AM</td>
+              <td class="py-4 px-8 border-b border-gray-200">10:30 AM</td>
+              <td class="py-4 px-8 border-b border-gray-200">John Doe</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-8 border-b border-gray-200">11:00 AM</td>
+              <td class="py-4 px-8 border-b border-gray-200">11:30 AM</td>
+              <td class="py-4 px-8 border-b border-gray-200">Jane Smith</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-8 border-b border-gray-200">12:00 PM</td>
+              <td class="py-4 px-8 border-b border-gray-200">12:30 PM</td>
+              <td class="py-4 px-8 border-b border-gray-200">Alice Johnson</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
     
-    <p
-      class="w-[33px] h-11 absolute left-[1096px] top-[193px] text-[28px] font-medium text-left text-black"
-    >
-      12
-    </p>
-    
-    <p
-      class="w-[92px] h-[38px] absolute left-[1406px] top-[193px] text-[28px] font-medium text-left text-black"
-    >
-      4
-    </p>
-   
-    </div>
-    <div>
-        <img
-      src="pexels-emmy-e-1252107-2381069.jpeg"
-      class="w-[94px] h-[76px] absolute left-[1447px] top-[9px] rounded-[10px] object-cover"
-    />
-    <p
-      class="w-[161px] h-[29px] absolute left-[1553px] top-2.5 text-xl font-semibold text-left text-black"
-    >
-      John Smith
-    </p>
-    <p
-      class="w-[110px] h-[18px] absolute left-[1553px] top-[39px] text-[10px] font-semibold text-left text-[#a0a0a0]"
-    >
-      Branch manager
-    </p>
-    </div>
