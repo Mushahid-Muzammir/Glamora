@@ -11,6 +11,10 @@ export const Services = instance.define("Services", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    decription: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     price: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -19,7 +23,9 @@ export const Services = instance.define("Services", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-
+},
+{
+    timestamps:false
 });
 
 export default Services;

@@ -15,7 +15,15 @@ export const Products = instance.define("Products", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    price: {
+    description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    cost_price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    selling_price: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
@@ -23,10 +31,13 @@ export const Products = instance.define("Products", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    description: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-   
-});
+    expiry_date: {
+        type: DataTypes.DATE,
+        allowNull:true
+    }  
+}, 
+{
+    timestamps: false
+}
+);
 export default Products;

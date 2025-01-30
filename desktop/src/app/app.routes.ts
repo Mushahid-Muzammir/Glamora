@@ -1,15 +1,19 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guard/auth.guard';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { CustomersComponent } from './admin/customers/customers.component';
 import { ManagerCustomersComponent } from './manager/manager-customers/manager-customers.component';
 import { EmployeesComponent } from './admin/employees/employees.component';
 import { ManagerEmployeesComponent } from './manager/manager-employees/manager-employees.component';
+import { AddEmployeeComponent } from './admin/add-employee/add-employee.component';
 import { AppointmentComponent } from './admin/appointment/appointment.component';
 import { ManagerAppointmentComponent } from './manager/manager-appointment/manager-appointment.component';
 import { InventoryComponent } from './admin/inventory/inventory.component';
 import { ManagerInventoryComponent } from './manager/manager-inventory/manager-inventory.component';
+import { AddProductComponent } from './admin/add-product/add-product.component';
 import { ServicesComponent } from './admin/services/services.component';
 import { ManagerServicesComponent } from './manager/manager-services/manager-services.component';
+import { AddServiceComponent } from './admin/add-service/add-service.component';
 import { ManagerHomeComponent } from './manager/manager-home/manager-home.component';
 import { StaffHomeComponent } from './staff/staff-home/staff-home.component';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
@@ -18,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
+    { path: "login", component: LoginComponent },
     { path : "adminHome", component: AdminHomeComponent },
     { path : "managerHome", component: ManagerHomeComponent },
     { path : "staffHome", component: StaffHomeComponent },
@@ -32,7 +37,10 @@ export const routes: Routes = [
     { path : "services", component: ServicesComponent },
     { path : "managerServices", component: ManagerServicesComponent },
     { path : "analytics", component: AnalyticsComponent },
-    { path : "managerAnalytics", component: ManagerAnalyticsComponent },                                
+    { path : "managerAnalytics", component: ManagerAnalyticsComponent },  
+    { path : "addEmployee", component: AddEmployeeComponent },
+    { path : "addProduct", component: AddProductComponent },
+    { path : "addService", component: AddServiceComponent }                              
 
 
     

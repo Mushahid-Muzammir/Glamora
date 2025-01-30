@@ -1,1 +1,45 @@
-<p>add-service works!</p>
+<div class="max-w-2xl mx-auto h-auto bg-white p-8 rounded-2xl shadow-lg mt-8">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">Add New Service</h2>
+
+  <form [formGroup]="serviceForm" (ngSubmit)="onAddService()" class="space-y-6">
+    
+    <!-- Service Name -->
+    <div>
+      <label class="block text-gray-700 font-medium">Service Name*</label>
+      <input type="text" formControlName="name"
+        class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+        placeholder="Enter service name">
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label class="block text-gray-700 font-medium">Description</label>
+      <input type="text" formControlName="description"
+        class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        placeholder="Enter a description">
+    </div>
+
+    <!-- Price -->
+    <div>
+      <label class="block text-gray-700 font-medium">Price</label>
+      <input type="number" formControlName="price"
+        class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        placeholder="Enter price">
+    </div>
+
+    <!-- Duration -->
+    <div>
+      <label class="block text-gray-700 font-medium">Duration (minutes)</label>
+      <input type="number" formControlName="duration"
+        class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        placeholder="Enter duration">
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-300">
+      Add Service
+    </button>
+
+  </form>
+</div>

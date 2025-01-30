@@ -11,22 +11,33 @@
             <div>
               <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
-            <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Add Product</button>
+            <button routerLink="/addProduct" class="bg-[#6482AD] text-white font-semibold px-4 py-+ rounded-[30px]">+Add Product</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
               <tr>
-                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Image</th>
-                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">ID</th>
-                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Name</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Price</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">On-Stock</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Last Stocked</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Action</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Image</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">ID</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Cost Price</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Selling Price</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">On-Stock</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
               </tr>
             </thead>
             <tbody>
-              
+              <tr *ngFor="let product of products">
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700"></td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{product.product_id}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{product.product_name}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{product.cost_price}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{product.selling_price}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{product.stock_level}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">
+                  <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
+                  <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
+                </td>
+              </tr>              
             </tbody>
           </table>
         </div>  

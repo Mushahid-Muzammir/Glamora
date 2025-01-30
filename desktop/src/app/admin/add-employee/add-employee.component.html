@@ -1,1 +1,54 @@
-<p>add-employee works!</p>
+<div class="max-w-2xl mx-auto h-auto bg-white p-8 rounded-2xl shadow-lg mt-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Add New Employee</h2>
+  
+    <form [formGroup]="employeeForm" (ngSubmit)="onAddEmployee()" class="space-y-6">
+      
+      <div>
+        <label class="block text-gray-700 font-medium">Name*</label>
+        <input type="text" formControlName="name"
+          class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+          placeholder="Enter name">
+      </div>
+  
+      <div>
+        <label class="block text-gray-700 font-medium">Contact Number</label>
+        <input type="text" formControlName="contact"
+          class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Enter contact number">
+      </div>
+  
+      <div>
+        <label class="block text-gray-700 font-medium">Email Address</label>
+        <input type="email" formControlName="email"
+          class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Enter email">
+      </div>
+  
+      <div>
+        <label class="block text-gray-700 font-medium">Assigned Branch</label>
+        <select formControlName="branch"
+          class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option *ngFor="let branch of branches" [value]="branch.branch_id">
+            {{ branch.branch_name }}
+          </option>
+        </select>
+      </div>
+  
+      <div>
+        <label class="block text-gray-700 font-medium">Service Provided</label>
+        <select formControlName="service"
+          class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option *ngFor="let service of services" [value]="service.service_id">
+            {{ service.service_name }}
+          </option>
+        </select>
+      </div>
+  
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-300">
+        Add Employee
+      </button>
+  
+    </form>
+  </div>
+  

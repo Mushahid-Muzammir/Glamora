@@ -11,20 +11,31 @@
             <div>
               <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
-            <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Add Customer</button>
+            <button class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add Customer</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
               <tr>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">ID</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Name</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Contact</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Total Visits</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Loyalty Points</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Action</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">User ID</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Total Visits</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Loyalty Points</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
+              <tr *ngFor="let customer of customers">
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{customer.user_id}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.name}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.contact}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>
+                <td class="py-4 px-8 border-b space-x-3 border-gray-200 text-sm text-gray-700">
+                  <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
+                  <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
+                </td>
+              </tr>
               
             </tbody>
           </table>

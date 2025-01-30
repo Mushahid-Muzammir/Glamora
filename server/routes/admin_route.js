@@ -1,5 +1,5 @@
 import express from "express";
-import { getAppointments } from "../controllers/admin _controller.js";
+import { addProduct, addService, getAppointments, getProducts } from "../controllers/admin _controller.js";
 import { getCustomers } from "../controllers/admin _controller.js";
 import { getEmployees } from "../controllers/admin _controller.js";
 import { getServices } from "../controllers/admin _controller.js";
@@ -13,6 +13,9 @@ adminRoute.get("/getCustomers", getCustomers);
 adminRoute.get("/getEmployees", getEmployees);
 adminRoute.get("/getManagers", getManagers);
 adminRoute.get("/getServices", getServices);
+adminRoute.post("/addService", addService);
+adminRoute.get("/getProducts", getProducts);
+adminRoute.post("/addProduct", addProduct)
 adminRoute.get("/getAppointments", getAppointments);
 adminRoute.get("/getBranches", getBranches);
 adminRoute.get("/getTodayAppointments", getTodayAppointments);

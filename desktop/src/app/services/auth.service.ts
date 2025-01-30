@@ -12,7 +12,7 @@ export class AuthService {
 
   setLoggedIn(value: boolean){
     this.isLoggedin = value;
-    sessionStorage.setItem('loggedIn', JSON.stringify(value));
+    localStorage.setItem('loggedIn', JSON.stringify(value));
   }
 
   getLoggedIn(): boolean{
