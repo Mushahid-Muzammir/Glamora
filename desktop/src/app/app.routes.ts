@@ -19,6 +19,9 @@ import { StaffHomeComponent } from './staff/staff-home/staff-home.component';
 import { AnalyticsComponent } from './admin/analytics/analytics.component';
 import { ManagerAnalyticsComponent } from './manager/manager-analytics/manager-analytics.component';
 import { LoginComponent } from './login/login.component';
+import { EditServiceComponent } from './admin/edit-service/edit-service.component';
+import { EditProductComponent } from './admin/edit-product/edit-product.component';
+import { EditEmployeeComponent } from './admin/edit-employee/edit-employee.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
@@ -31,16 +34,19 @@ export const routes: Routes = [
     { path : "appointment", component: AppointmentComponent },
     { path : "managerAppointment", component: ManagerAppointmentComponent },
     { path : "employees", component: EmployeesComponent },
+    { path : "addEmployee", component: AddEmployeeComponent },
+    { path : "editEmployee/:user_id", component: EditEmployeeComponent },
     { path : "managerEmployees", component: ManagerEmployeesComponent },
     { path : "inventory", component: InventoryComponent },
     { path : "managerInventory", component: ManagerInventoryComponent },
+    { path : "addProduct", component: AddProductComponent },
+    { path:  "editProduct/:product_id", component: EditProductComponent},
     { path : "services", component: ServicesComponent },
+    { path : "addService", component: AddServiceComponent },                              
+    { path : "editService/:service_id", component: EditServiceComponent},
     { path : "managerServices", component: ManagerServicesComponent },
     { path : "analytics", component: AnalyticsComponent },
     { path : "managerAnalytics", component: ManagerAnalyticsComponent },  
-    { path : "addEmployee", component: AddEmployeeComponent },
-    { path : "addProduct", component: AddProductComponent },
-    { path : "addService", component: AddServiceComponent }                              
 
 
     

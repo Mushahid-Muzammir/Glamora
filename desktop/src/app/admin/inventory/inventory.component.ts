@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from "../topbar/topbar.component";
@@ -13,16 +13,21 @@ import { Product } from '../../data_interface';
   styleUrl: './inventory.component.css'
 })
 export class InventoryComponent implements OnInit {
-  constructor(private adminService : AdminService) {}
+  constructor(
+    private adminService : AdminService,
+    private router : Router
+  ) {}
+  
   products : Product[] = [];
     ngOnInit(): void {
     this.adminService.getProducts().subscribe(
       (res: any) => {
         this.products = res.products;
         console.log(this.products);
-      }
-    )
-    
+      });    
   }
 
+  editProduct(product : Product){
+    this.router.navigate(['editProduct', product.product_id]);
+  }
 }

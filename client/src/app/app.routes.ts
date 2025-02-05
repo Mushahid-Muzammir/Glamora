@@ -15,7 +15,7 @@ export const routes: Routes = [
 { path: 'login', component: LoginComponent },
 { path: 'register', component :RegisterComponent},
 { path: 'branch', component :SelectBranchComponent},
-{ path: 'service', component :SelectServiceComponent},
+{ path: 'service/:branch_id', component :SelectServiceComponent},
 { path: 'about', component :AboutComponent},
 { path: 'contact', component :ContactComponent},
 { path: 'date', component :SelectDateComponent},

@@ -42,4 +42,6 @@ export interface Branch {
     address: string,
     manager_id: number,
     contact: number,
+    open_time: string,
+    close_time: string
 }

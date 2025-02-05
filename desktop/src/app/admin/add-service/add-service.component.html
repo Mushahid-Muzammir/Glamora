@@ -3,7 +3,6 @@
 
   <form [formGroup]="serviceForm" (ngSubmit)="onAddService()" class="space-y-6">
     
-    <!-- Service Name -->
     <div>
       <label class="block text-gray-700 font-medium">Service Name*</label>
       <input type="text" formControlName="name"
@@ -11,7 +10,6 @@
         placeholder="Enter service name">
     </div>
 
-    <!-- Description -->
     <div>
       <label class="block text-gray-700 font-medium">Description</label>
       <input type="text" formControlName="description"
@@ -19,7 +17,6 @@
         placeholder="Enter a description">
     </div>
 
-    <!-- Price -->
     <div>
       <label class="block text-gray-700 font-medium">Price</label>
       <input type="number" formControlName="price"
@@ -27,7 +24,6 @@
         placeholder="Enter price">
     </div>
 
-    <!-- Duration -->
     <div>
       <label class="block text-gray-700 font-medium">Duration (minutes)</label>
       <input type="number" formControlName="duration"
@@ -35,7 +31,6 @@
         placeholder="Enter duration">
     </div>
 
-    <!-- Submit Button -->
     <button type="submit"
       class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-300">
       Add Service

@@ -4,86 +4,43 @@
     Select Preferred Services
     </p>
   </div>
+  <div>
+    <p></p>
+  </div>
   <div class="w-full flex justify-center relative mt-6">     
     <input class=" w-[60%] h-[50px] rounded-[10px] bg-white border border-[#cfcfcf] px-6 outline-none"
     placeholder="Search here">
   </div>
 
-  <div class="flex flex-col gap-6 w-full px-[3%] mt-8">
-
-    <div class="flex flex-row justify-between gap-12 w-[70%] h-[100px] relative rounded-xl px-6 bg-white border border-[#cfcfcf]">
-
-      <div class="flex flex-col relative gap-1 py-4">
-        <div class="flex flex-col justify-start items-start relative gap-1">
-          <p class="text-lg font-semibold text-left text-black">
-            Hair Coloring
-          </p>
-          <p class="text-sm text-left text-[#666]">
-            Approximate Time (20-30 mins)
-          </p>
-        </div>
-        <p class="text-sm text-left text-black">
-          Price - Rs.600
-        </p>
-      </div>
-      <div class=" flex items-center">
-        <mat-checkbox>
-        Select Service        
-      </mat-checkbox>      
-      </div>
-
-    </div>
-
-    <div class="flex w-[70%] h-[100px] relative rounded-xl px-6 bg-white border border-[#cfcfcf]">
-      <div class="flex flex-col relative gap-1 py-4">
-        <div class="flex flex-col justify-start items-start relative gap-1">
-          <p class="text-lg font-semibold text-left text-black">
-            Haircut          </p>
-          <p class="text-sm text-left text-[#666]">
-            Approximate Time (20-30 mins)
+  <div class="flex flex-wrap justify-center">
+    <div *ngFor="let service of services" 
+    class="flex flex-col gap-6 w-full px-[3%] mt-8">
+      <div class="flex flex-row justify-between gap-12 w-[70%] h-[100px] relative rounded-xl px-6 bg-white border border-[#cfcfcf]">
+        <div class="flex flex-col relative gap-1 py-4">
+          <div class="flex flex-col justify-start items-start relative gap-1">
+            <p class="text-lg font-semibold text-left text-black">
+              {{service.service_name}}
+            </p>
+            <p class="text-sm text-left text-[#666]">
+              Approximate Time - {{service.duration}}min
+            </p>
+          </div>
+          <p class="text-sm text-left text-black">
+            Price - Rs. {{ service.price }}
           </p>
         </div>
-        <p class="text-sm text-left text-black">
-          Price - Rs.600
-        </p>
-      </div>
-    </div>
-
-    <div class="flex w-[70%] h-[100px] relative rounded-xl px-6 bg-white border border-[#cfcfcf]">
-      <div class="flex flex-col relative gap-1 py-4">
-        <div class="flex flex-col justify-start items-start relative gap-1">
-          <p class="text-lg font-semibold text-left text-black">
-            Shaving          </p>
-          <p class="text-sm text-left text-[#666]">
-            Approximate Time (20-30 mins)
-          </p>
+        <div class=" flex items-center">
+          <mat-checkbox (change)="toggleService(service.service_id, $event)">
+            Select Service
+          </mat-checkbox>      
         </div>
-        <p class="text-sm text-left text-black">
-          Price - Rs.600
-        </p>
       </div>
     </div>
-
-    <div class="flex w-[70%] h-[100px] relative rounded-xl px-6 bg-white border border-[#cfcfcf]">
-      <div class="flex flex-col relative gap-1 py-4">
-        <div class="flex flex-col justify-start items-start relative gap-1">
-          <p class="text-lg font-semibold text-left text-black">
-            Head Massage
-          </p>
-          <p class="text-sm text-left text-[#666]">
-            Approximate Time (20-30 mins)
-          </p>
-        </div>
-        <p class="text-sm text-left text-black">
-          Price - Rs.600
-        </p>
-      </div>
-    </div>
-
   </div>
+
   <div class="w-full h-auto flex justify-center my-8">
     <button class="w-[15%] h-[60px] rounded-[30px] bg-[#0056B3] text-[20px] font-bold text-center text-white"
-    routerLink="/date">
+    (click)="onSelectServices()">
       Confirm
     </button>
   </div>

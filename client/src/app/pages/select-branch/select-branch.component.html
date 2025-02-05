@@ -1,83 +1,39 @@
 <div>
-    <div class="w-full h-auto">      
-     <img
-     src="images/selectBranch.png"
-     class="w-full"/>
-    <div class="w-full h-[100px] py-9 bg-[#6482ad]/30 mt-6">
-     <p class="text-[30px] text-center font-bold text-black">
-     Choose a Location
-     </p>
-    </div>
-    <div>
-        <div class="flex flex-row justify-center gap-8 mt-12 "> 
-        
-          <div class="flex flex-col w-[340px]  h-auto rounded-3xl bg-white border border-black/[0.24]">
-            <img src="images/product3.jpg"
-              class="self-stretch  h-[342px] object-cover"/>
-            <div class="flex flex-col w-full items-center  px-2 my-1">
-              <p class=" w-full h-auto text-[20px] font-semibold text-center text-[black]">
-                  Salon A
-                </p>
-                <p class=" w-full h-auto text-[14px] text-center text-[#333333]">
-                  2267 Galle Road, Colombo 07
-                </p>
-                <p class=" w-full h-auto text-[13px] text-center font-bold text-[#333333]">
-                  Work Hours: 09:00AM - 06:00AM            
-                </p>
-              </div>
-               <div class="w-full flex justify-center my-2">
-                <button class=" w-[249px] h-[40px] rounded-[10px] bg-[#0056B3] text-[10] font-semibold text-white"
-                routerLink = "/service">                
-                  Select           
-                </button>
-               </div>         
-          </div>
-            
-            <div class="flex flex-col w-[340px]  h-auto rounded-3xl bg-white border border-black/[0.24]">
-              <img src="images/product3.jpg"
-                class="self-stretch  h-[342px] object-cover"/>
-              <div class="flex flex-col w-full items-center  px-2 my-1">
-                <p class=" w-full h-auto text-[20px] font-semibold text-center text-[black]">
-                    Salon B
-                  </p>
-                  <p class=" w-full h-auto text-[14px] text-center text-[#333333]">
-                    2267 Galle Road, Colombo 07
-                  </p>
-                  <p class=" w-full h-auto text-[13px] text-center font-bold text-[#333333]">
-                    Work Hours: 09:00AM - 06:00AM            
-                  </p>
-                </div>
-                 <div class="w-full flex justify-center my-2">
-                  <button class=" w-[249px] h-[40px] rounded-[10px] bg-[#0056B3] text-[10] font-semibold text-white">                
-                    Select           
-                  </button>
-                 </div>         
-            </div>
+  <div class="w-full h-auto">      
+    <img src="images/selectBranch.png" class="w-full" />
     
-            <div class="flex flex-col w-[340px]  h-auto rounded-3xl bg-white border border-black/[0.24]">
-              <img src="images/product3.jpg"
-                class="self-stretch  h-[342px] object-cover"/>
-              <div class="flex flex-col w-full items-center  px-2 my-1">
-                <p class=" w-full h-auto text-[20px] font-semibold text-center text-[black]">
-                    Salon C
-                  </p>
-                  <p class=" w-full h-auto text-[14px] text-center text-[#333333]">
-                    2267 Galle Road, Colombo 07
-                  </p>
-                  <p class=" w-full h-auto text-[13px] text-center font-bold text-[#333333]">
-                    Work Hours: 09:00AM - 06:00AM            
-                  </p>
-                </div>
-                 <div class="w-full flex justify-center my-2">
-                  <button class=" w-[249px] h-[40px] rounded-[10px] bg-[#0056B3] text-[10] font-semibold text-white"
-                  routerLink="/service">                
-                    Select           
-                  </button>
-                 </div>         
-            </div>
-          </div>
-          
+    <div class="w-full h-[100px] py-9 bg-[#6482ad]/30 mt-6">
+      <p class="text-[30px] text-center font-bold text-black">
+        Choose a Location
+      </p>
     </div>
-   
-    <app-footer></app-footer>
+
+    <!-- Flex container for cards -->
+    <div class="flex flex-wrap justify-center gap-8 mt-12">
+      <div *ngFor="let branch of branches" class="flex flex-col w-[340px] h-auto rounded-3xl bg-white border border-black/[0.24]">
+        <img src={{branch.image_path}} class="self-stretch h-[342px] object-cover" />
+        
+        <div class="flex flex-col w-full items-center px-2 my-1">
+          <p class="w-full h-auto text-[20px] font-semibold text-center text-[black]">
+            {{branch.branch_name}}
+          </p>
+          <p class="w-full h-auto text-[14px] text-center text-[#333333]">
+            {{branch.address}}
+          </p>
+          <p class="w-full h-auto text-[13px] text-center font-bold text-[#333333]">
+            Work Hours: {{ branch.open_time | slice:0:5 }} - {{ branch.close_time | slice:0:5 }}
+          </p>
+        </div>
+        
+        <div class="w-full flex justify-center my-2">
+          <button class="w-[249px] h-[40px] rounded-[10px] bg-[#0056B3] text-[10] font-semibold text-white"
+            (click)="onSelectBranch(branch)">                
+            Select           
+          </button>
+        </div>         
+      </div>                  
+    </div>          
+  </div>
+
+  <app-footer></app-footer>
 </div>

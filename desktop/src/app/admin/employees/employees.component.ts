@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from "../topbar/topbar.component";
 import { AdminService } from '../../services/admin.service';
@@ -14,7 +14,10 @@ import { CommonModule } from '@angular/common';
 })
 export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
-constructor(private adminService: AdminService) { }
+constructor(
+  private adminService: AdminService,
+  private router :Router
+) { }
 
   ngOnInit(): void {
     this.adminService.getEmployees().subscribe(
@@ -25,5 +28,9 @@ constructor(private adminService: AdminService) { }
     (error) => {
       console.error('Error fetching employees:', error);
     });
+  }
+
+  editEmployee(employee: Employee){
+    this.router.navigate(['editEmployee', employee.user_id]);
   }
 }

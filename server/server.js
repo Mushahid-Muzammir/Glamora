@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { authenticateToken } from "./controllers/auth_controller.js";
 import {userRouter} from "./routes/user_route.js"
 import { adminRoute } from "./routes/admin_route.js";
+import { customerRoute } from "./routes/customer_route.js";
 
 const app = express();
 app.use(cors());
@@ -38,3 +39,4 @@ db.connect( (err) => {
 
 app.use("/auth", userRouter);
 app.use("/admin", adminRoute);
+app.use("/client", customerRoute);
