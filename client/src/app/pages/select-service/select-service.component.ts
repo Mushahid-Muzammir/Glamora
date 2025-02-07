@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCheckboxModule} from '@angular/material/checkbox'
 import { CommonModule} from '@angular/common';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
 import { Service } from '../../interfaces';
 
@@ -24,7 +24,6 @@ export class SelectServiceComponent implements OnInit {
     private clientService : ClientService,
     private route : ActivatedRoute,
     private router : Router,
-    private formBuilder : FormBuilder,
 
   ) {}
 
@@ -47,6 +46,6 @@ export class SelectServiceComponent implements OnInit {
   }
 
   onSelectServices(){
-    this.router.navigate(['/date'], { queryParams: { services : this.selectedServices.join(',')}});
+    this.router.navigate(['/date'], { queryParams: { services : this.selectedServices.join(','), branch_id: this.branch_id}});
   }
 }

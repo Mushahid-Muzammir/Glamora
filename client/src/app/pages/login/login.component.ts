@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
   LoginForm !: FormGroup;
+  user_id !: number
 
 ngOnInit(): void {
   this.LoginForm = this.formBuild.group(
@@ -39,16 +40,18 @@ onLogin(){
   this.authService.loginService(this.LoginForm.value).subscribe(
     {
       next: (res) => {
+        this.user_id = res.user.user_id;
         alert("Login Successful");
         this.authService.setLoggedIn(true);
+        console.log("user id at login compo",this.user_id)
+        this.authService.setUserId(this.user_id)
         this.router.navigate(['/home']);
         this.LoginForm.reset();
       },
       error: (err) => {
         console.log(err);
       }
-    }
-  )
+    });
 }
 
 }

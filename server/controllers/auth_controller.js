@@ -9,62 +9,61 @@ const SECRET_KEY = process.env.JWT_SECRET;
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const query = "SELECT * FROM users WHERE email = ?";
-    db.query(query, [email], async (err, result) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      if (result.length === 0) {
-        return res.status(404).send({ message: "User not found" });
-      }
 
-      const user = result[0];
-      const pwMatch = await bcrypt.compare(password, user.password);
-      if (!pwMatch) {
-        return res
-          .status(404)
-          .send({ message: "Username and Password not match" });
-      }
-      const token = jwt.sign({ email: user.email }, SECRET_KEY, {
-        expiresIn: "1h",
-      });
-      console.log(token);
-      return res.status(200).send({ token: token, user: user });
-    });
-  } catch {
+    const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user = rows[0];
+    console.log(user);
+    const pwMatch = await bcrypt.compare(password, user.password);
+
+    if (!pwMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign({ email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+
+    return res.status(200).json({ token, user });
+  } catch (error) {
     console.error("Error during login:", error);
-    return res.status(500).send("Server error");
+    return res.status(500).json({ message: "Server error", error });
   }
 };
 
 export const register = async (req, res) => {
   console.log("Reached Backend:", req.body);
   const { name, contact, email, password } = req.body;
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const query =
-      "INSERT INTO users (name, contact, email, password) VALUES (?,?,?,?)";
-    db.query(query, [name, contact, email, hashedPassword], (err, result) => {
-      if (err) {
-        if (err === "ER_DUP_ENTRY") {
-          return res.status(400).send({ message: "Email already exists" });
-        }
-      }
-      return res.status(200).send({ message: "User registered Sucessfully" });
-    });
+
+    const [result] = await db.query(
+      "INSERT INTO users (name, contact, email, password) VALUES (?, ?, ?, ?)",
+      [name, contact, email, hashedPassword]
+    );
+
+    return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    return res.status(500).send({ message: "Error processing request", error });
+    if (error.code === "ER_DUP_ENTRY") {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+    return res.status(500).json({ message: "Error processing request", error });
   }
 };
 
 export const authenticateToken = (req, res, next) => {
   const token = req.headers["authorization"];
+
   if (!token) {
-    return res.status(403).send({ message: "JWT access denied" });
+    return res.status(403).json({ message: "JWT access denied" });
   }
+
   jwt.verify(token, SECRET_KEY, (err, result) => {
     if (err) {
-      return res.status(401).send({ message: "Unauthorized Access" });
+      return res.status(401).json({ message: "Unauthorized access" });
     }
     req.user = result;
     next();

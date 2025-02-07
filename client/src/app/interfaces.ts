@@ -45,3 +45,10 @@ export interface Branch {
     open_time: string,
     close_time: string
 }
+
+export interface Appointment {
+    branch_id : number,
+    start_time : string,
+    end_time : string,
+    date : Date
+}

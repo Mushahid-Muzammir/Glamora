@@ -19,10 +19,14 @@ export interface LoginData {
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private http: HttpClient) {}
   private isLoggedin = false;
+  private userId !: number;
 
+  constructor(
+    private http: HttpClient 
+  ) {
+  }
+ 
   setLoggedIn(value: boolean){
     this.isLoggedin = value;
     sessionStorage.setItem('loggedIn', JSON.stringify(value));
@@ -41,6 +45,19 @@ export class AuthService {
   loginService(loginObject: LoginData)
   {
     return this.http.post<any>(`${authUrl}/login`, loginObject);
+  }
+
+  setUserId(userId: number): void {
+    localStorage.setItem('user_id', userId.toString()); 
+  }
+
+  getUserId(): number {
+    const userId = localStorage.getItem('user_id');
+    return userId ? Number(userId) : 0;  
+  }
+  
+  clearUserId(): void {
+    this.userId = 0;
   }
 
 }
