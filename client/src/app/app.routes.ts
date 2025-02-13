@@ -8,7 +8,6 @@ import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { SelectDateComponent } from './pages/select-date/select-date.component';
 import { ProductsComponent } from './pages/products/products.component';
-import { SelectTimeComponent } from './pages/select-time/select-time.component';
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -20,9 +19,5 @@ export const routes: Routes = [
 { path: 'about', component :AboutComponent},
 { path: 'contact', component :ContactComponent},
 { path: 'date', component :SelectDateComponent},
-{ path: 'time', component :SelectTimeComponent},
 { path: 'products', component :ProductsComponent},
-
-
-
 ];

@@ -22,6 +22,8 @@ import { LoginComponent } from './login/login.component';
 import { EditServiceComponent } from './admin/edit-service/edit-service.component';
 import { EditProductComponent } from './admin/edit-product/edit-product.component';
 import { EditEmployeeComponent } from './admin/edit-employee/edit-employee.component';
+import { AdminBranchComponent } from './admin/admin-branch/admin-branch.component';
+import { StaffAppointmentComponent } from './staff/staff-appointment/staff-appointment.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
@@ -32,7 +34,9 @@ export const routes: Routes = [
     { path : "customers", component: CustomersComponent },
     { path : "managerCustomers", component: ManagerCustomersComponent },
     { path : "appointment", component: AppointmentComponent },
+    { path : "branch", component: AdminBranchComponent },
     { path : "managerAppointment", component: ManagerAppointmentComponent },
+    { path : "staffAppointment", component: StaffAppointmentComponent},
     { path : "employees", component: EmployeesComponent },
     { path : "addEmployee", component: AddEmployeeComponent },
     { path : "editEmployee/:user_id", component: EditEmployeeComponent },
@@ -46,8 +50,5 @@ export const routes: Routes = [
     { path : "editService/:service_id", component: EditServiceComponent},
     { path : "managerServices", component: ManagerServicesComponent },
     { path : "analytics", component: AnalyticsComponent },
-    { path : "managerAnalytics", component: ManagerAnalyticsComponent },  
-
-
-    
+    { path : "managerAnalytics", component: ManagerAnalyticsComponent },   
 ];

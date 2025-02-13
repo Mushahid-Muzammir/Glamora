@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
+  userId !: number
 
   constructor(private http : HttpClient) { }
 
@@ -22,5 +23,17 @@ export class AuthService {
   
   loginService(loginObject: any){
     return this.http.post<any>('http://localhost:5000/auth/login', loginObject);
+  }
+  setUserId(userId: number): void {
+    localStorage.setItem('user_id', userId.toString()); 
+  }
+
+  getUserId(): number {
+    const userId = localStorage.getItem('user_id');
+    return userId ? Number(userId) : 0;  
+  }
+  
+  clearUserId(): void {
+    this.userId = 0;
   }
 }

@@ -21,6 +21,7 @@ export interface Customer{
 export interface Product{
     product_id:number,
     product_name: string,
+    description: string,
     cost_price: number,
     selling_price: number,
     stock_level: number,

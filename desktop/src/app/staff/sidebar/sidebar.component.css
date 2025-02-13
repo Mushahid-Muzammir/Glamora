@@ -1,0 +1,8 @@
+.active {
+    @apply bg-blue-500 text-white mx-2;
+
+  }
+  .active img {
+    filter: brightness(0) invert(1); 
+  }
+  

@@ -4,7 +4,7 @@ import { MatCheckboxModule} from '@angular/material/checkbox'
 import { CommonModule} from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
-import { Service } from '../../interfaces';
+import { Employee, Service } from '../../interfaces';
 
 @Component({
   selector: 'app-select-service',
@@ -15,9 +15,11 @@ import { Service } from '../../interfaces';
 export class SelectServiceComponent implements OnInit {
 
   services: Service[] = [];
+  employees : Employee[] = [];
   serviceForm !: FormGroup;
   branch_id !: number;
   selectedServices: number[] = [];
+  selectedEmployeeId !: number;
 
   
   constructor(
@@ -35,6 +37,17 @@ export class SelectServiceComponent implements OnInit {
       (res:any) => {
         this.services = res.services;
       });
+
+    this.clientService.getEmployees(this.branch_id).subscribe(
+      (res : any) =>{
+        this.employees = res.employees;
+      }
+    )  
+  }
+
+  selectEmployee(employeeId : number){
+    this.selectedEmployeeId = employeeId;
+    console.log("Selected Employee:", this.selectedEmployeeId);
   }
 
   toggleService(service_id:number, event:any){
@@ -46,6 +59,12 @@ export class SelectServiceComponent implements OnInit {
   }
 
   onSelectServices(){
-    this.router.navigate(['/date'], { queryParams: { services : this.selectedServices.join(','), branch_id: this.branch_id}});
+    this.router.navigate(['/date'], { 
+      queryParams: { 
+        services : this.selectedServices.join(','), 
+        branch_id : this.branch_id,
+        employee_id : this.selectedEmployeeId 
+      }
+    });
   }
 }

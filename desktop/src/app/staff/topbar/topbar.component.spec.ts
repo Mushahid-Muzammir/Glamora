@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectTimeComponent } from './select-time.component';
+import { TopbarComponent } from './topbar.component';
 
-describe('SelectTimeComponent', () => {
-  let component: SelectTimeComponent;
-  let fixture: ComponentFixture<SelectTimeComponent>;
+describe('TopbarComponent', () => {
+  let component: TopbarComponent;
+  let fixture: ComponentFixture<TopbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectTimeComponent]
+      imports: [TopbarComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SelectTimeComponent);
+    fixture = TestBed.createComponent(TopbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

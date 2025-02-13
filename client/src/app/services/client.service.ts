@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import  { Branch, Service, Product, Appointment} from '../interfaces'
+import  { Branch, Service, Product, Appointment, Employee} from '../interfaces'
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class ClientService {
     return this.http.get<Branch[]>(`${this.clientUrl}/getBranches`);
   }
 
+  getEmployees(branch_id : number): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${this.clientUrl}/getEmployees/${branch_id}`);
+  }
+
   getServices(): Observable<Service[]> {
     return this.http.get<Service[]>(`${this.clientUrl}/getServices`);
   }
@@ -24,7 +28,11 @@ export class ClientService {
   }
 
   getCustomerById(user_id : number){
-    return this.http.get<any>(`${this.clientUrl}/getCustomerbyId`, { params : { user_id : user_id }});
+    return this.http.get<any>(`${this.clientUrl}/getCustomerbyId/${user_id}`);
+  }
+
+  getBranchbyId( branch_id : number){
+    return this.http.get<any>(`${this.clientUrl}/getBranchById/${branch_id}`);
   }
 
   getDuration(serviceIds: string): Observable<any> {

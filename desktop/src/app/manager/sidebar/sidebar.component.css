@@ -1,3 +1,6 @@
 .active {
-  @apply text-blue-500 mx-2 border-t-[6px] border-l-[6px] border-b-[6px] border-[#F2F2F2] rounded-[12px];
+  @apply bg-blue-500 text-white mx-2;
+}
+.active img {
+  filter: brightness(0) invert(1); 
 }

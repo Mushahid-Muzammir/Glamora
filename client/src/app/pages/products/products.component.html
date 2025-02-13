@@ -1,18 +1,53 @@
-
 <div class="w-full h-[80px] py-5 bg-[#6482ad]/30 mt-6">
-    <p class="text-[30px] text-center font-bold text-black">
-    Our Products
-    </p>
+    <p class="text-[30px] text-center font-bold text-black">Our Products</p>
   </div>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-    <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <img src="https://via.placeholder.com/150" alt="product" class="w-full h-32 object-cover">
-        <div class="p-4">
-            <h5 class="text-lg font-semibold">Product 1</h5>
-            <h6 class="text-sm text-gray-500">LKR 500.00</h6>
-            <p class="text-gray-700">This is product 1</p>
-            <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Add to Cart</button>
+  
+  <!-- Flex container for side-by-side layout -->
+  <div class="flex flex-col lg:flex-row gap-8 my-6">
+  
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+      <div
+        *ngFor="let product of products"
+        class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105"
+      >
+        <img
+          src="https://via.placeholder.com/150"
+          alt="product"
+          class="w-full h-40 object-cover"
+        />
+        <div class="p-6">
+          <h5 class="text-xl font-semibold text-gray-800 mb-2">
+            {{ product.product_name }}
+          </h5>
+          <h6 class="text-md text-gray-600 mb-2">LKR {{ product.selling_price }}</h6>
+          <p class="text-gray-700 text-sm mb-4 line-clamp-2">
+            {{ product.description }}
+          </p>
+          <button (click)="addtoCart(product)"
+            class="w-full py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-lg transition-transform duration-200 hover:scale-105"
+          >
+            Add to Cart
+          </button>
         </div>
+      </div>
     </div>
-</div>
+  
+    <!-- Cart Summary -->
+    <div *ngIf="cart.length > 0"  
+    class="w-full lg:w-1/3 bg-gray-100 p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-4">Cart Summary</h2>
+      <ul class="space-y-4">
+        <li *ngFor="let item of cart" class="flex justify-between">
+          <span> {{item.product_name}} </span>
+          <span>LKR  {{item.selling_price}} </span>
+        </li>
+      </ul>
+      <div class="flex justify-between mt-6 text-lg font-semibold">
+        <span>Total Amount: </span>
+        <span>LKR  {{totalAmount}} </span>
+        <button>Confirm</button>
+      </div>
+    </div>
+  </div>
+  

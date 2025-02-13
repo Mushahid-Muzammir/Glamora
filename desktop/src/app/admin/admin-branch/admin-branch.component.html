@@ -1,0 +1,48 @@
+<div class="w-full flex flex-row overflow-hidden bg-[#F2F2F2]">
+    <div>
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="w-full">
+      <app-topbar></app-topbar>
+      <div class="px-6">
+        <div class="w-full bg-white mt-12 rounded-[30px] p-6">
+          <div class="flex flex-row items-center justify-between">
+            <h1 class="text-xl font-bold text-black">Branches</h1>
+            <div>
+              <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
+            </div>
+            <button class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add a Branch</button>
+          </div>
+          <table class="w-full mt-6 rounded-[30px]">       
+            <thead>
+              <tr>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Branch ID</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Address</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Open Time</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Close Time</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Manager</th>
+                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr *ngFor="let branch of branches">
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">#{{branch.branch_id}}</td>
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.branch_name}}</td>
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.contact}}</td>
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.address}}</td>
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.open_time}}</td>
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.close_time}}</td>
+                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.name}}</td>
+                <td class="py-4 px-4 border-b space-x-1 border-gray-200 text-sm text-gray-700">
+                  <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
+                  <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
+                </td>
+              </tr>            
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>   
+</div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Employee, Customer, Product, Service } from '../data_interface';
+import { Employee, Customer, Product, Service, Branch, Appointment } from '../data_interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +63,11 @@ export class AdminService {
     return this.http.put(`${this.adminUrl}/editService/${service_id}`, serviceData);
   }
 
-  getBranches(): Observable<Service[]> {
-    return this.http.get<Service[]>(`${this.adminUrl}/getBranches`);
+  getBranches(): Observable<Branch[]> {
+    return this.http.get<Branch[]>(`${this.adminUrl}/getBranches`);
+  }
+
+  getAppointments(): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(`${this.adminUrl}/getAppointments`)
   }
 }

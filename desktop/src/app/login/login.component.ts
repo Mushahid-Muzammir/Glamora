@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   formBuild = inject(FormBuilder);
   router = inject(Router);
   LoginForm !: FormGroup;
+  user_id!: number
 
   ngOnInit(): void {
     this.LoginForm = this.formBuild.group(
@@ -30,8 +31,10 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           alert("Login Successful");
           this.authService.setLoggedIn(true);
+          this.user_id = res.user.user_id;
+          this.authService.setUserId(this.user_id);
+          console.log("user ID:", this.user_id);
           const userRole = res.user.role;
-          console.log("User Role:", userRole);
           switch(userRole){
             case 'admin':
               this.router.navigate(['/adminHome']);

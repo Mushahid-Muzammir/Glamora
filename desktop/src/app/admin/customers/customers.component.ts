@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from "../topbar/topbar.component";
 import { RouterModule } from '@angular/router';
