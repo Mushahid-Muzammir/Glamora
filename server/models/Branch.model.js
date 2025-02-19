@@ -19,6 +19,22 @@ export const Branches = instance.define("Branches", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-});
+    manager_id: {
+        type : DataTypes.INTEGER,
+        allowNull : false
+    },
+    open_time : {
+        type : DataTypes.TIME,
+        allowNull : false
+    },
+    close_time : {
+        type : DataTypes.TIME,
+        allowNull : false
+    },
+},
+{
+    timestamps: false
+}
+);
 
 export default Branches;

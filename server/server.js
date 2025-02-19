@@ -6,6 +6,7 @@ import { userRouter } from "./routes/user_route.js";
 import { adminRoute } from "./routes/admin_route.js";
 import { customerRoute } from "./routes/customer_route.js";
 import  { managerRoute } from "./routes/manager_route.js"
+import { staffRoute } from "./routes/staff_route.js";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use("/auth", userRouter);
 app.use("/admin", adminRoute);
 app.use("/client", customerRoute);
 app.use("/manager", managerRoute);
+app.use("/staff", staffRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

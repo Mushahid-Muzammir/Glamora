@@ -2,6 +2,7 @@
   import { ActivatedRoute, Router } from '@angular/router';
   import { AdminService } from '../../services/admin.service';
   import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+  import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-product',
@@ -24,7 +25,6 @@ export class EditProductComponent implements OnInit {
     this.product_id = Number(this.route.snapshot.paramMap.get('product_id') || '');
     console.log(this.product_id);
 
-
     this.productForm = this.formBuilder.group(
       {
         product_name: ['', Validators.required],
@@ -38,18 +38,48 @@ export class EditProductComponent implements OnInit {
       this.getProduct();
   }
 
-  getProduct(){
+  getProduct() {
     this.adminService.getProductById(this.product_id).subscribe(
-      (res : any) => {
-        this.productForm.patchValue(res.product)
-      })
+      (res: any) => {
+        console.log(res.product);
+        
+        if (res.product.expiry_date) {
+          const date = new Date(res.product.expiry_date);
+          res.product.expiry_date = date.toISOString().split("T")[0]; // Format to "yyyy-MM-dd"
+        }
+          this.productForm.patchValue(res.product);
+      },
+      (error) => {
+        console.error('Error fetching product:', error);
+      });
   }
 
+  confirmUpdate() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to update this product?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.onUpdateProduct(); 
+        Swal.fire('Updated!', 'The product has been updated.', 'success');
+      }
+    });
+  }
+  
   onUpdateProduct(){
     this.adminService.editProduct(this.product_id, this.productForm.value).subscribe(
       () => {
         console.log("Form Value at front end:",this.productForm.value);
-        alert('Product updated successfully');
+        Swal.fire({
+          title:"Are You Sure?",
+          text:"you want to update this branch",
+          
+        })
         this.router.navigate(['inventory']);
       });
   }

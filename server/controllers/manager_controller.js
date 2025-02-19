@@ -1,4 +1,7 @@
-import  { db } from "../server.js"
+import  { db } from "../server.js";
+import { Services } from '../models/Service.model.js';
+import { Products } from '../models/Product.model.js';
+import bcrypt from "bcrypt";
 
   export const getCustomers = async (req, res) => {
     try {
@@ -29,6 +32,29 @@ import  { db } from "../server.js"
     }
   };
 
+  export const addProduct = async (req, res) => {
+    try {
+      console.log("Received Body:", req.body);
+      const product = await Products.create({
+        image_path: "",
+        product_name: req.body.name,
+        description: req.body.description,
+        cost_price: req.body.cost_price,
+        selling_price: req.body.selling_price,
+        stock_level: req.body.stock,
+        branch_id: req.body.branch,
+        expiry_date: req.body.expiry_date,
+      });
+      if (product) {
+        return res.status(201).send({ message: "Created new service" });
+      } else {
+        return res.status(500).send({ message: "Failed to create service" });
+      }    
+    } catch (error) {
+      return res.status(400).send(error.message || "Unknown error");
+    }
+  };
+
   export const getServices = async (req, res) => {
     try {
       const query = "SELECT * FROM services";
@@ -44,6 +70,26 @@ import  { db } from "../server.js"
     }
   };
 
+  export const addService = async (req, res) => {
+    try {
+      const service = await Services.create({
+        service_name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        duration: req.body.duration,
+      });
+      if (service) {
+        return res.status(201).send({ message: "Created new service" });
+      } else {
+        return res.status(500).send({ message: "Failed to create service" });
+      }
+    } catch (error) {
+      res
+        .status(400)
+        .send(error instanceof Error ? error.message : "Unknown error");
+    }
+  };
+
   export const getBranchById = async (req, res) => {
     try{
       const user_id = req.params.user_id;
@@ -55,10 +101,9 @@ import  { db } from "../server.js"
       const manager = result[0];
       console.log(manager);
       return res.status(200).json({ manager : manager });
-
     }catch(error){
       console.error("Database Error:", error);
-    return res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error");
     }
   }
 
@@ -113,5 +158,46 @@ import  { db } from "../server.js"
     } catch (error) {
       console.error("Database Error:", error);
       return res.status(500).send("Internal Server Error");
+    }
+  };
+
+  export const addEmployee = async (req, res) => {
+    try {
+      const hashed_password = await bcrypt.hash("glamora123", 10);
+  
+      console.log("Received data: ", req.body)
+  
+      const employee = {
+        name: req.body.name,
+        contact: req.body.contact,
+        email: req.body.email,
+        branch : req.body.branch, 
+        salary: req.body.salary,
+      };
+  
+      const userInsertQuery = `
+        INSERT INTO users (name, contact, role, email, password) 
+        VALUES (?, ?, ?, ?, ?)`;
+  
+      const [userResult] = await db.execute(userInsertQuery, [
+        employee.name,
+        employee.contact,
+        'staff',
+        employee.email,
+        hashed_password,
+      ]);
+  
+      const userId = userResult.insertId;
+  
+      const employeeInsertQuery = `
+        INSERT INTO employees (user_id, branch_id, salary) 
+        VALUES (?, ?, ?)`;
+  
+    const [result] =   await db.execute(employeeInsertQuery, [userId, employee.branch, employee.salary]);
+  
+      res.status(201).json({ message: 'Employee added successfully' });
+    } catch (error) {
+      console.error('Error adding employee:', error);
+      res.status(500).json({ error: 'Failed to add employee' });
     }
   };

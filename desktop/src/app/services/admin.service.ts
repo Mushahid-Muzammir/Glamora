@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Employee, Customer, Product, Service, Branch, Appointment } from '../data_interface';
+import { Employee, Customer, Product, Service, Branch, Appointment, Manager } from '../data_interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,10 @@ export class AdminService {
 
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${this.adminUrl}/getEmployees`);
+  }
+
+  getEmployeeById(user_id: number){
+    return this.http.get(`${this.adminUrl}/getEmployeeById/${user_id}`);
   }
 
   editEmployee(user_id: number, employeeData: Employee){
@@ -39,10 +43,6 @@ export class AdminService {
     return this.http.get(`${this.adminUrl}/getProductById/${product_id}`);
   }
   
-  getEmployeeById(user_id: number){
-    return this.http.get(`${this.adminUrl}/getEmployeeById/${user_id}`);
-  }
-
   editProduct(product_id: number, productData: Product){
     return this.http.put(`${this.adminUrl}/editProduct/${product_id}`, productData);
   }
@@ -67,7 +67,39 @@ export class AdminService {
     return this.http.get<Branch[]>(`${this.adminUrl}/getBranches`);
   }
 
+  getBranchById(branch_id: number){
+    return this.http.get(`${this.adminUrl}/getBranchById/${branch_id}`);
+  }
+
+  addBranch(branchData : FormData){
+    return this.http.post(`${this.adminUrl}/addBranch`, branchData);
+  }
+
+  editBranch(branch_id: number, branchData: Branch){
+    return this.http.put(`${this.adminUrl}/editBranch/${branch_id}`, branchData);
+  }
+
   getAppointments(): Observable<Appointment[]>{
-    return this.http.get<Appointment[]>(`${this.adminUrl}/getAppointments`)
+    return this.http.get<Appointment[]>(`${this.adminUrl}/getAppointments`);
+  }
+
+  getManagers(): Observable<Manager[]>{
+    return this.http.get<Manager[]>(`${this.adminUrl}/getManagers`);
+  }
+
+  getManagerById(user_id: number){
+    return this.http.get(`${this.adminUrl}/getManagerById/${user_id}`);
+  }
+
+  addManager( managerData : FormData) {
+    return this.http.post(`${this.adminUrl}/addManager`, managerData);
+  }
+
+  editManager(user_id: number, managerData: Manager){
+    return this.http.put(`${this.adminUrl}/editManager/${user_id}`, managerData);
+  }
+
+  addEmployee(employeeData : FormData){
+    return this.http.post(`${this.adminUrl}/addEmployee`, employeeData);
   }
 }

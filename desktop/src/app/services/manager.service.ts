@@ -19,10 +19,18 @@ export class ManagerService {
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.managerUrl}/getProducts`);
-  }  
+  } 
+  
+  addProduct(productData : FormData){
+    return this.http.post(`${this.managerUrl}/addProduct`, productData);
+  }
 
   getServices(): Observable<Service[]> {
     return this.http.get<Service[]>(`${this.managerUrl}/getServices`);
+  }
+
+  addService(serviceData : FormData){
+    return this.http.post(`${this.managerUrl}/addService`, serviceData);
   }
 
   getBranchById(userId : number){
@@ -35,5 +43,9 @@ export class ManagerService {
 
   getAppointments(branchId : number): Observable<Appointment[]>{
     return this.http.get<Appointment[]>(`${this.managerUrl}/getAppointments/${branchId}`);
+  }
+
+  addEmployee(employeeData : FormData){
+    return this.http.post(`${this.managerUrl}/addEmployee`, employeeData);
   }
 }

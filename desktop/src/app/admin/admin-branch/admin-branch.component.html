@@ -9,9 +9,12 @@
           <div class="flex flex-row items-center justify-between">
             <h1 class="text-xl font-bold text-black">Branches</h1>
             <div>
-              <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
+              <input
+              [(ngModel)]="searchText"
+              (input)="filterBranches()"
+               type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
-            <button class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add a Branch</button>
+            <button routerLink="/addBranch" class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add a Branch</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
@@ -27,7 +30,7 @@
               </tr>
             </thead>
             <tbody >
-              <tr *ngFor="let branch of branches">
+              <tr *ngFor="let branch of filteredBranches">
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">#{{branch.branch_id}}</td>
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.branch_name}}</td>
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.contact}}</td>
@@ -36,7 +39,7 @@
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.close_time}}</td>
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.name}}</td>
                 <td class="py-4 px-4 border-b space-x-1 border-gray-200 text-sm text-gray-700">
-                  <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
+                  <button (click)="editBranch(branch)" class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
                   <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
                 </td>
               </tr>            

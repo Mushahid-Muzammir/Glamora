@@ -1,7 +1,7 @@
 <div class="max-w-2xl mx-auto h-auto bg-white p-8 rounded-2xl shadow-lg mt-8">
   <h2 class="text-2xl font-semibold text-gray-800 mb-6">Edit Employee</h2>
 
-  <form [formGroup]="employeeForm" (ngSubmit)="onUpdateEmployee()" class="space-y-6">
+  <form [formGroup]="employeeForm" (ngSubmit)="confirmUpdate()" class="space-y-6">
     
     <div>
       <label class="block text-gray-700 font-medium">Name*</label>

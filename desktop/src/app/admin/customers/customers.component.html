@@ -9,14 +9,17 @@
           <div class="flex flex-row items-center justify-between">
             <h1 class="text-xl font-bold text-black">Customers</h1>
             <div>
-              <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
+              <input
+              [(ngModel)]="searchText"
+                (input)="filterCustomers()"
+               type="text" class="py-3 px-6 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
             <button class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add Customer</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
               <tr>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">User ID</th>
+                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Customer ID</th>
                 <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
                 <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
                 <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Total Visits</th>
@@ -25,8 +28,8 @@
               </tr>
             </thead>
             <tbody >
-              <tr *ngFor="let customer of customers">
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{customer.user_id}}</td>
+              <tr *ngFor="let customer of filteredCustomers">
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{customer.customer_id}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.name}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.contact}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>

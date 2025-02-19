@@ -9,9 +9,12 @@
           <div class="flex flex-row items-center justify-between">
             <h1 class="text-xl font-bold text-black">Employees</h1>
             <div>
-              <input type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
+              <input 
+              [(ngModel)]="searchText"
+              (input)="filterEmployees()"
+              type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
-            <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Add Employee</button>
+            <button routerLink="/managerAddEmployeee" class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">+Add Employee</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
@@ -25,8 +28,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let employee of employees">
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{employee.user_id}}</td>
+              <tr *ngFor="let employee of filteredEmployees">
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{employee.employee_id}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{employee.name}}</td>
                 <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{employee.email}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{employee.contact}}</td>

@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angula
 import { AdminService } from '../../services/admin.service';
 import { Service } from '../../data_interface';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-employee',
@@ -15,9 +16,14 @@ export class AddEmployeeComponent implements OnInit {
   branches: any[] = [];
   employeeForm!: FormGroup;
 
-  constructor(private adminService: AdminService, private formBuilder: FormBuilder) {}
+  constructor(
+    private adminService: AdminService, 
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    
     this.adminService.getServices().subscribe(
       (res: any) => {
         this.services = res.services;
@@ -25,8 +31,7 @@ export class AddEmployeeComponent implements OnInit {
       },
       (error) => {
         console.error("Error fetching services:", error);
-      }
-    );
+      });
 
     this.adminService.getBranches().subscribe(
       (res: any) => {
@@ -35,30 +40,29 @@ export class AddEmployeeComponent implements OnInit {
       },
       (error) => {
         console.error("Error fetching branches:", error);
-      }
-    );
+      });
 
     this.employeeForm = this.formBuilder.group({
       name: ['', Validators.required],
       contact: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       branch: ['', Validators.required],
-      service: ['', Validators.required]
+      salary: ['', Validators.required]
     });
   }
 
   onAddEmployee() {
     if (this.employeeForm.valid) {
-      // this.adminService.addEmployee(this.employeeForm.value).subscribe(
-      //   (res) => {
-      //     console.log("Employee added successfully:", res);
-      //   },
-      //   (error) => {
-      //     console.error("Error adding employee:", error);
-      //   }
-      // );
+       this.adminService.addEmployee(this.employeeForm.value).subscribe(
+         (res) => {
+           console.log("Employee added successfully:", res);
+           this.router.navigate(['/employees']);
+        },
+         (error) => {
+           console.error("Error adding employee:", error);
+         });
     } else {
-      // console.log("Form is invalid");
+       console.log("Form is invalid");
     }
   }
 }

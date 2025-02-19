@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup , FormBuilder, Validators, ReactiveFormsModule} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-service',
@@ -41,10 +42,26 @@ export class EditServiceComponent implements OnInit {
       });
   }
 
+  confirmUpdate() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to update this service?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.onUpdateService(); 
+          Swal.fire('Updated!', 'The service has been updated.', 'success');
+        }
+      });
+    }
+
   onUpdateService(){
     this.adminService.editService(this.service_id, this.serviceForm.value).subscribe(
       () => {
-        alert('service updated successfully');
         this.router.navigate(['services']);
       });
   }

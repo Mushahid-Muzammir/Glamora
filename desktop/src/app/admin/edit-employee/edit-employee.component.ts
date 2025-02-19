@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { Service } from '../../data_interface'; 
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-employee',
@@ -92,6 +93,23 @@ export class EditEmployeeComponent implements OnInit {
     });
   }
 
+  confirmUpdate() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to update this employee?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.onUpdateEmployee(); 
+          Swal.fire('Updated!', 'The employee has been updated.', 'success');
+        }
+      });
+    }
+
   onUpdateEmployee() {
     const selectedServices = this.services
       .map((service, index) => (this.servicesFormArray.value[index] ? service.service_id : null))
@@ -105,7 +123,6 @@ export class EditEmployeeComponent implements OnInit {
 
     this.adminService.editEmployee(this.user_id, updatedEmployeeData).subscribe(() => {
       console.log("Updated Employee:", updatedEmployeeData);
-      alert('Employee updated successfully');
       this.router.navigate(['employees']);
     });
   }

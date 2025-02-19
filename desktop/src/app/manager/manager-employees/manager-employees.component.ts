@@ -1,21 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { SidebarComponent } from '../manager-sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import  { ManagerService} from '../../services/manager.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import  { Employee } from '../../data_interface';
 import { AuthService } from '../../services/auth.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-manager-employees',
-  imports: [SidebarComponent, TopbarComponent, CommonModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule],
   templateUrl: './manager-employees.component.html',
   styleUrl: './manager-employees.component.css'
 })
 export class ManagerEmployeesComponent implements OnInit {
-  employees  : Employee[] = []
-  userID !: number
-  branchId !: number
+  employees  : Employee[] = [];
+  userID !: number;
+  branchId !: number;
+  searchText: string = '';
+  filteredEmployees : any[] =[];
 
   constructor( 
     private managerService : ManagerService,
@@ -33,11 +37,21 @@ export class ManagerEmployeesComponent implements OnInit {
           (res: any) => {
             this.employees = res.employees;
             console.log("Employees:", this.employees);
+            this.filteredEmployees = [...this.employees]; 
+
           },
           (error) => console.error("Error fetching employees:", error)
         );
       },
       (error) => console.error("Error fetching branch ID:", error)
+    );
+  } 
+  filterEmployees() {
+    const searchTextLower = this.searchText.toLowerCase();
+    this.filteredEmployees = this.employees.filter(
+      (employee) =>
+        employee.employee_id.toString().includes(searchTextLower) ||
+        employee.name.toLowerCase().includes(searchTextLower)
     );
   }  
 }

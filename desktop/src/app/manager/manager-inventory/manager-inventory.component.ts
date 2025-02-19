@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { SidebarComponent } from '../manager-sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { ManagerService } from '../../services/manager.service';
 import { Product } from '../../data_interface';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-manager-inventory',
-  imports: [SidebarComponent, TopbarComponent, CommonModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule],
   templateUrl: './manager-inventory.component.html',
   styleUrl: './manager-inventory.component.css'
 })
 export class ManagerInventoryComponent implements OnInit {
-  products : Product[] = []
+  products : Product[] = [];
+  searchText: string = '';
+  filteredProducts : any[] =[];
   constructor(
     private managerService :  ManagerService
   ){}
@@ -22,9 +27,16 @@ export class ManagerInventoryComponent implements OnInit {
       (res : any) => {
         this.products = res.products;
         console.log(this.products);
-      }
-    )
-    
+        this.filteredProducts = [...this.products]; 
+      });   
   }
+  filterProducts() {
+    const searchTextLower = this.searchText.toLowerCase();
+    this.filteredProducts = this.products.filter(
+      (product) =>
+        product.product_id.toString().includes(searchTextLower) ||
+        product.product_name.toLowerCase().includes(searchTextLower)
+    );
+}
 
 }

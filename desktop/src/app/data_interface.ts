@@ -60,3 +60,13 @@ export interface Appointment {
     payment_mode: string,
     payment_status : string
 }
+export interface Manager {
+    user_id: number,
+    name: string,
+    contact: number,
+    email: string,
+    manager_id: number,
+    salary: number,
+    branch_id: number,
+    branch_name: string
+}

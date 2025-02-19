@@ -3,25 +3,51 @@
     <div class="w-full">
       <app-topbar></app-topbar>
       <div class="px-6">
-       
+      
           <div class="w-full bg-white mt-6 rounded-[30px] p-6">
             <div class="flex flex-row gap-12">
               <h1 class="text-xl font-semibold text-black">Today's Appointments</h1>
               <div>
-                <input type="text" class="p-[12px] rounded-[30px] border border-gray-400" placeholder="Search...">
+                <input 
+                [(ngModel)]="searchText"
+                (input)="filterAppointments()"
+                 type="text" class="p-[12px] rounded-[30px] border border-gray-400" placeholder="Search...">
               </div>
             </div>
             <table class="w-full mt-6 rounded-[30px]">       
               <thead>
                 <tr>
+                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Appointment ID</th>
                   <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Client Name</th>
-                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Service</th>
+                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">contact</th>
                   <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Start</th>
                   <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">End</th>
-                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Payment Status</th>
+                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Date</th>
+                  <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Service Status</th>
                 </tr>
               </thead>
               <tbody>
+                <tr *ngFor="let appointment of filteredAppointments">
+                  <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">#{{appointment.appointment_id}}</td>
+                  <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.name}}</td>
+                  <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.contact}}</td>
+                  <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.start_time}}</td>
+                  <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.end_time}}</td>
+                  <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.date | date:'yyyy-MM-dd'}}</td>
+                  <td 
+                    class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700 flex items-center gap-6"
+                    [ngClass]="{
+                      'text-green-600 font-semibold': appointment.service_status === 'Done',
+                      'text-red-600 font-semibold': appointment.service_status === 'Pending'
+                    }">
+                    <span>{{appointment.service_status}}</span>
+                    <button 
+                      class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px] text-sm"
+                      (click)="changeStatus(appointment)">
+                      Change Status
+                    </button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

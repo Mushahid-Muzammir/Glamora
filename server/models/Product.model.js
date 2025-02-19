@@ -31,6 +31,10 @@ export const Products = instance.define("Products", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    branch_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     expiry_date: {
         type: DataTypes.DATE,
         allowNull:true

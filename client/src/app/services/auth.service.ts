@@ -27,16 +27,25 @@ export class AuthService {
   ) {
   }
  
-  setLoggedIn(value: boolean){
+  private isSessionStorageAvailable(): boolean {
+    return typeof window !== 'undefined' && !!window.sessionStorage;
+  }
+
+  setLoggedIn(value: boolean): void {
     this.isLoggedin = value;
-    sessionStorage.setItem('loggedIn', JSON.stringify(value));
+    if (this.isSessionStorageAvailable()) {
+      sessionStorage.setItem('loggedIn', JSON.stringify(value));
+    }
   }
 
-  getLoggedIn(): boolean{
-    const status = sessionStorage.getItem('loggedIn');
-    return status ? JSON.parse(status) : this.isLoggedin;
+  getLoggedIn(): boolean {
+    if (this.isSessionStorageAvailable()) {
+      const status = sessionStorage.getItem('loggedIn');
+      return status ? JSON.parse(status) : this.isLoggedin;
+    }
+    return this.isLoggedin;
   }
-
+  
   registerService(regObject: RegisterData)
   {
     return this.http.post<any>(`${authUrl}/register`, regObject);

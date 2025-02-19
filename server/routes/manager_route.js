@@ -1,5 +1,6 @@
 import express from "express"
-import { getAppointmentsByBranch, getBranchById, getCustomers, getEmployeesByBranch, getProducts, getServices } from "../controllers/manager_controller.js";
+import { addEmployee, addProduct, getAppointmentsByBranch, getBranchById, getCustomers, getEmployeesByBranch, getProducts, getServices } from "../controllers/manager_controller.js";
+import { addService } from "../controllers/admin _controller.js";
 
 
 export const managerRoute = express.Router();
@@ -9,6 +10,9 @@ managerRoute.get("/getAppointments/:branch_id", getAppointmentsByBranch);
 managerRoute.get("/getEmployees/:branch_id", getEmployeesByBranch);
 managerRoute.get("/getProducts", getProducts);
 managerRoute.get("/getServices", getServices);
-managerRoute.get("/getBranchById/:user_id", getBranchById)
+managerRoute.get("/getBranchById/:user_id", getBranchById);
+managerRoute.post("/addEmployee", addEmployee);
+managerRoute.post("/addService", addService);
+managerRoute.post("/addProduct", addProduct);
 
 
