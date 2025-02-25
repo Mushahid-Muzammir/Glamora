@@ -111,7 +111,7 @@ import bcrypt from "bcrypt";
     try{
       const branch_id = req.params.branch_id;
     const query =
-      "SELECT u.user_id, u.name, u.email, u.contact, e.employee_id, e.salary FROM users u JOIN employees e ON u.user_id = e.user_id WHERE e.branch_id = ?;";
+      "SELECT u.user_id, u.name, u.email, u.contact, e.employee_id, e.salary FROM users u JOIN employees e ON u.user_id = e.user_id WHERE e.branch_id = ? AND e.isActive = 1;";
     const [result] = await db.execute(query, [branch_id]);
     if (result.length === 0) {
       return res.status(404).send("Employees Not Found");
@@ -125,22 +125,19 @@ import bcrypt from "bcrypt";
     }
   };
 
-  export const getTodayAppointments = (req, res) => {
+  export const getTodayAppointments = async (req, res) => {
     try {
       const currentDate = new Date().toISOString().split("T")[0];
-      const query = "SELECT * FROM appointments WHERE date = CURDATE()";
-      db.query(query, currentDate, (err, results) => {
-        if (err) {
-          console.error("Database Error:", err);
-          return res.status(500).send("Internal Server Error");
-        }
+      const branch_id = req.params.branch_id;
+      const query = "SELECT a.appointment_id, a.customer_id, a.start_time, a.end_time, a.payment_status, u.name, u.contact, b.branch_name FROM appointments a JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id JOIN employees e ON a.employee_id = e.employee_id JOIN users s on s.user_id = e.user_id JOIN branches b ON a.branch_id = b.branch_id WHERE a.date = CURDATE() AND a.branch_id = ?";
+    const [results]  = await db.execute(query, [branch_id]);
         if (results.length === 0) {
           return res.status(404).send("No Appointments Found");
         }
         const appointments = results;
         console.log(appointments);
-        return res.status(200).json({ appointments });
-      });
+        return res.status(200).json({ appointments : appointments });
+      
     } catch (error) {
       console.error("Unexpected Error:", error);
       return res.status(500).send("An error occurred: " + error.message);
@@ -150,7 +147,7 @@ import bcrypt from "bcrypt";
   export const getAppointmentsByBranch = async (req, res) => {
     try {
     const branch_id = req.params.branch_id;
-      const [results] = await db.execute("SELECT a.appointment_id, u.name, u.contact, b.branch_name, a.start_time, a.end_time, a.service_status, a.payment_mode, a.payment_status FROM appointments a JOIN branches b ON a.branch_id = b.branch_id JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id WHERE a.branch_id = ?", [branch_id]);
+      const [results] = await db.execute("SELECT a.appointment_id, u.name, u.contact, b.branch_name, a.date, a.start_time, a.end_time, a.service_status, a.payment_mode, a.payment_status FROM appointments a JOIN branches b ON a.branch_id = b.branch_id JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id WHERE a.branch_id = ?", [branch_id]);
       if (results.length === 0) {
         return res.status(404).send("No Appointments Found");
       }
@@ -201,3 +198,35 @@ import bcrypt from "bcrypt";
       res.status(500).json({ error: 'Failed to add employee' });
     }
   };
+
+  export const getRequests = async (req, res) => {
+    try{
+      const branch_id = req.params.branch_id;
+      const query = "SELECT l.leave_id, l.employee_id, l.date, l.reason, l.status, u.name FROM leaves l JOIN employees e ON l.employee_id = e.employee_id JOIN users u ON e.user_id = u.user_id WHERE branch_id = ?";
+      const [result] = await db.execute(query, [branch_id]);
+      if(result.length === 0){
+        return res.status(404).send("No Requests Found");
+      }
+      const requests = result;
+      console.log(requests);
+      return res.status(200).json({ requests : requests });
+    }catch(error){
+      console.error("Database Error:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+    
+  }
+
+  export const updateRequest = async (req, res) => {
+    try{
+      const leave_id = req.params.leave_id;
+      const status = req.body.status;
+      const query = "UPDATE leaves SET status = ? WHERE leave_id = ?";
+      await db.execute(query, [status, leave_id]);
+      return res.status(200).send("Request Updated Successfully");
+
+    }catch(error){
+      console.error("Database Error:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+  }

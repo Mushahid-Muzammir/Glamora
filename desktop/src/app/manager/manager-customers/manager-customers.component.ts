@@ -3,13 +3,14 @@ import { SidebarComponent } from '../manager-sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { ManagerService } from '../../services/manager.service';
 import { Customer } from '../../data_interface';
-import  { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-manager-customers',
-  imports: [SidebarComponent, TopbarComponent, CommonModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './manager-customers.component.html',
   styleUrl: './manager-customers.component.css'
 })
@@ -17,6 +18,9 @@ export class ManagerCustomersComponent implements OnInit {
   searchText: string = '';
   filteredCustomers : any[] =[];
   customers : Customer[] =[]
+  itemsPerPage : number = 5;
+  currentPage : number = 1;
+
   constructor(
     private managerService : ManagerService
   ){}

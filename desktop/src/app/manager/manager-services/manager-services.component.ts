@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../manager-sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { ManagerService } from '../../services/manager.service';
-import  { Service } from '../../data_interface'
+import  { Service } from '../../data_interface';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-manager-services',
-  imports: [SidebarComponent, CommonModule, TopbarComponent, RouterModule, FormsModule],
+  imports: [SidebarComponent, CommonModule, TopbarComponent, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './manager-services.component.html',
   styleUrl: './manager-services.component.css'
 })
@@ -18,6 +19,8 @@ export class ManagerServicesComponent implements OnInit {
   services : Service[] = [];
   searchText: string = '';
   filteredServices : any[] =[];
+  itemsPerPage : number = 5;
+  currentPage : number = 1;
 
 constructor(
   private managerService : ManagerService

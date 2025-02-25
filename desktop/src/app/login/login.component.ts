@@ -1,60 +1,75 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
   authService = inject(AuthService);
   formBuild = inject(FormBuilder);
   router = inject(Router);
-  LoginForm !: FormGroup;
-  user_id!: number
+
+  LoginForm!: FormGroup;
+  user_id!: number;
+  isLoading: boolean = false;
+  loginError: string = '';
+  user : any;
 
   ngOnInit(): void {
-    this.LoginForm = this.formBuild.group(
-      {
-        email: ['', Validators.email],
-        password: ['', Validators.required]
-      })
+    this.LoginForm = this.formBuild.group({
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.minLength(5), Validators.required]]
+    });
   }
 
-  onLogin(){
-    this.authService.loginService(this.LoginForm.value).subscribe(
-      {
-        next: (res) => {
-          alert("Login Successful");
-          this.authService.setLoggedIn(true);
-          this.user_id = res.user.user_id;
-          this.authService.setUserId(this.user_id);
-          console.log("user ID:", this.user_id);
-          const userRole = res.user.role;
-          switch(userRole){
-            case 'admin':
-              this.router.navigate(['/adminHome']);
-              break;
-            case 'staff':
-              this.router.navigate(['/staffHome']);
-              break;
-            case 'manager' :
-              this.router.navigate(['/managerHome']);
-              break;  
-            default:
-              this.router.navigate(['/login']);
-          }         
-          this.LoginForm.reset();
-        },
-        error: (err) => {
-          console.log(err);
+  onLogin() {
+    if (this.LoginForm.invalid) {
+      this.loginError = 'Please fill in valid credentials';
+      return;
+    }
+
+    this.isLoading = true;
+    this.authService.loginService(this.LoginForm.value).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.authService.setLoggedIn(true);
+        this.user_id = res.user.user_id;
+        this.authService.setUserId(this.user_id);
+
+        console.log("user ID:", this.user_id);
+        const userRole = res.user.role;
+         this.user = res.user;
+         this.authService.setUser(this.user);
+
+        // Navigate based on user role
+        switch (userRole) {
+          case 'admin':
+            this.router.navigate(['/adminHome'], { queryParams: { user: this.user } });
+            break;
+          case 'staff':
+            this.router.navigate(['/staffHome']);
+            break;
+          case 'manager':
+            this.router.navigate(['/managerHome']);
+            break;
+          default:
+            this.router.navigate(['/login']);
         }
-      }
-    )
-  }
 
+        this.LoginForm.reset();
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.loginError = 'Invalid email or password. Please try again.';
+        console.error(err);
+      }
+    });
+  }
 }

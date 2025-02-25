@@ -70,3 +70,12 @@ export interface Manager {
     branch_id: number,
     branch_name: string
 }
+
+export interface Request {
+    leave_id: number,
+    employee_id: number,
+    name: string,
+    reason: string,
+    date: Date,
+    status: string
+}

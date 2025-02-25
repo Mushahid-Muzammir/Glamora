@@ -12,5 +12,6 @@ customerRoute.get("/getBranchById/:branch_id", getBranchById);
 customerRoute.get("/getDuration", getServiceDuration);
 customerRoute.get("/getAvailableSlots", getAvailableSlots);
 customerRoute.post("/confirmBooking", confirmBooking);
+customerRoute.post("/sales")
 
 

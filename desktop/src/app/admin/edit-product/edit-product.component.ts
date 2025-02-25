@@ -2,11 +2,12 @@
   import { ActivatedRoute, Router } from '@angular/router';
   import { AdminService } from '../../services/admin.service';
   import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+  import { CommonModule } from '@angular/common';
   import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-product',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.css'
 })
@@ -14,6 +15,10 @@ export class EditProductComponent implements OnInit {
 
   productForm !: FormGroup;
   product_id !: number;
+  selectedFile !: File | null;
+  imagePreview : string | ArrayBuffer | null=null;
+
+
   constructor(
     private adminService : AdminService,
     private router : Router,
@@ -32,7 +37,9 @@ export class EditProductComponent implements OnInit {
         cost_price: ['', Validators.required],
         selling_price: ['', Validators.required],
         stock_level: ['', Validators.required],
-        expiry_date: ['', Validators.required]
+        expiry_date: ['', Validators.required],
+        category: ['', Validators.required],
+        image_url: ['']
       });
 
       this.getProduct();
@@ -52,6 +59,18 @@ export class EditProductComponent implements OnInit {
       (error) => {
         console.error('Error fetching product:', error);
       });
+  }
+
+  onFileSelected(event: any) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if(file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   confirmUpdate() {

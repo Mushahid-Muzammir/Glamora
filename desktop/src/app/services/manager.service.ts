@@ -45,7 +45,20 @@ export class ManagerService {
     return this.http.get<Appointment[]>(`${this.managerUrl}/getAppointments/${branchId}`);
   }
 
+  getTodayAppointments(branch_id : number): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(`${this.managerUrl}/getTodayAppointments/${branch_id}`);
+  }
+
   addEmployee(employeeData : FormData){
     return this.http.post(`${this.managerUrl}/addEmployee`, employeeData);
   }
+
+  getRequests(branchId : number){
+    return this.http.get(`${this.managerUrl}/getRequests/${branchId}`);
+  }
+
+  updateLeaveStatus(leaveId: number, status: string) {
+    return this.http.put(`${this.managerUrl}/updateStatus/${leaveId}`, { status });
+  }
+  
 }

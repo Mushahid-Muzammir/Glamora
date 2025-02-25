@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../manager-sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
-import  { ManagerService} from '../../services/manager.service';
+import { ManagerService} from '../../services/manager.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import  { Employee } from '../../data_interface';
+import { Employee } from '../../data_interface';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @Component({
   selector: 'app-manager-employees',
-  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './manager-employees.component.html',
   styleUrl: './manager-employees.component.css'
 })
@@ -20,6 +22,8 @@ export class ManagerEmployeesComponent implements OnInit {
   branchId !: number;
   searchText: string = '';
   filteredEmployees : any[] =[];
+  itemsPerPage : number = 5;
+  currentPage : number = 1;
 
   constructor( 
     private managerService : ManagerService,

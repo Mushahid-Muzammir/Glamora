@@ -52,3 +52,23 @@ export const updateStatus = async (req, res) => {
     res.status(500).json({ message: 'Error updating status', error: err.message });
   }
 }
+
+export const  requestLeave = async (req, res) => {
+  try{
+    const employee_id = req.params.employeeId;
+    const { date, reason } = req.body;
+    console.log("Request Body",req.body);
+    console.log("Employee Id at leave request: ",employee_id)
+    const query = "INSERT INTO leaves(employee_id, date, reason, status) VALUES(?, ?, ?, ?)";
+    const [result] = await db.execute(query, [employee_id, date, reason, "Pending"]);
+    if (result.affectedRows === 0) {
+        return res.status(404).send("Leave Request Failed");
+      }
+      console.log(result);
+      return res.status(200).json({ message: "Leave Requested Successfully" })
+
+  }catch(error){
+    console.error("Database Error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+}

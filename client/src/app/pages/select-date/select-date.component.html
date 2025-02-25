@@ -1,16 +1,19 @@
 <div class="w-full flex flex-col items-center">
-  <div class="w-full h-[100px] py-9 bg-[#6482ad]/30 my-6">
+  <!-- Appointment Date Selection -->
+  <div class="w-full h-[100px] py-9 bg-[#6482ad]/30 my-12">
     <p class="text-[30px] text-center font-bold text-black">
       Select Date for Your Appointment
     </p>
   </div>
-  <input type="date" [(ngModel)]="selectedDate" 
-  (change)="onDateChange()"
-  class="border border-gray-400 p-2 rounded">
+
+  <input type="date" [(ngModel)]="selectedDate"
+    (change)="onDateChange()"
+    class="border border-gray-400 p-2 rounded"
+    [min]="today">
 </div>
 
-<div  
-  class="w-auto h-auto p-6">
+<!-- Time Slot Selection -->
+<div class="w-auto h-auto p-6">
   <h2 class="text-2xl font-bold text-center mb-4">Select a Time Slot</h2>
 
   <div class="flex justify-center">
@@ -20,16 +23,19 @@
   <div class="flex flex-wrap justify-center gap-2 mt-6">
     <button *ngFor="let slot of availableSlots" 
       (click)="selectSlot(slot)"
-      class="px-6 py-3 rounded-lg border text-lg font-semibold"
-      [ngClass]="{'bg-blue-600 text-white': selectedSlot === slot, 'bg-white text-black border-gray-300': selectedSlot !== slot}">
+      class="px-6 py-3 rounded-lg border text-lg font-semibold transition-colors duration-200"
+      [ngClass]="{'bg-blue-600 text-white': selectedSlot === slot, 'bg-white text-black border-gray-300 hover:bg-gray-200': selectedSlot !== slot}">
       {{ slot.start_time }} - {{ slot.end_time }}
     </button>
   </div>
+
+  <!-- Confirm Button -->
   <div class="w-full flex justify-center mt-6">
     <button (click)="confirmBooking()" 
-      class="px-6 py-3 bg-green-600 text-white rounded-lg font-bold">
+      [disabled]="!selectedSlot"
+      class="px-6 py-3 rounded-lg font-bold transition-colors duration-200"
+      [ngClass]="{'bg-green-600 text-white': selectedSlot, 'bg-gray-400 text-gray-200 cursor-not-allowed': !selectedSlot}">
       Confirm Appointment
     </button>
   </div>
 </div>
-

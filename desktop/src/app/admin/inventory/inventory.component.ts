@@ -6,10 +6,12 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from "../topbar/topbar.component";
 import { AdminService } from '../../services/admin.service';
 import { Product } from '../../data_interface';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @Component({
   selector: 'app-inventory',
-  imports: [SidebarComponent, TopbarComponent, RouterModule, CommonModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, RouterModule, CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
@@ -22,6 +24,9 @@ export class InventoryComponent implements OnInit {
   products : Product[] = [];
   filteredProducts : any[] =[];
   searchText: string = '';
+  currentPage: number = 1;   
+  itemsPerPage: number = 5;
+
 
     ngOnInit(): void {
     this.adminService.getProducts().subscribe(

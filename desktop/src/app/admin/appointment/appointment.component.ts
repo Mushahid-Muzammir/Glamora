@@ -5,17 +5,24 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { Appointment } from '../../data_interface';
+import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @Component({
   selector: 'app-appointment',
-  imports: [SidebarComponent, TopbarComponent, CommonModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './appointment.component.html',
   styleUrl: './appointment.component.css'
 })
 export class AppointmentComponent implements OnInit {
   searchText: string = '';
   filteredAppointments : any[] =[];
-  appointments : Appointment[] = []
+  appointments : Appointment[] = [];
+  currentPage: number = 1;   
+  itemsPerPage: number = 5;
+
+
   constructor(
     private adminService : AdminService
   ){}
@@ -37,4 +44,32 @@ export class AppointmentComponent implements OnInit {
     );
 }
 
+confirmCancel(appointment_id : number , status : string){
+  Swal.fire({
+    title: 'Are you sure you want to cancel this appointment?',
+    showDenyButton: true,
+    confirmButtonText: `Yes`,
+    denyButtonText: `No`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.cancelAppointment(appointment_id , status);
+      Swal.fire('Appointment cancelled!', '', 'success')
+    } else if (result.isDenied) {
+      Swal.fire('Appointment not cancelled', '', 'info')
+    }
+  })
+}
+
+cancelAppointment(appointment_id: number, status : string) {
+  status = "cancelled"; 
+  this.adminService.cancelAppointment(appointment_id, status).subscribe(
+    (res: any) => {
+      this.appointments = this.appointments.filter(
+        (appointment) => appointment.appointment_id !== appointment_id
+      );
+      this.filteredAppointments = this.filteredAppointments.filter(
+        (appointment) => appointment.appointment_id !== appointment_id
+      );
+    });
+  }
 }

@@ -6,7 +6,8 @@ export interface Employee{
     employee_id: number,
     salary: number,
     branch: number,
-    branch_name: string
+    branch_name: string,
+    image_url: string
 }
 
 export interface Customer{
@@ -20,6 +21,7 @@ export interface Customer{
 
 export interface Product{
     product_id:number,
+    image_url : string,
     product_name: string,
     description: string,
     cost_price: number,
@@ -38,7 +40,7 @@ export interface Service {
 
 export interface Branch {
     branch_id: number,
-    image_path: string,
+    image_url: string,
     branch_name: string,
     address: string,
     manager_id: number,

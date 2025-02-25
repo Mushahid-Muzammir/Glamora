@@ -29,8 +29,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let product of filteredProducts">
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700"></td>
+              <tr *ngFor="let product of filteredProducts| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">
+                  <img src="{{product.image_url}}" alt="product image" class="w-[50px] h-[50px]">
+                </td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{product.product_id}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{product.product_name}}</td>
                 <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{product.cost_price}}</td>
@@ -43,6 +45,14 @@
               </tr> 
             </tbody>
           </table>
+          <div class="mt-6 flex justify-end">
+            <pagination-controls 
+            (pageChange)="currentPage = $event"
+            previousLabel="Previous"
+            nextLabel="Next"
+            >
+            </pagination-controls>
+          </div>
         </div>  
       </div>
     </div>   

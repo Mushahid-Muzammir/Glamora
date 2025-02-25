@@ -1,11 +1,11 @@
-<div class="w-full  flex flex-row overflow-hidden bg-[#F2F2F2]">
+<div class="w-full h-screen flex flex-row overflow-hidden bg-[#F2F2F2]">
     <div>
         <app-sidebar></app-sidebar>
     </div>
     <div class="w-full">
       <app-topbar></app-topbar>
       <div class="px-6">
-        <div class="w-full bg-white mt-12 rounded-[30px] p-6">
+        <div class="w-full h-auto bg-white mt-12 rounded-[30px] p-6">
           <div class="flex flex-row items-center justify-between">
             <h1 class="text-xl font-bold text-black">Employees</h1>
             <div>
@@ -19,30 +19,41 @@
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
               <tr>
-                <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Employee ID</th>
-                <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
-                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Email</th>
-                <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
-                <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Salary</th>
-                <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Branch</th>
-                <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Employee ID</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Image</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-2 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Email</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Salary</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Branch</th>
+                <th class="py-2 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let employee of filteredEmployees">
-                <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">#{{employee.employee_id}}</td>
-                <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{employee.name}}</td>
-                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{employee.email}}</td>
-                <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{employee.contact}}</td>
-                <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">LKR {{employee.salary}}</td>
-                <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{employee.branch_name}}</td>
-                <td class="py-4  border-b border-gray-200 text-sm text-gray-700">
+              <tr *ngFor="let employee of filteredEmployees | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td class="py-3 px-8 border-b border-gray-200 text-sm text-gray-700">
+                  <img [src]="employee.image_url" alt="product image" class="w-12 h-12 object-cover rounded-[30px]">
+                </td>
+                <td class="py-2 px-4 border-b border-gray-200 text-sm text-gray-700">#{{employee.employee_id}}</td>
+                <td class="py-2 px-4 border-b border-gray-200 text-sm text-gray-700">{{employee.name}}</td>
+                <td class="py-2 px-4 border-b border-gray-200 text-sm text-gray-700">{{employee.email}}</td>
+                <td class="py-2 px-4 border-b border-gray-200 text-sm text-gray-700">{{employee.contact}}</td>
+                <td class="py-2 px-4 border-b border-gray-200 text-sm text-gray-700">LKR {{employee.salary}}</td>
+                <td class="py-2 px-4 border-b border-gray-200 text-sm text-gray-700">{{employee.branch_name}}</td>
+                <td class="py-2  border-b border-gray-200 text-sm text-gray-700">
                   <button (click)="editEmployee(employee)" class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
                   <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div class="pt-4 flex justify-end">
+            <pagination-controls 
+          (pageChange)="currentPage = $event"
+          previousLabel="Previous"
+          nextLabel="Next">
+          </pagination-controls>
+          </div>
         </div>
       </div>  
     </div> 

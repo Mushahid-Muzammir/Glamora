@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -7,5 +9,15 @@ import { Component } from '@angular/core';
   styleUrl: './topbar.component.css'
 })
 export class TopbarComponent {
+  user : any;
+constructor(
+  private authService: AuthService,
+  private router: Router
+) {  this.user  = this.authService.getUser();
+}
+
+leaveRequest() { 
+  this.router.navigate(['/leaveRequest']);
+ }
 
 }

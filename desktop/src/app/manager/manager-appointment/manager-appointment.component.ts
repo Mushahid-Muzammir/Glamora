@@ -4,13 +4,14 @@ import { TopbarComponent } from '../topbar/topbar.component';
 import { ManagerService } from '../../services/manager.service';
 import { AuthService } from '../../services/auth.service';
 import { Appointment } from '../../data_interface';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-manager-appointment',
-  imports: [SidebarComponent, TopbarComponent, CommonModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './manager-appointment.component.html',
   styleUrl: './manager-appointment.component.css'
 })
@@ -18,6 +19,8 @@ export class ManagerAppointmentComponent implements OnInit {
   userId !: number
   branchId !: number
   appointments : Appointment[] = [];
+  itemsPerPage : number = 5;
+  currentPage : number = 1;
   searchText: string = '';
   filteredAppointments : any[] =[];
 

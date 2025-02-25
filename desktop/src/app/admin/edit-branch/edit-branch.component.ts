@@ -73,7 +73,6 @@ export class EditBranchComponent implements OnInit {
       });
     }
 
-  
   onUpdateBranch(){
     this.adminService.editBranch(this.branch_id, this.branchForm.value).subscribe(
       () => {

@@ -83,6 +83,14 @@ export class AdminService {
     return this.http.get<Appointment[]>(`${this.adminUrl}/getAppointments`);
   }
 
+  getTodayAppointments(): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(`${this.adminUrl}/getTodayAppointments`);
+  }
+
+  cancelAppointment(appointment_id: number, status : string){
+    return this.http.put(`${this.adminUrl}/cancelAppointment/${appointment_id}`, { status });
+  }
+
   getManagers(): Observable<Manager[]>{
     return this.http.get<Manager[]>(`${this.adminUrl}/getManagers`);
   }
@@ -102,4 +110,13 @@ export class AdminService {
   addEmployee(employeeData : FormData){
     return this.http.post(`${this.adminUrl}/addEmployee`, employeeData);
   }
+
+  getRequests(){
+    return this.http.get(`${this.adminUrl}/getRequests`);
+  }
+
+  updateLeaveStatus(leaveId: number, status: string) {
+    return this.http.put(`${this.adminUrl}/updateStatus/${leaveId}`, { status });
+  }
+
 }

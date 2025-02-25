@@ -1,4 +1,5 @@
 import { db } from "../server.js";
+import nodemailer from 'nodemailer'
 
 export const getProducts = async (req, res) => {
     try {
@@ -55,8 +56,7 @@ export const getCustomerbyId = async (req, res) => {
             return res.status(400).send("user_id is required");
         }
 
-        // Run query to fetch customer data
-        const result = await db.query("SELECT customer_id FROM customers WHERE user_id = ?", [user_id]);
+        const [result] = await db.execute("SELECT customer_id FROM customers WHERE user_id = ?", [user_id]);
         
         console.log("Database result:", result);
         
@@ -65,7 +65,7 @@ export const getCustomerbyId = async (req, res) => {
             return res.status(404).send(`No User Found with user_id: ${user_id}`);
         }
 
-        res.status(200).json({ customer });
+        res.status(200).json({ customer: customer });
     } catch (error) {
         console.error("Database Error:", error);
         res.status(500).send("Internal Server Error");
@@ -101,7 +101,7 @@ export const getEmployeesbyBranch = async (req, res) => {
     try {
         const branch_id = Number(req.params.branch_id);  
         const query =
-        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.salary, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ?";
+        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.image_url, e.salary, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ?";
       const [results] = await db.execute(query, [branch_id]);
       if (results.length === 0) {
         return res.status(404).send("No Employees Found");
@@ -216,22 +216,114 @@ function isOverlapping(start1, end1, start2, end2) {
     return !(end1 <= start2 || start1 >= end2);
 }
 
-export const confirmBooking = async (req, res) => {
-  try {
-      const { branch_id, date, start_time, end_time, customer_id } = req.body;
-
-      if (!branch_id || !date || !start_time || !end_time || !customer_id ) {
-          return res.status(400).json({ message: "All fields are required." });
-      }
-
-      const [appointmentResult] = await db.query(
-          `INSERT INTO appointments (branch_id, date, start_time, end_time, customer_id) VALUES (?, ?, ?, ?, ?)`,
-          [branch_id, date, start_time, end_time, customer_id]
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "mushahidmuzammir11339@gmail.com",
+      pass: "cqyo axfx fpwj vezf"  
+    },
+    tls: {
+      rejectUnauthorized: false  
+    }
+  });
+  
+  export const confirmBooking = async (req, res) => {
+    try {
+      const { branch_id, employee_id, date, start_time, end_time, customer_id } = req.body;
+  
+      const [appointmentResult] = await db.execute(
+        `INSERT INTO appointments (branch_id, employee_id, date, start_time, end_time, customer_id) VALUES (?, ?, ?, ?, ?, ?)`,
+        [branch_id, employee_id, date, start_time, end_time, customer_id]
       );
 
-      res.status(201).json({ message: "Booking confirmed successfully" });
-  } catch (error) {
+      const branchQuery = `SELECT b.address FROM branches b WHERE b.branch_id = ?`;
+      const [branchResult] = await db.execute(branchQuery, [branch_id]);
+  
+      if (branchResult.length === 0) {
+        return res.status(500).json({ error: "Could not fetch branch" });
+      }
+  
+      const branchAddress = branchResult[0].address;
+  
+      // Fetch customer email
+      const emailQuery = `SELECT u.email FROM customers c JOIN users u ON u.user_id = c.user_id WHERE c.customer_id = ?`;
+      const [emailResult] = await db.execute(emailQuery, [customer_id]);
+  
+      if (emailResult.length === 0) {
+        return res.status(500).json({ error: "Could not fetch customer email" });
+      }
+  
+      const userEmail = emailResult[0].email;
+  
+      const mailOptions = {
+        from: "mushahidmuzammir11339@gmail.com",
+        to: userEmail,
+        subject: "Appointment Confirmation - Glamora Salon Booking",
+        text: `Hello,
+          
+  Your appointment has been successfully booked.
+          
+  📅 Date: ${date}
+  🕒 Time: ${start_time} - ${end_time}
+  🏢 Branch Address: ${branchAddress}
+          
+  Thank you for choosing our salon!
+          
+  Best Regards,
+  Salon Team`
+      };
+  
+      // Send email and send response only ONCE
+      transporter.sendMail(mailOptions)
+        .then(() => {
+          console.log("Email sent successfully");
+          res.status(201).json({ message: "Booking confirmed and email sent!" });
+        })
+        .catch((error) => {
+          console.error("Error sending email:", error);
+          res.status(500).json({ error: "Email sending failed, but booking is confirmed." });
+        });
+  
+    } catch (error) {
       console.error("Error confirming booking:", error);
       res.status(500).json({ message: "Internal server error" });
-  }
-};
+    }
+  };
+  
+
+export const makeSales = async (req, res) => {
+    try {
+        const { items, total_amount, payment_type } = req.body;
+  
+        if (!items || items.length === 0) {
+          return res.status(400).json({ error: "No items in the cart." });
+        }
+      
+        const saleDate = new Date();
+      
+        const insertSalesQuery = `
+          INSERT INTO sales (product_id, quantity, total_amount, payment_type, sale_date) 
+          VALUES ?`;
+      
+        const saleValues = items.map(item => [
+          item.id,
+          1, 
+          total_amount,
+          payment_type,
+          saleDate
+        ]);
+      
+        db.query(insertSalesQuery, [saleValues], (err, result) => {
+          if (err) {
+            console.error("Error inserting sale:", err);
+            return res.status(500).json({ error: "Error processing sale." });
+          }
+      
+          res.json({ message: "Sale processed successfully!" });
+        });
+    }catch{
+
+    }
+}
+
+

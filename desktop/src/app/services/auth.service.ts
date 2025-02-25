@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   userId !: number
+  user: any;
 
   constructor(private http : HttpClient) { }
 
@@ -13,27 +14,42 @@ export class AuthService {
 
   setLoggedIn(value: boolean){
     this.isLoggedin = value;
-    localStorage.setItem('loggedIn', JSON.stringify(value));
   }
 
   getLoggedIn(): boolean{
-    const status = sessionStorage.getItem('loggedIn');
-    return status ? JSON.parse(status) : this.isLoggedin;
+    return  this.isLoggedin;
   }
   
   loginService(loginObject: any){
     return this.http.post<any>('http://localhost:5000/auth/login', loginObject);
   }
   setUserId(userId: number): void {
-    localStorage.setItem('user_id', userId.toString()); 
+    this.userId = userId;
+    sessionStorage.setItem('userId', String(userId));
   }
 
   getUserId(): number {
-    const userId = localStorage.getItem('user_id');
-    return userId ? Number(userId) : 0;  
+    this.userId = Number(sessionStorage.getItem('userId'));
+    return this.userId ? Number(this.userId) : 0;  
   }
   
   clearUserId(): void {
+    sessionStorage.removeItem('userId');
     this.userId = 0;
+  }
+  
+  setUser(user: any): void {
+    sessionStorage.setItem('user', JSON.stringify(user));
+    this.user = user;
+  }
+
+  getUser(): any {
+    this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    return this.user;
+  }
+
+  clearUser(): void {
+    sessionStorage.removeItem('user');
+    this.user = null;
   }
 }

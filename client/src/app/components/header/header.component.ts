@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -13,10 +13,14 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
+  user !: any;
 
+  ngOnInit(): void {
+    this.user = this.authService.getUser();
+  }
   startService(){
     if(this.authService.getLoggedIn()){
       this.router.navigate(['/branch']);
@@ -27,6 +31,7 @@ export class HeaderComponent {
 
   LogOut(){
     this.authService.setLoggedIn(false);
+    this.authService.clearUser();
     this.router.navigate(['/login']);
   }
 

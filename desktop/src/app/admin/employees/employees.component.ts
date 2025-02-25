@@ -6,10 +6,11 @@ import { AdminService } from '../../services/admin.service';
 import { Employee } from '../../data_interface'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-employees',
-  imports: [SidebarComponent, TopbarComponent, RouterModule, CommonModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, RouterModule, CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
@@ -17,6 +18,8 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
   searchText: string = '';
   filteredEmployees : any[] =[];
+  currentPage: number = 1;   
+  itemsPerPage: number = 5;
 
 constructor(
   private adminService: AdminService,

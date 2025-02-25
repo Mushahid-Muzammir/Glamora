@@ -1,0 +1,46 @@
+<div class="w-full h-screen flex flex-row overflow-hidden bg-[#F2F2F2]">
+    <div class="w-full h-auto bg-white rounded-[30px] m-6 p-6">
+        <div class="flex flex-row items-center justify-between">
+            <h1 class="text-xl font-bold text-black">Leave Requests</h1>
+            <div>
+              <input
+              type="text" class="py-3 px-6 rounded-[30px] border border-gray-400" placeholder="Search...">
+            </div>
+          </div>
+          <table class="w-full mt-6 rounded-[30px]">       
+            <thead>
+              <tr>
+                <th class="py-3 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Request ID</th>
+                <th class="py-3 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-3 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Date</th>
+                <th class="py-3 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Reason</th>
+                <th class="py-3 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Status</th>
+                <th class="py-3 px-6 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let request of requests">
+                <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">#{{request.leave_id}}</td>
+                <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">{{request.name}}</td>
+                <td class="py-3 px-2 border-b border-gray-200 text-sm text-gray-700">{{request.date | date : "yyyy/MM/dd"}}</td>
+                <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">{{request.reason}}</td>          
+                <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">{{request.status}}</td> 
+                <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">
+                  <button *ngIf="request.status === 'Pending' || request.status === 'Rejected'"
+                    class="py-2 px-4 bg-green-500 text-white rounded-lg mr-2"
+                    (click)="updateRequestStatus(request, 'Accepted')"
+                  >
+                    Accept
+                  </button>
+                  <button *ngIf="request.status === 'Pending' || request.status === 'Accepted'"
+                    class="py-2 px-4 bg-red-500 text-white rounded-lg"
+                    (click)="updateRequestStatus(request, 'Rejected')"
+                  >
+                    Reject
+                  </button>
+                </td>         
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,23 +1,25 @@
-<div class="w-64 h-screen text-black flex flex-col">     
-    <nav class="flex-1 justify-center items-center py-2 space-y-12 bg-white shadow-lg">
-      <div class="flex items-center justify-center h-20">
-        <h1 class="text-2xl font-bold uppercase">Glamora</h1>
-      </div>
-      <div class="flex flex-col px-6 space-y-3">
-        <a 
-          routerLink="/staffHome" 
-          routerLinkActive="active" 
-          class="flex items-center py-2 px-4 rounded-lg text-medium font-semibold hover:bg-blue-500 transition">
-          <img src="images/dashboard.svg" class="w-6 h-6 mr-2" alt="dashboard icon">
-          Dashboard
-        </a>
-      </div>
-      <div class="px-6">
-        <a href="#" class="flex items-center py-2 px-4 rounded-lg text-medium font-semibold hover:bg-blue-500 transition">
-          <img src="images/logout.svg" class="w-6 h-6 mr-2" alt="logout icon">
-          Logout
-        </a>
-      </div>
-    </nav>          
+<div class="w-64 h-screen text-black flex flex-col bg-white shadow-lg">     
+  <div class="flex flex-col space-y-6 flex-grow">
+
+    <div class="flex items-center justify-center h-20">
+      <h1 class="text-2xl font-bold uppercase">Glamora</h1>
+    </div>
+
+    <div class="flex flex-col px-4 flex-1">
+      <a 
+        routerLink="/staffHome" 
+        routerLinkActive="active" 
+        class="flex items-center py-2 px-6 rounded-3xl text-medium font-semibold transition">
+        <img src="images/dashboard.svg" class="w-6 h-6 mr-2" alt="dashboard icon">
+        Dashboard
+      </a>
+    </div>
   </div>
-  
+
+  <div class="px-6 pb-4">
+    <a href="#" class="flex items-center py-2 px-6 rounded-3xl text-medium font-semibold transition">
+      <img src="images/logout.svg" class="w-6 h-6 mr-2" alt="logout icon">
+      Logout
+    </a>
+  </div>
+</div>

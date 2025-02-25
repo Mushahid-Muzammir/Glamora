@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   router = inject(Router);
   LoginForm !: FormGroup;
   user_id !: number
+  user !: any;
 
 ngOnInit(): void {
   this.LoginForm = this.formBuild.group(
@@ -42,10 +43,10 @@ onLogin(){
       next: (res) => {
         this.user_id = res.user.user_id;
         this.authService.setUserId(this.user_id)
-        console.log("user id at login compo",this.user_id)
         alert("Login Successful");
         this.authService.setLoggedIn(true);
-        this.router.navigate(['/home']);
+        this.user = res.user;
+        this.router.navigate(['/home'], { queryParams: { user: this.user } });
         this.LoginForm.reset();
       },
       error: (err) => {

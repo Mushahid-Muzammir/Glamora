@@ -28,7 +28,7 @@ export class ClientService {
   }
 
   getCustomerById(user_id : number){
-    return this.http.get<any>(`${this.clientUrl}/getCustomerbyId/${user_id}`);
+    return this.http.get(`${this.clientUrl}/getCustomerbyId/${user_id}`);
   }
 
   getBranchbyId( branch_id : number){
@@ -53,4 +53,8 @@ export class ClientService {
     return this.http.post<any>(`${this.clientUrl}/confirmBooking`, bookingData);
   }
 
+  processSale(saleData: any) {
+    return this.http.post(`${this.clientUrl}/sales`, saleData);
+  }
+  
 }

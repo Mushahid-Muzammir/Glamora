@@ -7,10 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { Branch } from '../../data_interface';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @Component({
   selector: 'app-admin-branch',
-  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './admin-branch.component.html',
   styleUrl: './admin-branch.component.css'
 })
@@ -18,6 +20,8 @@ export class AdminBranchComponent implements OnInit {
 searchText: string = '';
 branches : Branch[] = []
 filteredBranches : any[] =[];
+currentPage: number = 1;   
+itemsPerPage: number = 5;
 
 
   constructor(

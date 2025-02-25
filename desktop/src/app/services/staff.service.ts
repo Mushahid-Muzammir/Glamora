@@ -22,4 +22,8 @@ export class StaffService {
   updateAppointmentStatus(appointment_id: number, service_status: string) {
     return this.http.put(`${this.staffUrl}/updateStatus/${appointment_id}`, { service_status });
   }
+
+  requestLeave(employeeId : number, leaveData: FormData) {
+    return this.http.post(`${this.staffUrl}/requestLeave/${employeeId}`, leaveData);
+  }
 }

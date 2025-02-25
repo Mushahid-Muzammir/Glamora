@@ -1,5 +1,6 @@
 import express from "express";
-import { addProduct, addService, getAppointments, getProductById, getProducts, updateProduct, updateService, getServiceById, getEmployeeById, updateEmployee, getEmployeeServices, addBranch, addManager, getBranchById, updateBranch, getManagerById, updateManager, addEmployee } from "../controllers/admin _controller.js";
+import  {upload}  from "../controllers/img_controller.js"
+import { addProduct, addService, getAppointments, getProductById, getProducts, updateProduct, updateService, getServiceById, getEmployeeById, updateEmployee, getEmployeeServices, addBranch, addManager, getBranchById, updateBranch, getManagerById, updateManager, addEmployee, getRequests, updateRequest, cancelAppointment } from "../controllers/admin _controller.js";
 import { getCustomers } from "../controllers/admin _controller.js";
 import { getEmployees } from "../controllers/admin _controller.js";
 import { getServices } from "../controllers/admin _controller.js";
@@ -26,11 +27,15 @@ adminRoute.post("/addService", addService);
 adminRoute.put("/editService/:service_id", updateService);
 adminRoute.get("/getProducts", getProducts);
 adminRoute.get("/getProductById/:product_id", getProductById);
-adminRoute.post("/addProduct", addProduct);
+adminRoute.post("/addProduct", upload.single('image_url'), addProduct);
 adminRoute.put("/editProduct/:product_id", updateProduct);
 adminRoute.get("/getAppointments", getAppointments);
 adminRoute.get("/getBranches", getBranches);
+adminRoute.get("/getTodayAppointments", getTodayAppointments);
+adminRoute.put("/editAppointment/:appointment_id");
 adminRoute.post("/addBranch", addBranch);
 adminRoute.get("/getBranchById/:branch_id", getBranchById);
 adminRoute.put("/editBranch/:branch_id", updateBranch);
-adminRoute.get("/getTodayAppointments", getTodayAppointments);
+adminRoute.get("/getRequests", getRequests);
+adminRoute.put("/updateStatus/:leave_id", updateRequest);
+adminRoute.put("/cancelAppointment/:appointment_id", cancelAppointment);

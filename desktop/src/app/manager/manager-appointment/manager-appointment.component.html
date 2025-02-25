@@ -14,7 +14,6 @@
             (input)="filterAppointments()"
             type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
           </div>
-          <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Add Appointment</button>
         </div>
         <table class="w-full mt-6 rounded-[30px]">       
           <thead>
@@ -22,6 +21,7 @@
               <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">ID</th>
               <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Name</th>
               <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Contact</th>
+              <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Date</th>
               <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Start</th>
               <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">End</th>
               <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Payment Status</th>
@@ -29,20 +29,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let appointment of filteredAppointments">
+            <tr *ngFor="let appointment of filteredAppointments | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
               <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">#{{appointment.appointment_id}}</td>
               <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.name}}</td>
               <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.contact}}</td>
+              <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.date | date : "yyyy/MM/dd"}}</td>
               <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.start_time}}</td>
               <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.end_time}}</td>
               <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.payment_status}}</td>
               <td class="py-4  border-b border-gray-200 text-sm text-gray-700">
-                <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
-                <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
+                <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">View</button>
+                <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Cancel</button>
               </td>
             </tr>
           </tbody>
         </table>
+        <div class="mt-6 flex justify-end">
+          <pagination-controls 
+          (pageChange)="currentPage = $event"
+          previousLabel="Previous"
+          nextLabel="Next"
+          >
+          </pagination-controls>
+        </div>
       </div>
     </div>
   </div>

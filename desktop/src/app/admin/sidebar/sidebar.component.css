@@ -1,5 +1,5 @@
 .active {
-    @apply bg-blue-500 text-white mx-2;
+    @apply bg-[#73C7C7] text-white mx-2;
     ;
   }
   .active img {

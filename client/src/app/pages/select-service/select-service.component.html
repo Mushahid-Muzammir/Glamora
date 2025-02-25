@@ -1,21 +1,20 @@
 <div class="w-full h-auto py-4">
-  <div class="w-full py-5 bg-[#6482ad]/30 mt-6">
+  <app-header></app-header>  
+  <div class="w-full py-5 bg-[#6482ad]/30 mt-12">
     <p class="text-[30px] text-center font-bold text-black">
     Select Preferred Services
     </p>
-  </div>
+  </div> 
   <div class="w-full flex flex-wrap justify-center mt-12 gap-6">
     <div
       *ngFor="let employee of employees"
       class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4"
     >
-      <div
-        class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-      >
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-1000">
         <img
-          src="https://via.placeholder.com/150"
+          [src]="employee.image_url"
           alt="Employee"
-          class="w-full h-40 object-cover"
+          class="w-full h-60 object-cover"
         />
         <div class="p-6">
           <h5 class="text-xl font-semibold text-gray-800 mb-4">
@@ -55,7 +54,7 @@
                 Approximate Time - {{service.duration}}min
               </p>
             </div>
-            <p class="text-sm text-left text-black">
+            <p class="text-sm text-left font-semibold text-black">
               Price - Rs. {{ service.price }}
             </p>
           </div>

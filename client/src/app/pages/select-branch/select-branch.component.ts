@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FooterComponent } from '../../components/footer/footer.component';
+import { HeaderComponent } from '../../components/header/header.component';
+// import { FooterComponent } from '../../components/footer/footer.component';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ClientService} from '../../services/client.service'
@@ -8,9 +9,9 @@ import { Branch } from '../../interfaces';
 @Component({
   selector: 'app-select-branch',
   imports: [
-            FooterComponent,
             RouterModule,
-            CommonModule
+            CommonModule,
+            HeaderComponent
   ],
   templateUrl: './select-branch.component.html',
   styleUrl: './select-branch.component.css'

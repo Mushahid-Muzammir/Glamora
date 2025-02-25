@@ -1,11 +1,11 @@
-<div class="w-full flex flex-row overflow-hidden bg-[#F2F2F2]">
+<div class="w-full h-screen flex flex-row overflow-hidden bg-[#F2F2F2]">
     <div>
       <app-sidebar></app-sidebar>
     </div>
     <div class="w-full">
       <app-topbar></app-topbar>
       <div class="px-6">
-        <div class="w-full bg-white mt-12 rounded-[30px] p-6">
+        <div class="w-full h-auto bg-white mt-12 rounded-[30px] p-6">
           <div class="flex flex-row items-center justify-between">
             <h1 class="text-xl font-bold text-black">Customers</h1>
             <div>
@@ -14,34 +14,39 @@
                 (input)="filterCustomers()"
                type="text" class="py-3 px-6 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
-            <button class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add Customer</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
               <tr>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Customer ID</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Total Visits</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Loyalty Points</th>
-                <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
+                <th class="py-3 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Customer ID</th>
+                <th class="py-3 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-3 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
+                <th class="py-3 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Total Visits</th>
+                <th class="py-3 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Loyalty Points</th>
+                <th class="py-3 px-8 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
               </tr>
             </thead>
             <tbody >
-              <tr *ngFor="let customer of filteredCustomers">
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">#{{customer.customer_id}}</td>
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.name}}</td>
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.contact}}</td>
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>
-                <td class="py-4 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>
-                <td class="py-4 px-8 border-b space-x-3 border-gray-200 text-sm text-gray-700">
+              <tr *ngFor="let customer of filteredCustomers| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td class="py-3 px-8 border-b border-gray-200 text-sm text-gray-700">#{{customer.customer_id}}</td>
+                <td class="py-3 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.name}}</td>
+                <td class="py-3 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.contact}}</td>
+                <td class="py-3 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>
+                <td class="py-3 px-8 border-b border-gray-200 text-sm text-gray-700">{{customer.loyalty_points}}</td>
+                <td class="py-3 px-8 border-b space-x-3 border-gray-200 text-sm text-gray-700">
                   <button class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
                   <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
                 </td>
-              </tr>
-              
+              </tr>    
             </tbody>
           </table>
+          <div class="pt-4 flex justify-end">
+            <pagination-controls 
+          (pageChange)="currentPage = $event"
+          previousLabel="Previous"
+          nextLabel="Next">
+          </pagination-controls>
+          </div>
         </div>
       </div>
     </div>   

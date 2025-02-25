@@ -1,0 +1,42 @@
+<div class="w-full h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-1/2 items-center bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-4">Request Leave</h2>
+      <form [formGroup]="leaveRequestForm" (ngSubmit)="onLeaveRequest()">
+        <div class="mb-4">
+          <label class="block mb-2 text-gray-700 font-medium" for="leaveDate">Select Date:</label>
+          <input 
+            type="date" 
+            id="leaveDate" 
+            formControlName="date" 
+            class="border p-2 rounded w-full" 
+            required
+          />
+          <div *ngIf="leaveRequestForm.controls['date'].invalid && leaveRequestForm.controls['date'].touched" class="text-red-500 text-sm mt-1">
+            Date is required.
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium">Description:</label>
+          <input 
+            type="text" 
+            formControlName="reason" 
+            class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+            placeholder="Enter the reason for the request" 
+          />
+          <div *ngIf="leaveRequestForm.controls['reason'].invalid && leaveRequestForm.controls['reason'].touched" class="text-red-500 text-sm mt-1">
+            Reason must be at least 5 characters long.
+          </div>
+        </div>
+  
+        <button 
+          type="submit" 
+          [disabled]="leaveRequestForm.invalid || !employeeId || isSubmitting" 
+          class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Submit Request
+        </button>
+      </form>
+    </div>
+  </div>
+  

@@ -32,6 +32,9 @@ import { EditBranchComponent } from './admin/edit-branch/edit-branch.component';
 import { EditManagerComponent } from './admin/edit-manager/edit-manager.component';
 import { ManagerAddServiceComponent } from './manager/manager-add-service/manager-add-service.component';
 import { ManagerAddProductComponent } from './manager/manager-add-product/manager-add-product.component';
+import { LeaveRequestComponent } from './staff/leave-request/leave-request.component';
+import { ViewRequestComponent } from './manager/view-request/view-request.component';
+import { RequestsComponent } from './admin/requests/requests.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
@@ -66,5 +69,9 @@ export const routes: Routes = [
     { path : "editService/:service_id", component: EditServiceComponent},
     { path : "managerServices", component: ManagerServicesComponent },
     { path : "analytics", component: AnalyticsComponent },
-    { path : "managerAnalytics", component: ManagerAnalyticsComponent },   
+    { path : "managerAnalytics", component: ManagerAnalyticsComponent }, 
+    { path : "leaveRequest", component: LeaveRequestComponent },
+    { path : "requests", component: RequestsComponent },
+    { path : "viewRequest", component: ViewRequestComponent }
+
 ];

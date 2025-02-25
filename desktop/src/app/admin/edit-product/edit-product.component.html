@@ -44,6 +44,18 @@
         class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         placeholder="Select Expiry date">
     </div>
+
+    <div>
+      <label class="block text-gray-700 font-medium">Product Image</label>
+      <input type="file" (change)="onFileSelected($event)"
+          class="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+  </div>
+
+  <!-- Image Preview -->
+  <div *ngIf="imagePreview" class="mt-4">
+      <p class="text-gray-700 font-medium">Image Preview:</p>
+      <img [src]="imagePreview" alt="Product Image Preview" class="w-32 h-32 object-cover rounded-lg border mt-2">
+  </div>
     
     <button type="submit"
       class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-300">

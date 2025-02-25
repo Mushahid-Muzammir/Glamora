@@ -21,6 +21,7 @@ export interface LoginData {
 export class AuthService {
   private isLoggedin = false;
   private userId !: number;
+  user !: any;
 
   constructor(
     private http: HttpClient 
@@ -67,6 +68,21 @@ export class AuthService {
   
   clearUserId(): void {
     this.userId = 0;
+  }
+
+  setUser(user: any): void {
+    sessionStorage.setItem('user', JSON.stringify(user));
+    this.user = user;
+  }
+
+  getUser(): any {
+    this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    return this.user;
+  }
+
+  clearUser(): void {
+    sessionStorage.removeItem('user');
+    this.user = null;
   }
 
 }

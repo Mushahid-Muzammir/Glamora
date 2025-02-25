@@ -7,7 +7,7 @@ export const Products = instance.define("Products", {
         primaryKey: true,
         autoIncrement: true,
     },
-    image_path: {
+    image_url: {
         type: DataTypes.STRING,
         allowNull: true,
     },

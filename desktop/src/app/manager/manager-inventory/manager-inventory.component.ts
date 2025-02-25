@@ -6,11 +6,13 @@ import { Product } from '../../data_interface';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 
 @Component({
   selector: 'app-manager-inventory',
-  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule],
+  imports: [SidebarComponent, TopbarComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './manager-inventory.component.html',
   styleUrl: './manager-inventory.component.css'
 })
@@ -18,6 +20,9 @@ export class ManagerInventoryComponent implements OnInit {
   products : Product[] = [];
   searchText: string = '';
   filteredProducts : any[] =[];
+  itemsPerPage : number = 5;
+  currentPage : number = 1;
+
   constructor(
     private managerService :  ManagerService
   ){}

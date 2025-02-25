@@ -140,17 +140,23 @@ export const getProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
+    const imagePath = req.file? `http://localhost:5000/uploads/${req.file.filename}` : "";
+    console.log(req.body);
     const product = await Products.create({
-      image_path: "",
       product_name: req.body.name,
       description: req.body.description,
       cost_price: req.body.cost_price,
       selling_price: req.body.selling_price,
       stock_level: req.body.stock,
       expiry_date: req.body.expiry_date,
+      branch_id : 1,
+      image_url: imagePath
     });
-    return res.status(201).send({ message: "New product added!" });
-  } catch (error) {
+    if (product) {
+      res.status(201).send({ message: 'Created a new product', product });
+  } else {
+      res.status(500).send({ message: "Failed to create a new employee." });
+  }  } catch (error) {
     return res.status(400).send(error.message || "Unknown error");
   }
 };
@@ -177,6 +183,7 @@ export const updateProduct = async (req, res) => {
       selling_price,
       stock_level,
       expiry_date,
+      image_url
     } = req.body;
 
     console.log('Received data:', {
@@ -187,6 +194,7 @@ export const updateProduct = async (req, res) => {
       selling_price,
       stock_level,
       expiry_date,
+      image_url
     });
 
     if (
@@ -201,7 +209,7 @@ export const updateProduct = async (req, res) => {
 
     const query = `
       UPDATE products 
-      SET product_name = ?, description = ?, cost_price = ?, selling_price = ?, stock_level = ?, expiry_date = ? 
+      SET product_name = ?, description = ?, cost_price = ?, selling_price = ?, stock_level = ?, expiry_date = ?, image_url = ? 
       WHERE product_id = ?`;
 
     const [result] = await db.execute(query, [
@@ -212,6 +220,7 @@ export const updateProduct = async (req, res) => {
       stock_level,
       expiry_date,
       product_id,
+      image_url
     ]);
 
     if (result.affectedRows === 0) {
@@ -228,7 +237,7 @@ export const updateProduct = async (req, res) => {
 export const getEmployees = async (req, res) => {
   try {
     const query =
-      "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.salary, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id";
+      "SELECT u.user_id, u.name, u.contact, u.email, e.image_url, e.employee_id, e.salary, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE e.isActive = 1";
     const [results] = await db.execute(query);
     if (results.length === 0) {
       return res.status(404).send("No Employees Found");
@@ -514,23 +523,19 @@ export const getServiceById =  async (req, res) => {
     return res.status(200).json({ service : service });
 };
 
-export const getTodayAppointments = (req, res) => {
+export const getTodayAppointments = async (req, res) => {
   try {
     const currentDate = new Date().toISOString().split("T")[0];
-    const query = "SELECT * FROM appointments WHERE date = CURDATE()";
-    db.query(query, currentDate, (err, results) => {
-      if (err) {
-        console.error("Database Error:", err);
-        return res.status(500).send("Internal Server Error");
-      }
+    const query = "SELECT a.appointment_id, a.customer_id, a.start_time, a.end_time, a.payment_status, u.name, u.contact, b.branch_name FROM appointments a JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id JOIN employees e ON a.employee_id = e.employee_id JOIN users s on s.user_id = e.user_id JOIN branches b ON a.branch_id = b.branch_id WHERE a.date = CURDATE()";
+  const [results] = await db.execute(query, [currentDate])
       if (results.length === 0) {
         return res.status(404).send("No Appointments Found");
       }
       const appointments = results;
       console.log(appointments);
-      return res.status(200).json({ appointments });
-    });
-  } catch (error) {
+      return res.status(200).json({ appointments : appointments });
+    }
+   catch (error) {
     console.error("Unexpected Error:", error);
     return res.status(500).send("An error occurred: " + error.message);
   }
@@ -538,13 +543,79 @@ export const getTodayAppointments = (req, res) => {
 
 export const getAppointments = async (req, res) => {
   try {
-    const [results] = await db.execute("SELECT a.appointment_id, u.name, u.contact, b.branch_name, a.start_time, a.end_time, a.service_status, a.payment_mode, a.payment_status FROM appointments a JOIN branches b ON a.branch_id = b.branch_id JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id");
+    const [results] = await db.execute(`
+      SELECT 
+        a.date, 
+        a.start_time, 
+        a.end_time, 
+        u.name, 
+        u.contact, 
+        b.branch_name, 
+        a.service_status, 
+        a.payment_mode, 
+        a.payment_status,
+        a.appointment_id
+      FROM appointments a 
+      JOIN branches b ON a.branch_id = b.branch_id 
+      JOIN customers c ON a.customer_id = c.customer_id 
+      JOIN users u ON c.user_id = u.user_id 
+      WHERE a.app_status = 'active'
+      ORDER BY a.booked_date DESC, a.start_time ASC
+    `);
+
     if (results.length === 0) {
       return res.status(404).send("No Appointments Found");
     }
+
     return res.status(200).json({ appointments: results });
+
   } catch (error) {
     console.error("Database Error:", error);
     return res.status(500).send("Internal Server Error");
   }
 };
+
+export const cancelAppointment = async (req, res) => {
+  try{
+    const appointment_id = req.params.appointment_id;
+    const status = req.body.status;
+    const query = "UPDATE appointments SET app_status = ? WHERE appointment_id = ?";
+    await db.execute(query, [status, appointment_id]);
+    return res.status(200).send("Appointment Updated Successfully");
+
+  }catch(error){
+    console.error("Database Error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+}
+
+export const getRequests = async (req, res) => {
+  try{
+    const query = "SELECT l.leave_id, l.employee_id, l.date, l.reason, l.status, u.name FROM leaves l JOIN employees e ON l.employee_id = e.employee_id JOIN users u ON e.user_id = u.user_id";
+    const [result] = await db.execute(query);
+    if(result.length === 0){
+      return res.status(404).send("No Requests Found");
+    }
+    const requests = result;
+    console.log(requests);
+    return res.status(200).json({ requests : requests });
+  }catch(error){
+    console.error("Database Error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+  
+}
+
+export const updateRequest = async (req, res) => {
+  try{
+    const leave_id = req.params.leave_id;
+    const status = req.body.status;
+    const query = "UPDATE leaves SET status = ? WHERE leave_id = ?";
+    await db.execute(query, [status, leave_id]);
+    return res.status(200).send("Request Updated Successfully");
+
+  }catch(error){
+    console.error("Database Error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+}

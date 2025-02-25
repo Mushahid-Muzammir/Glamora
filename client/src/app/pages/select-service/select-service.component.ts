@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCheckboxModule} from '@angular/material/checkbox'
 import { CommonModule} from '@angular/common';
+import { HeaderComponent } from '../../components/header/header.component';
 import { FormGroup } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
 import { Employee, Service } from '../../interfaces';
 
 @Component({
   selector: 'app-select-service',
-  imports: [RouterModule, MatCheckboxModule, CommonModule],
+  imports: [RouterModule, MatCheckboxModule, CommonModule, HeaderComponent],
   templateUrl: './select-service.component.html',
   styleUrl: './select-service.component.css'
 })
@@ -41,8 +42,7 @@ export class SelectServiceComponent implements OnInit {
     this.clientService.getEmployees(this.branch_id).subscribe(
       (res : any) =>{
         this.employees = res.employees;
-      }
-    )  
+      });  
   }
 
   selectEmployee(employeeId : number){
