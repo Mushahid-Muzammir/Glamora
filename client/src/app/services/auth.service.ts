@@ -9,6 +9,7 @@ export interface RegisterData {
   contact: number;
   email: string;
   password: string;
+ 
 }
 export interface LoginData {
   email: string;
@@ -22,6 +23,7 @@ export class AuthService {
   private isLoggedin = false;
   private userId !: number;
   user !: any;
+  
 
   constructor(
     private http: HttpClient 
@@ -56,20 +58,22 @@ export class AuthService {
   {
     return this.http.post<any>(`${authUrl}/login`, loginObject);
   }
-
+  
   setUserId(userId: number): void {
-    localStorage.setItem('user_id', userId.toString()); 
+    this.userId = userId;
+    sessionStorage.setItem('userId', String(userId));
   }
 
   getUserId(): number {
-    const userId = localStorage.getItem('user_id');
-    return userId ? Number(userId) : 0;  
+    this.userId = Number(sessionStorage.getItem('userId'));
+    return this.userId ? Number(this.userId) : 0;  
   }
   
   clearUserId(): void {
+    sessionStorage.removeItem('userId');
     this.userId = 0;
   }
-
+  
   setUser(user: any): void {
     sessionStorage.setItem('user', JSON.stringify(user));
     this.user = user;
