@@ -1,0 +1,7 @@
+<div class="container text-center mt-5">
+    <h2 [ngClass]="isSuccess ? 'text-green-600' : 'text-red-600'">
+      {{ message }}
+    </h2>
+    <p *ngIf="isSuccess">Redirecting to login page...</p>
+  </div>
+  

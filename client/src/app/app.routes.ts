@@ -44,6 +44,7 @@ import { ManagerAddProductComponent } from './manager/pages/manager-add-product/
 import { LeaveRequestComponent } from './staff/pages/leave-request/leave-request.component';
 import { ViewRequestComponent } from './manager/pages/view-request/view-request.component';
 import { RequestsComponent } from './admin/pages/requests/requests.component';
+import { VerifyEmailComponent } from './customer/pages/verify-email/verify-email.component';
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -91,6 +92,7 @@ export const routes: Routes = [
 { path : "managerAnalytics", component: ManagerAnalyticsComponent }, 
 { path : "leaveRequest", component: LeaveRequestComponent },
 { path : "requests", component: RequestsComponent },
-{ path : "viewRequest", component: ViewRequestComponent }
+{ path : "viewRequest", component: ViewRequestComponent },
+{ path : "verifyEmail", component: VerifyEmailComponent}
 
 ];

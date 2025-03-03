@@ -76,6 +76,7 @@ export class SelectDateComponent implements OnInit {
 
   private fetchServicesDuration(): void {
     const serviceIds = this.selectedServices.join(',');
+    console.log('Service IDs:', serviceIds);
     this.clientService.getDuration(serviceIds).subscribe(
       res => this.calculateTotalDuration(res.services),
       error => console.error('Error fetching service durations:', error)
@@ -93,7 +94,7 @@ export class SelectDateComponent implements OnInit {
       return;
     }
 
-    console.log('Selected Date:', this.selectedDate);
+    console.log('Selected Date is:', this.selectedDate);
 
     this.clientService.getAvailableSlots(this.selectedBranch, this.selectedDate, this.totalDuration).subscribe(
       res => {

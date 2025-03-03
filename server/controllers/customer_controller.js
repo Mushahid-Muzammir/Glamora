@@ -1,9 +1,10 @@
+import { get } from "mongoose";
 import { db } from "../server.js";
 import nodemailer from 'nodemailer'
 
 export const getProducts = async (req, res) => {
     try {
-        const [products] = await db.query("SELECT * FROM products");
+        const [products] = await db.execute("SELECT * FROM products");
         if (products.length === 0) return res.status(404).send("No Products Found");
         res.status(200).json({ products });
     } catch (error) {
@@ -15,7 +16,7 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     try {
         const product_id = req.params.product_id;
-        const [result] = await db.query("SELECT * FROM products WHERE product_id = ?", [product_id]);
+        const [result] = await db.execute("SELECT * FROM products WHERE product_id = ?", [product_id]);
         if (result.length === 0) return res.status(404).send("Product Not Found");
         res.status(200).json({ product: result[0] });
     } catch (error) {
@@ -26,7 +27,7 @@ export const getProductById = async (req, res) => {
 
 export const getBranches = async (req, res) => {
     try {
-        const [branches] = await db.query("SELECT * FROM branches");
+        const [branches] = await db.execute("SELECT * FROM branches");
         if (branches.length === 0) return res.status(404).send("No Branches Found");
         res.status(200).json({ branches });
     } catch (error) {
@@ -35,10 +36,9 @@ export const getBranches = async (req, res) => {
     }
 };
 
-
 export const getCustomers = async (req, res) => {
     try {
-        const [customers] = await db.query("SELECT * FROM users WHERE role = 'customer'");
+        const [customers] = await db.execute("SELECT * FROM users WHERE role = 'customer'");
         if (customers.length === 0) return res.status(404).send("No Users Found");
         res.status(200).json({ customers });
     } catch (error) {
@@ -101,7 +101,7 @@ export const getEmployeesbyBranch = async (req, res) => {
     try {
         const branch_id = Number(req.params.branch_id);  
         const query =
-        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.image_url, e.salary, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ?";
+        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.image_url, e.salary, e.title, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ?";
       const [results] = await db.execute(query, [branch_id]);
       if (results.length === 0) {
         return res.status(404).send("No Employees Found");
@@ -134,7 +134,7 @@ export const getEmployeeById = async (req, res) => {
 
 export const getServices = async (req, res) => {
     try {
-        const [services] = await db.query("SELECT * FROM services");
+        const [services] = await db.execute("SELECT * FROM services");
         if (services.length === 0) return res.status(404).send("No Services Found");
         res.status(200).json({ services });
     } catch (error) {
@@ -146,12 +146,14 @@ export const getServices = async (req, res) => {
 export const getAvailableSlots = async (req, res) => {
     try {
         const { branch_id, date, total_time } = req.query;
-        const [working_hours] = await db.query("SELECT DATE_FORMAT(open_time, '%H:%i') AS open_time, DATE_FORMAT(close_time, '%H:%i') AS close_time FROM branches WHERE branch_id = ?", [branch_id]);
+        console.log("Query Params:", req.query);
+        const [working_hours] = await db.execute("SELECT DATE_FORMAT(open_time, '%H:%i') AS open_time, DATE_FORMAT(close_time, '%H:%i') AS close_time FROM branches WHERE branch_id = ?", [branch_id]);
         if (working_hours.length === 0) return res.status(404).json({ message: "Branch Not Found" });
 
         const { open_time, close_time } = working_hours[0];
-        const [existing_app] = await db.query("SELECT DATE_FORMAT(start_time, '%H:%i') AS start_time, DATE_FORMAT(end_time, '%H:%i') AS end_time FROM appointments WHERE branch_id = ? AND date = ?", [branch_id, date]);
+        const [existing_app] = await db.execute("SELECT DATE_FORMAT(start_time, '%H:%i') AS start_time, DATE_FORMAT(end_time, '%H:%i') AS end_time FROM appointments WHERE branch_id = ? AND date = ?", [branch_id, date]);
         const availableSlots = generateAvailableSlots(open_time, close_time, existing_app, total_time);
+        console.log("Available Slots", availableSlots);
         res.json({ availableSlots });
     } catch (error) {
         console.error("Database Error:", error);
@@ -184,7 +186,6 @@ function generateAvailableSlots(open_time, close_time, existing_app, total_time)
 
     while (addMinutes(current_time, total_time) <= close_time) {
         let next_time = addMinutes(current_time, total_time);
-        console.log("Next time:", next_time);
 
         // Check if this slot overlaps with any existing appointments
         if (!existing_app.some(app => isOverlapping(current_time, next_time, app.start_time, app.end_time))) {
@@ -198,7 +199,6 @@ function generateAvailableSlots(open_time, close_time, existing_app, total_time)
     return slots;
 }
 
-
 function addMinutes(time, minutes) {
     let [h, m] = time.split(':').map(Number);
     let date = new Date(2000, 0, 1, h, m);
@@ -210,24 +210,8 @@ function addMinutes(time, minutes) {
 
     return `${hours}:${minutesFormatted}`;
 }
-
-
-function isOverlapping(start1, end1, start2, end2) {
-    return !(end1 <= start2 || start1 >= end2);
-}
-
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "mushahidmuzammir11339@gmail.com",
-      pass: "cqyo axfx fpwj vezf"  
-    },
-    tls: {
-      rejectUnauthorized: false  
-    }
-  });
   
-  export const confirmBooking = async (req, res) => {
+export const confirmBooking = async (req, res) => {
     try {
       const { branch_id, employee_id, date, start_time, end_time, customer_id } = req.body;
   
@@ -261,17 +245,17 @@ const transporter = nodemailer.createTransport({
         subject: "Appointment Confirmation - Glamora Salon Booking",
         text: `Hello,
           
-  Your appointment has been successfully booked.
-          
-  📅 Date: ${date}
-  🕒 Time: ${start_time} - ${end_time}
-  🏢 Branch Address: ${branchAddress}
-          
-  Thank you for choosing our salon!
-          
-  Best Regards,
-  Salon Team`
-      };
+        Your appointment has been successfully booked.
+                
+        📅 Date: ${date}
+        🕒 Time: ${start_time} - ${end_time}
+        🏢 Branch Address: ${branchAddress}
+                
+        Thank you for choosing our salon!
+                
+        Best Regards,
+        Salon Team`
+            };
   
       // Send email and send response only ONCE
       transporter.sendMail(mailOptions)
@@ -288,8 +272,18 @@ const transporter = nodemailer.createTransport({
       console.error("Error confirming booking:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  };
+};
   
+export const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "mushahidmuzammir11339@gmail.com",
+      pass: "cqyo axfx fpwj vezf"  
+    },
+    tls: {
+      rejectUnauthorized: false  
+    }
+  });
 
 export const makeSales = async (req, res) => {
     try {
@@ -297,8 +291,7 @@ export const makeSales = async (req, res) => {
   
         if (!items || items.length === 0) {
           return res.status(400).json({ error: "No items in the cart." });
-        }
-      
+        }     
         const saleDate = new Date();
       
         const insertSalesQuery = `
@@ -323,6 +316,24 @@ export const makeSales = async (req, res) => {
         });
     }catch{
 
+    }
+}
+
+export const getEmployeeServices = async (req, res) => {
+    try{
+        const employee_id = req.params.employee_id;
+        const [result] = await db.execute(
+            "SELECT s.service_id, s.service_name, s.price, s.duration, s.description FROM services s JOIN employee_service es ON s.service_id = es.service_id WHERE es.employee_id = ?",
+            [employee_id]
+        );
+        if (result.length === 0) return res.status(404).send("Employee Not Found");
+        console.log("Employee Services:", result);
+        const services = result;
+        res.status(200).json({ services: services });
+
+    }catch(error){
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
     }
 }
 

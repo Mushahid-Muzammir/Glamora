@@ -56,5 +56,9 @@ export class ClientService {
   processSale(saleData: any) {
     return this.http.post(`${this.clientUrl}/sales`, saleData);
   }
+
+  getEmployeeServices(employee_id: number) {
+    return this.http.get(`${this.clientUrl}/getEmployeeServices/${employee_id}`);
+  }
   
 }

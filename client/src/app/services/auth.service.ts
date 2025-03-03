@@ -27,8 +27,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient 
-  ) {
-  }
+  ) {}
  
   private isSessionStorageAvailable(): boolean {
     return typeof window !== 'undefined' && !!window.sessionStorage;
@@ -57,6 +56,11 @@ export class AuthService {
   loginService(loginObject: LoginData)
   {
     return this.http.post<any>(`${authUrl}/login`, loginObject);
+  }
+
+  verifyEmailService(token: string)
+  {
+    return this.http.get<any>(`${authUrl}/verifyEmail/${token}`);
   }
   
   setUserId(userId: number): void {

@@ -5,6 +5,7 @@ export interface Employee{
     email: string,
     employee_id: number,
     salary: number,
+    title : string,
     branch: number,
     branch_name: string,
     image_url: string
@@ -33,8 +34,9 @@ export interface Product{
 
 export interface Service {
     service_id: number,
+    image_url : string,
     service_name: string,
-    decription: string,
+    description: string,
     price: number,
     duration: number
 }

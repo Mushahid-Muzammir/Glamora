@@ -1,25 +1,25 @@
 
-<div class="w-full h-[auto] relative">
+<div class="max-w-full h-[auto] relative">
     <app-header></app-header>
     <div class="h-screen flex items-center justify-center bg-white">
-        <!-- Left Content -->
-        <div class="w-1/2 flex flex-col ml-[180px] space-y-6">
-          <div class=" w-[100%] space-y-2">
-            <p class="text-6xl font-medium text-black">Time is Precious</p>
-            <p class="text-6xl font-medium text-black">So Is Your Look</p>
-            <p class="text-2xl">We Got You Covered With Everything</p>
-          </div>
-          <button class="text-[15px] font-bold bg-[#6482ad] text-white py-[18px] hover:bg-[#6482ad] rounded-[40px]"
-          (click)="startService()">
-          Book Now
-          </button>
+      <!-- Left Content -->
+      <div class="w-[30%] flex flex-col ml-[80px] space-y-6">
+        <div class="w-full space-y-2">
+          <p class="text-6xl font-medium text-black">Time is Precious</p>
+          <p class="text-6xl font-medium text-black">So Is Your Look</p>
+          <p class="text-2xl">We Got You Covered With Everything</p>
         </div>
-      
-        <!-- Right Content -->
-        <div class="w-[100%]  h-screen ">
-            <img src="images/hero.png" class="justify-start items-start relative" />
-          </div>
+        <button class="text-[15px] font-bold bg-[#6482ad] text-white py-5 px-8 hover:bg-[#546c90] rounded-[40px]">
+          Book Now
+        </button>
+      </div>
+    
+      <!-- Right Content -->
+      <div class="w-[65%] h-screen flex items-start justify-center">
+        <img src="images/hero.png" class="object-cover" />
+      </div>
     </div>
+    
       
 
     <div class="w-full h-auto relative bg-white">
@@ -52,39 +52,30 @@
             Our salon provides expert hair services, precision beard styling, body
             massages, and refreshing facials to enhance your beauty and confidence.
           </p>        
-          <button class="mt-6  px-6 py-3 bg-[#6482ad] text-[15px] font-bold text-black">
+          <button class="mt-6  px-10 py-4 bg-[#6482ad] rounded-[15px] text-[15px] font-bold text-white">
             Read More         
           </button>
         </div>        
       </div>
     </div>
 
-   
-
-    <div class="relative mt-24">
-      <div class="flex flex-row flex-wrap justify-center gap-4 w-full h-auto">
-        <div class="flex flex-col items-center w-[300px] h-auto rounded-3xl bg-white border border-black/[0.24] overflow-hidden">
-          <img src="images/hairService.png" class="w-full h-[200px] object-cover" />
-          <p class="mt-2 text-[20] font-semibold text-black">Hair Services</p>
-        </div>
-      
-        <div class="flex flex-col items-center w-[300px] h-auto rounded-3xl bg-white border border-black/[0.24] overflow-hidden">
-          <img src="images/beardService.png" class="w-full h-[200px] object-cover" />
-          <p class="mt-2 text-[20] font-semibold text-black">Beard Styling</p>
-        </div>
-      
-        <div class="flex flex-col items-center w-[300px] h-auto rounded-3xl bg-white border border-black/[0.24] overflow-hidden">
-          <img src="images/massageService.png" class="w-full h-[200px] object-cover" />
-          <p class="mt-2 text-[20] font-semibold text-black">Body Massage</p>
-        </div>
-      
-        <div class="flex flex-col items-center w-[300px] h-auto rounded-3xl bg-white border border-black/[0.24] overflow-hidden">
-          <img src="images/facialService.png" class="w-full h-[200px] object-cover" />
-          <p class="mt-2 text-[20] font-semibold text-black">Facial</p>
+    <div #scrollContainer class="relative w-full overflow-x-auto whitespace-nowrap scroll-smooth" (wheel)="onScroll($event)">
+      <!-- Scrollable Services -->
+      <div class="flex flex-row gap-8 mt-24 w-max transition-transform duration-300">
+        <div *ngFor="let service of services" 
+             class="flex flex-col items-start w-[500px] h-auto rounded-3xl bg-white border border-black/[0.24] overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer">
+          
+          <img [src]="service.image_url" class="w-full h-[350px] object-cover" />
+          
+          <div class="p-5">
+            <p class="text-[22px] font-semibold text-black mb-2">{{ service.service_name }}</p>
+            <p class="text-[16px] text-[#565656] leading-relaxed">{{ service.description }}</p>
+          </div>
         </div>
       </div>
     </div>
-
+    
+    
     <div class="w-full h-auto relative bg-white mt-24">
       <div class="w-[100%] py-6 h-[100px] bg-[#6482ad]/30">       
         <p class="text-[40px] font-bold text-center text-black">
@@ -96,7 +87,7 @@
       </p>
 
       <div class="flex flex-row justify-center gap-8 mt-12 "> 
-        
+
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
           <img src="images/product1.jpg"
             class="self-stretch  h-[342px] object-cover"/>
@@ -106,9 +97,7 @@
           <p class=" w-full h-auto text-[15px] text-center  text-black">
             LKR 380.00
           </p>
-          <button class=" w-[249px] h-[40px] mb-4 rounded-[10px] bg-[#6482ad] text-xl font-semibold text-white">
-            Add to Cart
-          </button>
+          
         </div>
         
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
@@ -120,9 +109,7 @@
           <p class=" w-full h-auto text-[15px] text-center  text-black">
             LKR 380.00
           </p>
-          <button class=" w-[249px] h-[40px] rounded-[10px] bg-[#6482ad] text-xl font-semibold text-white">
-            Add to Cart
-          </button>
+          
         </div>
 
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
@@ -134,11 +121,11 @@
           <p class=" w-full h-auto text-[15px] text-center  text-black">
             LKR 380.00
           </p>
-          <button class=" w-[249px] h-[40px] rounded-[10px] bg-[#6482ad] text-xl font-semibold text-white">
-            Add to Cart
-          </button>
+          
         </div>
+
       </div>
+
       <div class="w-full flex justify-center  mt-12">
         <button class="px-[55px] py-[20px] rounded-[30px] bg-[#6482ad]/30 text-[15px] font-bold text-black"
         routerLink="/products">
@@ -147,24 +134,21 @@
       </div>
     </div>
     
-      <div class="flex flex-col items-center relative w-[100%] h-[150px] py-8 bg-[#6482ad]/30 mt-24">   
-        <p class="text-3xl font-bold text-center text-black">
-          What Our Clients
-        </p>
-        <br />
-        <p class="text-3xl font-bold text-center text-black">
-          Say About Us
-        </p>        
-      </div> 
-      <div class="w-full flex items-center relative left-[240px]">
-        <div class="w-[70%] h-[350px] flex items-center justify-center relative rounded-[32px] bg-[#6482ad]/30 mt-16">
-          <p class="w-[50%] relative text-[25px] text-center justify-center text-black">
-            "I had an amazing experience at this salon! The staff was professional, and the service was
-            exceptional. My hair looks fantastic, and I couldn't be happier with the results."
-          </p>
-        </div> 
-      </div> 
+      <!-- Section Title -->
+<div class="flex flex-col items-center max-w-full h-[150px] py-8 bg-[#6482ad]/30 mt-24">
+  <p class="text-3xl font-bold text-center text-black">What Our Clients</p>
+  <p class="text-3xl font-bold text-center text-black">Say About Us</p>        
+</div> 
+
+<!-- Testimonial Section -->
+<div class="max-w-screen-xl mx-auto flex items-center justify-center">
+  <div class="w-full max-w-2xl h-[350px] flex items-center justify-center rounded-[32px] bg-[#6482ad]/30 mt-16 px-8">
+    <p class="text-[22px] text-center text-black leading-relaxed">
+      "I had an amazing experience at this salon! The staff was professional, and the service was
+      exceptional. My hair looks fantastic, and I couldn't be happier with the results."
+    </p>
+  </div> 
+</div>
       
-    <app-footer></app-footer>
-    
-  </div>
+    <app-footer></app-footer>   
+</div>
