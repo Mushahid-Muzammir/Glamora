@@ -1,37 +1,36 @@
 
 <div class="max-w-full h-[auto] relative">
     <app-header></app-header>
-    <div class="h-screen flex items-center justify-center bg-white">
-      <!-- Left Content -->
-      <div class="w-[30%] flex flex-col ml-[80px] space-y-6">
-        <div class="w-full space-y-2">
-          <p class="text-6xl font-medium text-black">Time is Precious</p>
-          <p class="text-6xl font-medium text-black">So Is Your Look</p>
-          <p class="text-2xl">We Got You Covered With Everything</p>
-        </div>
-        <button class="text-[15px] font-bold bg-[#6482ad] text-white py-5 px-8 hover:bg-[#546c90] rounded-[40px]">
+    <div class="w-full h-screen flex flex-row bg-[#EFE9D5]">
+      <div id="bookNow" class="w-full h-screen flex items-center justify-center">
+        <div class="w-full flex flex-col space-y-3 ml-12">
+          <p class="text-7xl font-semibold text-[#176B87]">Time is Precious</p>
+          <p class="text-7xl font-semibold text-[#176B87]">So Is Your Look</p>
+          <p class="text-2xl font-semibold text-[#176B87]">We Got You Covered With Everything</p>
+          <button 
+          (click)="startService()"
+          class="text-[20px] font-bold bg-[#22577E] text-white py-3 px-8 hover:bg-[#546c90] rounded-[40px]">
           Book Now
-        </button>
+          </button>
+        </div>
       </div>
     
       <!-- Right Content -->
-      <div class="w-[65%] h-screen flex items-start justify-center">
-        <img src="images/hero.png" class="object-cover" />
-      </div>
+      <div id="heroImage" class="w-3/5 h-screen flex items-start flex-shrink-0 p-0 m-0">
+        <img src="images/hero.png" class="object-cover w-full h-auto" />
+      </div>     
     </div>
     
-      
-
-    <div class="w-full h-auto relative bg-white">
-      <div class="w-full h-[120px] py-9 bg-[#6482ad]/30">
-        <p class="text-[30px] text-center font-bold text-black">
+    <div  class="w-full h-auto bg-white my-8">
+      <div class="w-full h-[120px] py-9">
+        <p class="text-5xl text-center font-bold text-[#176B87]">
           Redefining Confidence Through Beauty Expertise
         </p>
       </div>
       
-      <div class="flex flex-row justify-end mt-24 ">
+      <div id="hero" class="flex flex-row justify-end my-12 ">
         <!-- Images Section -->
-        <div class="w-1/3 ">
+        <div class="w-1/3">
           <div class="flex flex-row">
             <img src="images/advert1.png" class="w-[211px] h-[331px]  left-[318px] top-[200px] "/>
             <div class="flex flex-col">
@@ -56,24 +55,32 @@
             Read More         
           </button>
         </div>        
-      </div>
     </div>
 
-    <div #scrollContainer class="relative w-full overflow-x-auto whitespace-nowrap scroll-smooth" (wheel)="onScroll($event)">
-      <!-- Scrollable Services -->
-      <div class="flex flex-row gap-8 mt-24 w-max transition-transform duration-300">
+  <div class="pb-12 bg-[#F6F0F0]"> 
+    <div class="w-full py-12">
+      <p class="text-4xl text-center font-bold text-[#176B87]">
+      What We Provide our Clients
+      </p>
+    </div>
+
+    <div  #scrollContainer class="w-full overflow-x-auto whitespace-nowrap scroll-smooth p-8" (wheel)="onScroll($event)">
+      <div id="services" class="flex flex-row gap-8 w-max transition-transform duration-300">
         <div *ngFor="let service of services" 
-             class="flex flex-col items-start w-[500px] h-auto rounded-3xl bg-white border border-black/[0.24] overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer">
-          
-          <img [src]="service.image_url" class="w-full h-[350px] object-cover" />
-          
-          <div class="p-5">
-            <p class="text-[22px] font-semibold text-black mb-2">{{ service.service_name }}</p>
-            <p class="text-[16px] text-[#565656] leading-relaxed">{{ service.description }}</p>
+        class="flex flex-col w-[400px] h-auto rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden">
+          <div class="w-full h-[300px]">
+            <img [src]="service.image_url" class="w-full h-full object-cover" />
           </div>
+          <div class="p-6 flex flex-col">
+            <p class="text-[18px] font-semibold text-gray-900">{{ service.service_name }}</p>
+            <p class="text-[16px] text-gray-700 whitespace-normal break-words">
+              {{ service.description }}
+            </p>
+          </div>          
         </div>
       </div>
     </div>
+  </div>
     
     
     <div class="w-full h-auto relative bg-white mt-24">
@@ -86,8 +93,7 @@
         Some of our best sellers for you
       </p>
 
-      <div class="flex flex-row justify-center gap-8 mt-12 "> 
-
+      <div id="products" class="flex flex-row justify-center gap-8 mt-12 "> 
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
           <img src="images/product1.jpg"
             class="self-stretch  h-[342px] object-cover"/>
@@ -96,8 +102,7 @@
           </p>
           <p class=" w-full h-auto text-[15px] text-center  text-black">
             LKR 380.00
-          </p>
-          
+          </p>         
         </div>
         
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
@@ -108,8 +113,7 @@
           </p>
           <p class=" w-full h-auto text-[15px] text-center  text-black">
             LKR 380.00
-          </p>
-          
+          </p>         
         </div>
 
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
@@ -120,10 +124,8 @@
           </p>
           <p class=" w-full h-auto text-[15px] text-center  text-black">
             LKR 380.00
-          </p>
-          
+          </p>         
         </div>
-
       </div>
 
       <div class="w-full flex justify-center  mt-12">

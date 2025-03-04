@@ -54,9 +54,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   onScroll(event: WheelEvent) {
-    event.preventDefault(); // Prevent vertical scrolling
+    event.preventDefault(); 
     const container = event.currentTarget as HTMLElement;
-    container.scrollLeft += event.deltaY; // Scroll horizontally
+    container.scrollLeft += event.deltaY; 
   }
   
 

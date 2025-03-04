@@ -2,3 +2,55 @@
     display: none; /* Hide scrollbar */
   }
   
+  @keyframes slidefromDown{
+    from{
+      transform: translateY(300px);
+    }
+    to{
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slidefromLeft{
+    from{
+      transform: translateX(-200px);
+    }
+    to{
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slidefromRight{
+    from{
+      transform: translateX(200px);
+    }
+    to{
+      transform: translateX(0);
+    }
+  }
+
+  #hero{
+    animation: slidefromDown 6s ease ;
+    animation-timeline: view();
+    animation-range: entry 0% cover 60%;
+  }
+
+  #heroImage{
+    animation: slidefromRight 1s ease;
+  }
+
+  #bookNow{
+    animation: slidefromLeft 2s ease;
+  }
+
+  #services{
+    animation: slidefromDown 4s ease;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  #products{
+    animation: slidefromDown 4s ease;
+    animation-timeline: view();
+    animation-range: entry 0% cover 60%;
+  }

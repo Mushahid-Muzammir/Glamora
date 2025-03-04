@@ -2,21 +2,13 @@
   <app-header></app-header>  
   
   <!-- Header Section -->
-  <div class="w-full py-5 bg-[#6482ad]/30 mt-12 text-center">
+  <div class="w-full py-5 bg-[#6482ad]/30 mt-8 text-center">
     <p class="text-2xl font-bold text-black">Select Preferred Stylist</p>
   </div> 
   
-  <!-- Employee Horizontal Scroll Section -->
-  <div class="relative w-full mt-12 px-12 overflow-hidden">
+  <div class="relative w-full mt-6 px-12 overflow-hidden">
     
-    <!-- Scroll Left Button -->
-    <button (click)="scrollLeft()" 
-      class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full shadow-md z-10">
-      <
-    </button>
-    
-    <!-- Employee List Slider -->
-    <div #slider class="flex gap-6 overflow-x-auto scroll-smooth whitespace-nowrap px-12 py-4">
+    <div #employeeContainer class="flex gap-6 overflow-x-auto scroll-smooth whitespace-nowrap px-12 py-4" (wheel)="onScroll($event)">
       <div *ngFor="let employee of employees" class="flex-none w-72 sm:w-80 md:w-96 p-4">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-500">
           <img [src]="employee.image_url" alt="Employee" class="w-full h-60 object-cover" />
@@ -36,16 +28,10 @@
         </div>
       </div>
     </div>
-    
-    <!-- Scroll Right Button -->
-    <button (click)="scrollRight()" 
-      class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full shadow-md z-10">
-      >
-    </button>
   </div>
   
   <!-- Service Selection Section -->
-  <div *ngIf="selectedEmployeeId" class="mt-8 px-6">
+  <div *ngIf="selectedEmployeeId" class="mt-8 px-6" #serviceSection>
     
     <!-- Search Bar -->
     <div class="w-full flex justify-center mb-6">     
@@ -74,7 +60,7 @@
     </div>
        
     <!-- Confirm Button -->
-    <div *ngIf="selectedServices.length > 0" class="w-full flex justify-center my-8">
+    <div *ngIf="selectedServices.length > 0" class="w-full flex justify-center my-8" #confirmButton>
       <button class="px-12 py-6 rounded-full bg-[#0056B3] text-lg font-bold text-white" 
         (click)="onSelectServices()">
         Confirm

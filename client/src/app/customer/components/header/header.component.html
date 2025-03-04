@@ -1,30 +1,30 @@
-<div class="flex flex-row items-center justify-between w-[90%] h-[70px] bg-[#F1F1F1] mt-[23px] rounded-[30px] px-6 z-10">
+<div class="flex flex-row items-center justify-between w-full h-[70px] bg-[#F6F0F0] px-6 z-10">
   
   <!-- Logo Section -->
   <div class="ml-[30px]">
-    <img src="images/Glamora.jpg" alt="Glamora Logo" class="w-14 h-14  object-contain">
+    <img src="images/Glamora.jpg" alt="Glamora Logo" class="w-14 h-full object-cover">
   </div>
 
   <!-- Navigation Links -->
-  <div class="flex justify-center items-center space-x-10">
-    <a class="text-base font-medium text-blue-600 hover:text-blue-800" routerLink="/">HOME</a>
-    <a class="text-base font-medium text-blue-600 hover:text-blue-800" routerLink="/about">ABOUT US</a>
-    <a class="text-base font-medium text-blue-600 hover:text-blue-800" routerLink="/contact">CONTACT</a>
-    <a class="text-base font-medium text-blue-600 hover:text-blue-800" routerLink="/shop">SHOP</a>
-  
+  <div class="flex justify-end items-center space-x-10">
+    <a class="text-base font-semibold text-blue-600 hover:text-blue-800" routerLink="/">HOME</a>
+    <a class="text-base font-semibold text-blue-600 hover:text-blue-800" routerLink="/about">ABOUT US</a>
+    <a class="text-base font-semibold text-blue-600 hover:text-blue-800" routerLink="/contact">CONTACT</a>
+    <a class="text-base font-semibold text-blue-600 hover:text-blue-800" routerLink="/shop">SHOP</a>
 
-  <div class="flex items-center space-x-8">
-    <button *ngIf="!authService.getLoggedIn()"
-      class="text-[15px] font-bold mx-8 px-[53px] py-[12px] text-white rounded-[40px] bg-[#6482ac] "
-      routerLink="/login">
-      Login
-    </button>
-
-    <button *ngIf="authService.getLoggedIn()"
-      class="text-[15px] font-bold mx-8 px-[53px] py-[12px] hover:bg-[#6482ad] border border-black rounded-[40px]"
-      (click)="LogOut()">
-      LogOut
-    </button>
-  </div>
+    <div class="flex items-center space-x-8">
+      <button *ngIf="!authService.getLoggedIn()"
+        class="text-[15px] font-bold mx-8 px-[53px] py-[12px] text-white rounded-[40px] bg-[#22577E] "
+        routerLink="/login">
+        Login
+      </button>
+    
+      <button *ngIf="authService.getLoggedIn()"
+        class="text-[15px] font-bold mx-8 px-[53px] py-[12px] hover:bg-[#6482ad] border border-black rounded-[40px]"
+        (click)="LogOut()">
+        LogOut
+      </button>
+    </div>
 </div>
+
 </div>

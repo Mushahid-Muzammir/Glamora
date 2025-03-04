@@ -15,7 +15,11 @@ import { Employee, Service } from '../../../data_interface';
   styleUrl: './select-service.component.css'
 })
 export class SelectServiceComponent implements OnInit {
-  @ViewChild('slider', { static:false }) slider!: ElementRef;
+  @ViewChild('employeeContainer', { static:false }) slider!: ElementRef;
+  scrollSpeed = 0.3; 
+  animationFrame: any;
+  @ViewChild('serviceSection') serviceSection !: ElementRef
+  @ViewChild('confirmButton') confirmButton !: ElementRef
 
   searchText : string = '';
   filteredServices : Service[] = [];
@@ -43,9 +47,18 @@ export class SelectServiceComponent implements OnInit {
       });  
   }
 
+  onScroll(event: WheelEvent) {
+    event.preventDefault(); 
+    const container = event.currentTarget as HTMLElement;
+    container.scrollLeft += event.deltaY; 
+  }
+
   selectEmployee(employeeId : number){
     this.selectedEmployeeId = employeeId;
     console.log("Selected Employee:", this.selectedEmployeeId);
+    setTimeout(() => {
+      this.serviceSection?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
     this.clientService.getEmployeeServices(employeeId).subscribe(
       (res : any) =>{
         this.services = res.services;
@@ -57,6 +70,9 @@ export class SelectServiceComponent implements OnInit {
   toggleService(service_id:number, event:any){
     if(event.checked){
       this.selectedServices.push(service_id);
+      setTimeout(() => {
+        this.confirmButton?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
     }else{
       this.selectedServices = this.selectedServices.filter(id => id !== service_id);
     }
@@ -70,18 +86,6 @@ export class SelectServiceComponent implements OnInit {
         employee_id : this.selectedEmployeeId 
       }
     });
-  }
-
-  scrollLeft() {
-    if (this.slider) {
-      this.slider.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  }
-
-  scrollRight() {
-    if (this.slider) {
-      this.slider.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
-    }
   }
 
   filterServices() {
