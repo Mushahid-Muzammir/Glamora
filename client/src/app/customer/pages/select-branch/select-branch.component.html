@@ -1,38 +1,36 @@
 <div>
-  <div class="w-full h-auto py-8">      
+  <div class="w-full h-auto">      
 <app-header></app-header>    
-    <div class="w-full h-[100px] py-9 bg-[#6482ad]/30 mt-12">
-      <p class="text-[30px] text-center font-bold text-black">
-        Choose a Location
-      </p>
-    </div>
-
-    <!-- Flex container for cards -->
-    <div class="flex flex-wrap justify-center gap-8 mt-12">
-      <div *ngFor="let branch of branches" class="flex flex-col w-[340px] h-auto rounded-3xl bg-white border border-black/[0.24]">
-        <img src={{branch.image_url}} class="self-stretch h-[342px] object-cover" />
-        
-        <div class="flex flex-col w-full items-center px-2 my-1">
-          <p class="w-full h-auto text-[20px] font-semibold text-center text-[black]">
-            {{branch.branch_name}}
-          </p>
-          <p class="w-full h-auto text-[14px] text-center text-[#333333]">
-            {{branch.address}}
-          </p>
-          <p class="w-full h-auto text-[13px] text-center font-bold text-[#333333]">
-            Work Hours: {{ branch.open_time | slice:0:5 }} - {{ branch.close_time | slice:0:5 }}
-          </p>
-        </div>
-        
-        <div class="w-full flex justify-center my-2">
-          <button class="w-[249px] h-[40px] rounded-[10px] bg-[#0056B3] text-[10] font-semibold text-white"
-            (click)="onSelectBranch(branch)">                
-            Select           
-          </button>
-        </div>         
-      </div>                  
-    </div>          
+  <div class="w-full py-6">
+    <p class="text-4xl text-center font-bold text-[#176B87]">
+    Choose a location  
+    </p>
   </div>
 
-  <!-- <app-footer></app-footer> -->
+  <div class="flex flex-wrap justify-center gap-8 mt-4">
+    <div *ngFor="let branch of branches" 
+        class="w-[400px] h-auto rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200">
+      
+      <img [src]="branch.image_url" alt="{{ branch.branch_name }}" 
+        class="w-full h-48 object-cover">
+      
+      <div class="p-4 text-center">
+        <p class="text-xl font-semibold text-gray-900">{{ branch.branch_name }}</p>
+        <p class="text-sm text-gray-600">{{ branch.address }}</p>
+        <p class="text-sm font-medium text-gray-700 mt-1">
+          🕒 {{ branch.open_time | slice:0:5 }} - {{ branch.close_time | slice:0:5 }}
+        </p>
+      </div>
+      
+      <div class="w-full flex justify-center pb-4">
+        <button 
+          class ="w-[80%] py-2 rounded-lg bg-blue-600 text-white text-lg font-semibold transition-all duration-300 hover:bg-blue-700 "
+          (click)="onSelectBranch(branch)">                
+          Select Branch
+        </button>
+      </div>         
+    </div>                  
+  </div>            
+  </div>
+
 </div>

@@ -35,6 +35,12 @@
     animation-range: entry 0% cover 60%;
   }
 
+  #hero2{
+    animation: slidefromRight   6s ease ;
+    animation-timeline: view();
+    animation-range: entry 0% cover 60%;
+  }
+
   #heroImage{
     animation: slidefromRight 1s ease;
   }

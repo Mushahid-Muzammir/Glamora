@@ -1,6 +1,6 @@
-
 <div class="max-w-full h-[auto] relative">
     <app-header></app-header>
+
     <div class="w-full h-screen flex flex-row bg-[#F5F5F5]">
       <div id="bookNow" class="w-full h-screen flex items-center justify-center">
         <div class="w-full flex flex-col space-y-3 ml-12">
@@ -8,7 +8,7 @@
           <p class="text-7xl font-semibold text-[#176B87]">So Is Your Look</p>
           <p class="text-2xl font-semibold text-[#176B87]">We Got You Covered With Everything</p>
           <button 
-          (click)="startService()"
+          (click)="startService('regular')"
           class="text-[20px] font-bold bg-[#22577E] text-white py-3 px-8 hover:bg-[#546c90] rounded-[40px]">
           Book Now
           </button>
@@ -20,7 +20,7 @@
       </div>     
     </div>
     
-    <div  class="w-full h-auto bg-white my-8">
+    <div  class="w-full h-auto bg-white my-12">
       <div class="w-full h-[120px] py-9">
         <p class="text-5xl text-center font-bold text-[#176B87]">
           Redefining Confidence Through Beauty Expertise
@@ -58,8 +58,35 @@
           </p>        
         </div>        
     </div>
+    </div>
 
-  <div class="pb-12 bg-[#F6F0F0]"> 
+    <div class="w-full bg-gradient-to-r from-[#F8F9FA] to-[#E3F2FD] py-12 px-12 my-12 rounded-lg">
+      <div class=" mx-auto flex flex-col lg:flex-row items-center gap-12">
+      
+        <div class="w-full lg:w-1/2 flex flex-col space-y-6 text-center lg:text-left">
+          <h1 class="text-5xl font-extrabold text-[#176B87] leading-tight">
+            Make Your Special Day Unforgettable 
+          </h1>
+          <p class="text-lg text-[#565656] mt-4">
+            From stunning bridal makeovers to glamorous party styling, our expert stylists create your perfect look.
+            Let us make your wedding, engagement, or special event truly magical!
+          </p>
+          <div class="mt-12">
+            <button (click)="startService('special')" class="bg-[#176B87] text-white px-12 py-5 rounded-lg text-lg font-semibold ">
+              Book Now
+            </button>
+          </div>
+        </div>
+    
+        <div class="w-full lg:w-1/2">
+          <img src="images/hero2.png" alt="Bridal Beauty" class="w-full h-auto object-cover">
+        </div>
+    
+      </div>
+    </div>
+    
+
+  <div class="pb-12 bg-white"> 
     <div class="w-full py-12">
       <p class="text-4xl text-center font-bold text-[#176B87]">
       What We Provide our Clients
@@ -70,7 +97,7 @@
       <div id="services" class="flex flex-row gap-8 w-max transition-transform duration-300">
         <div *ngFor="let service of services" 
         class="flex flex-col w-[400px] h-auto rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden">
-          <div class="w-full h-[300px]">
+          <div class="w-full h-[250px]">
             <img [src]="service.image_url" class="w-full h-full object-cover" />
           </div>
           <div class="p-6 flex flex-col">
@@ -83,29 +110,29 @@
       </div>
     </div>
   </div>
-    
-    
-    <div class="w-full h-auto relative bg-white mt-24">
+        
+    <div class="w-full h-auto relative bg-[#F6F0F0] mt-24 py-6">
       <div class="flex flex-col gap-3">
         <p class="text-3xl text-center font-semibold text-black">
-          Our Finest Selection of 
         </p>
         <p class="text-5xl text-center font-bold text-[#176B87]">
-          Beauty Products
+          Our Finest Selection of 
+           Beauty Products
         </p>
       </div>
       <p class="w-[100%] text-2xl mt-8 font-semibold text-center text-black">
         Some of our best sellers for you
       </p>
 
-      <div id="products" class="flex flex-row justify-center gap-8 mt-6 "> 
+      <div id="products" class="flex flex-row justify-center gap-8 mt-6 ">
+
         <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
           <img src="images/product1.jpg"
             class="self-stretch  h-[342px] object-cover"/>
           <p class=" w-full h-auto text-[18px] font-semibold text-center text-black">
             Beard Oil
           </p>
-          <p class=" w-full h-auto text-[15px] text-center  text-black">
+          <p class=" w-full h-auto text-[15px] text-center text-black">
             LKR 980.00
           </p>         
         </div>
@@ -139,151 +166,24 @@
           SHOP NOW
         </button>
       </div>
-    </div>
-  
-    <div id="heroImage" class="w-3/5 h-screen flex items-start flex-shrink-0 p-0 m-0">
-      <img src="images/hero.png" class="object-cover w-full h-auto" />
-    </div>     
-  </div>
-  
-  <div  class="w-full h-auto bg-white my-8">
-    <div class="w-full h-[120px] py-9">
-      <p class="text-5xl text-center font-bold text-[#176B87]">
-        Redefining Confidence Through Beauty Expertise
-      </p>
-    </div>
-    
-    <div id="hero" class="flex flex-row justify-center gap-12 my-12 ">
-      <div class="w-1/3">
-        <div class="flex flex-row">
-          <div class="flex flex-col">
-          <img src="images/advert1.png" class="w-[211px] h-auto"/>
-          <img src="images/advert5.jpg" class="w-[211px] h-auto"/>
-          </div>
-          <div class="flex flex-col">
-            <img src="images/advert2.png" class="w-[180px]"/>    
-            <img src="images/advert3.png" class="w-[240px] h-auto"/>
-          </div>
-          <div class="flex flex-col">
-            <img src="images/advert7.jpg" class="w-[240px] h-auto"/>
-            <img src="images/advert6.jpg" class="w-[211px] h-auto"/>
-          </div>
-        </div>   
-      </div>
-      
-      <div class=" w-1/2 flex flex-col justify-start space-y-12">
-        <p class="text-4xl font-bold text-black">
-            Exclusive Services 
-          <br />
-            We Provide
+    </div>  
+
+    <div class="mt-12">
+      <div class="w-full py-12">
+        <p class="text-5xl text-center font-bold text-[#176B87]">
+          What Our Clients Say About Us      
         </p>
-        <p class=" w-[80%] text-xl text-[#565656] mt-4">
-          Indulge in expert hair services, beard styling, rejuvenating facials, and relaxing body massages tailored for both men and women. 
-          Whether you're looking for a fresh haircut, a bold new color or the perfect party-ready look, 
-          our skilled professionals ensure you step out feeling confident, refreshed, and radiant. Elevate your grooming routine with us.
-        </p>        
-      </div>        
-  </div>
+      </div>
 
-<div class="pb-12 bg-[#F6F0F0]"> 
-  <div class="w-full py-12">
-    <p class="text-4xl text-center font-bold text-[#176B87]">
-    What We Provide our Clients
-    </p>
-  </div>
-
-  <div  #scrollContainer class="w-full overflow-x-auto whitespace-nowrap scroll-smooth p-8" (wheel)="onScroll($event)">
-    <div id="services" class="flex flex-row gap-8 w-max transition-transform duration-300">
-      <div *ngFor="let service of services" 
-      class="flex flex-col w-[400px] h-auto rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden">
-        <div class="w-full h-[300px]">
-          <img [src]="service.image_url" class="w-full h-full object-cover" />
-        </div>
-        <div class="p-6 flex flex-col">
-          <p class="text-[18px] font-semibold text-gray-900">{{ service.service_name }}</p>
-          <p class="text-[16px] text-gray-700 whitespace-normal break-words">
-            {{ service.description }}
+      <div class="max-w-screen-xl mx-auto flex flex-col items-center justify-center">
+        <img src="images/product1.jpg" class="w-[200px] h-[200px] object-cover rounded-[50%]"/>
+        <div class="w-full max-w-2xl h-[350px] flex items-center justify-center rounded-[50%] bg-[#6482ad]/30 px-12">
+          <p class="text-[22px] text-center text-black leading-relaxed">
+            "I had an amazing experience at this salon! The staff was professional, and the service was
+            exceptional. My hair looks fantastic, and I couldn't be happier with the results."
           </p>
-        </div>          
-      </div>
-    </div>
-  </div>
-</div>
-  
-  
-  <div class="w-full h-auto relative bg-white mt-24">
-    <div class="flex flex-col gap-3">
-      <p class="text-3xl text-center font-semibold text-black">
-        Our Finest Selection of 
-      </p>
-      <p class="text-5xl text-center font-bold text-[#176B87]">
-        Beauty Products
-      </p>
-    </div>
-    <p class="w-[100%] text-2xl mt-8 font-semibold text-center text-black">
-      Some of our best sellers for you
-    </p>
-
-    <div id="products" class="flex flex-row justify-center gap-8 mt-6 "> 
-      <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
-        <img src="images/product1.jpg"
-          class="self-stretch  h-[342px] object-cover"/>
-        <p class=" w-full h-auto text-[18px] font-semibold text-center text-black">
-          Beard Oil
-        </p>
-        <p class=" w-full h-auto text-[15px] text-center  text-black">
-          LKR 980.00
-        </p>         
-      </div>
-      
-      <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
-        <img src="images/product2.jpg"
-          class="self-stretch  h-[342px] object-cover"/>
-        <p class=" w-full h-auto text-[18px] font-semibold text-center text-black">
-          Volumizing Tonic
-        </p>
-        <p class=" w-full h-auto text-[15px] text-center  text-black">
-          LKR 650.00
-        </p>         
-      </div>
-
-      <div class="flex flex-col w-[340px] h-auto items-center overflow-hidden rounded-3xl bg-white border border-black/[0.24]">
-        <img src="images/product3.jpg"
-          class="self-stretch h-[342px] object-cover"/>
-        <p class=" w-full h-auto text-[18px] font-semibold text-center text-black">
-          Hair Gel          
-        </p>
-        <p class=" w-full h-auto text-[15px] text-center  text-black">
-          LKR 500.00
-        </p>         
-      </div>
-    </div>
-
-    <div class="w-full flex justify-center mt-12">
-      <button class="px-[55px] py-[20px] rounded-[30px] bg-[#22577E] text-[15px] font-bold text-white"
-      routerLink="/products">
-        SHOP NOW
-      </button>
-    </div>
-  </div>
-  
-    <!-- Section Title -->
-  <div class="mt-12">
-    <div class="w-full py-12">
-      <p class="text-5xl text-center font-bold text-[#176B87]">
-        What Our Clients Say About Us      
-      </p>
-    </div>
-
-    <div class="max-w-screen-xl mx-auto flex flex-col items-center justify-center">
-      <img src="images/product1.jpg" class="w-[200px] h-[200px] object-cover rounded-[50%]"/>
-      <div class="w-full max-w-2xl h-[350px] flex items-center justify-center rounded-[50%] bg-[#6482ad]/30 px-12">
-        <p class="text-[22px] text-center text-black leading-relaxed">
-          "I had an amazing experience at this salon! The staff was professional, and the service was
-          exceptional. My hair looks fantastic, and I couldn't be happier with the results."
-        </p>
+        </div> 
       </div> 
-    </div> 
-  </div>
+    </div>
   <app-footer></app-footer>   
 </div>

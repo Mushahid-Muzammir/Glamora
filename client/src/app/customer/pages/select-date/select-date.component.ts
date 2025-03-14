@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { HeaderComponent } from '../../components/header/header.component';
+import { HeaderComponent } from '../../components/header/header.component';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ClientService } from '../../../services/client.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-select-date',
@@ -15,16 +17,21 @@ import { ClientService } from '../../../services/client.service';
 })
 export class SelectDateComponent implements OnInit {
   selectedServices: number[] = [];
+  serviceDetails : any[] = [];
   selectedDate: string = '';
   selectedBranch!: number;
-  selectedEmployee!: number;
+  selectedEmployee !: any;
+  totalPrice !: number;
   branchName: string = '';
+  branch !: any;
+  branch_id !: number;
   userId!: number;
   customerId!: number;
   totalDuration: number = 0;
   availableSlots: any[] = [];
   selectedSlot: any = null;
   today: string = new Date().toISOString().split('T')[0]; 
+  showPopup  : boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,8 +44,6 @@ export class SelectDateComponent implements OnInit {
     this.extractQueryParams();
     this.fetchUserData();
     this.userId = this.authService.getUserId();
-    console.log('User ID:', this.userId);
-
     this.clientService.getCustomerById(this.userId).subscribe(
       (res : any) => {
         this.customerId = res.customer.customer_id;
@@ -46,6 +51,11 @@ export class SelectDateComponent implements OnInit {
       },
       error => console.error('Error fetching customer:', error)
     );
+    this.clientService.getEmployeeById(this.selectedEmployee).subscribe(
+      (res : any) => {
+        this.selectedEmployee = res.employee;
+        console.log("Employee Details", this.selectedEmployee)
+      });
   }
 
   private extractQueryParams(): void {
@@ -53,22 +63,26 @@ export class SelectDateComponent implements OnInit {
       this.selectedBranch = Number(params['branch_id']);
       this.selectedEmployee = Number(params['employee_id']);
       this.selectedServices = params['services'] ? params['services'].split(',').map(Number) : [];
+      this.totalPrice = Number(params['total_price']);
 
       if (this.selectedServices.length > 0) {
         this.fetchServicesDuration();
+        const serviceIds = this.selectedServices.join(',');
+        this.clientService.getServiceDetails(serviceIds).subscribe(
+          res => {
+            this.serviceDetails = res.services;
+          },
+            error => console.error('Error fetching service durations:', error)
+          );
       }
-
-      console.log('Selected Services:', this.selectedServices);
-      console.log('Selected Branch ID:', this.selectedBranch);
     });
   }
 
   private fetchUserData(): void {
-
     this.clientService.getBranchbyId(this.selectedBranch).subscribe(
       res => {
-        this.branchName = res.branch?.[0]?.branch_name || 'Unknown Branch';
-        console.log('Branch Name:', this.branchName);
+        this.branch = res.branch[0] || 'Unknown Branch';
+        console.log('Branch :', this.branch);
       },
       error => console.error('Error fetching branch:', error)
     );
@@ -77,8 +91,10 @@ export class SelectDateComponent implements OnInit {
   private fetchServicesDuration(): void {
     const serviceIds = this.selectedServices.join(',');
     console.log('Service IDs:', serviceIds);
-    this.clientService.getDuration(serviceIds).subscribe(
-      res => this.calculateTotalDuration(res.services),
+    this.clientService.getServiceDetails(serviceIds).subscribe(
+      res => {
+        this.calculateTotalDuration(res.services);
+      },
       error => console.error('Error fetching service durations:', error)
     );
   }
@@ -93,8 +109,6 @@ export class SelectDateComponent implements OnInit {
       alert('Please select a date.');
       return;
     }
-
-    console.log('Selected Date is:', this.selectedDate);
 
     this.clientService.getAvailableSlots(this.selectedBranch, this.selectedDate, this.totalDuration).subscribe(
       res => {
@@ -118,7 +132,7 @@ export class SelectDateComponent implements OnInit {
     const bookingData = {
       branch_id: this.selectedBranch,
       customer_id: this.customerId,
-      employee_id: this.selectedEmployee,
+      employee_id: this.selectedEmployee.employee_id,
       date: this.selectedDate,
       start_time: this.selectedSlot.start_time,
       end_time: this.selectedSlot.end_time
@@ -128,10 +142,19 @@ export class SelectDateComponent implements OnInit {
 
     this.clientService.confirmBooking(bookingData).subscribe(
       () => {
-        alert('Booking confirmed successfully!');
+        Swal.fire('Appointment Confirmed!', 'Please check your email for details', 'success');
+        this.showPopup = false;
         this.router.navigate(['/home']);
       },
       error => console.error('Error confirming booking:', error)
     );
+  }
+
+  closePopup(){
+    this.showPopup = false;
+  }
+
+  openPopup(){
+    this.showPopup = true;
   }
 }

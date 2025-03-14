@@ -59,10 +59,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
     container.scrollLeft += event.deltaY; 
   }
   
-
-  startService() {
+  startService(serviceType : string) {
     if (this.authService.getLoggedIn()) {
-      this.router.navigate(['/branch']);
+      this.router.navigate(['/branch'], {queryParams : {serviceType : serviceType}});
     } else {
       this.router.navigate(['/login']);
     }

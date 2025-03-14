@@ -45,6 +45,7 @@ import { LeaveRequestComponent } from './staff/pages/leave-request/leave-request
 import { ViewRequestComponent } from './manager/pages/view-request/view-request.component';
 import { RequestsComponent } from './admin/pages/requests/requests.component';
 import { VerifyEmailComponent } from './customer/pages/verify-email/verify-email.component';
+import { SelectOccasionComponent } from './customer/pages/select-occasion/select-occasion.component';
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -57,7 +58,6 @@ export const routes: Routes = [
 { path: 'contact', component :ContactComponent},
 { path: 'date', component :SelectDateComponent},
 { path: 'products', component :ProductsComponent},
-{ path: "", component: LoginComponent },
 { path: "admin", component: AuthorityLoginComponent },
 { path : "adminHome", component: AdminHomeComponent },
 { path : "managerHome", component: ManagerHomeComponent },
@@ -93,6 +93,7 @@ export const routes: Routes = [
 { path : "leaveRequest", component: LeaveRequestComponent },
 { path : "requests", component: RequestsComponent },
 { path : "viewRequest", component: ViewRequestComponent },
-{ path : "verifyEmail", component: VerifyEmailComponent}
+{ path : "verifyEmail", component: VerifyEmailComponent},
+{ path : "occasions/:branch_id", component: SelectOccasionComponent}
 
 ];

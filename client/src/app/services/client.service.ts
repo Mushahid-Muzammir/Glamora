@@ -15,8 +15,13 @@ export class ClientService {
     return this.http.get<Branch[]>(`${this.clientUrl}/getBranches`);
   }
 
-  getEmployees(branch_id : number): Observable<Employee[]> {
-    return this.http.get<Employee[]>(`${this.clientUrl}/getEmployees/${branch_id}`);
+  getEmployees(branch_id : number, gender : string): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${this.clientUrl}/getEmployees/`, {
+      params:{
+        branch_id : branch_id,
+        gender : gender
+      }
+    });
   }
 
   getServices(): Observable<Service[]> {
@@ -35,8 +40,8 @@ export class ClientService {
     return this.http.get<any>(`${this.clientUrl}/getBranchById/${branch_id}`);
   }
 
-  getDuration(serviceIds: string): Observable<any> {
-    return this.http.get<any>(`${this.clientUrl}/getDuration`, { 
+  getServiceDetails(serviceIds: string): Observable<any> {
+    return this.http.get<any>(`${this.clientUrl}/getServiceDetails`, { 
         params: { services: serviceIds }
     });
 }
@@ -60,5 +65,15 @@ export class ClientService {
   getEmployeeServices(employee_id: number) {
     return this.http.get(`${this.clientUrl}/getEmployeeServices/${employee_id}`);
   }
+
+  getEmployeeById(employee_id : number){
+    return this.http.get(`${this.clientUrl}/getEmployeeById/${employee_id}`);
+  }
+
+  getSpecialServices(){
+    return this.http.get(`${this.clientUrl}/getSpecialServices`)
+  }
   
 }
+
+

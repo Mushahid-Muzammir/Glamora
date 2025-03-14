@@ -57,7 +57,7 @@ export class EditEmployeeComponent implements OnInit {
         name: res.employee.name,
         contact: res.employee.contact,
         email: res.employee.email,
-        branch: res.employee.branch_id, // Fix: Ensure we're setting branch_id
+        branch: res.employee.branch_id,
         salary: res.employee.salary
       });
 

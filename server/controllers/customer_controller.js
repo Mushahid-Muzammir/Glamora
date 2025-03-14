@@ -79,18 +79,13 @@ export const getBranchById = async (req, res) => {
         if (!branch_id) {
             return res.status(400).send("branch_id is required");
         }
-
-        // Run query to fetch customer data
-        const result = await db.query("SELECT * FROM branches WHERE branch_id = ?", [branch_id]);
-        
-        console.log("Database result:", result);
-        
+        const result = await db.execute("SELECT * FROM branches WHERE branch_id = ?", [branch_id]);       
+        console.log("Database result:", result);       
         const branch = result[0]; 
         if (!branch) {
             return res.status(404).send(`No User Found with user_id: ${user_id}`);
         }
-
-        res.status(200).json({ branch });
+        res.status(200).json({ branch : branch });
     } catch (error) {
         console.error("Database Error:", error);
         res.status(500).send("Internal Server Error");
@@ -99,10 +94,11 @@ export const getBranchById = async (req, res) => {
 
 export const getEmployeesbyBranch = async (req, res) => {
     try {
-        const branch_id = Number(req.params.branch_id);  
+        const branch_id = Number(req.query.branch_id); 
+        const gender = req.query.gender; 
         const query =
-        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.image_url, e.salary, e.title, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ?";
-      const [results] = await db.execute(query, [branch_id]);
+        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.image_url, e.title, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ? AND e.service_gender = ?";
+      const [results] = await db.execute(query, [branch_id, gender]);
       if (results.length === 0) {
         return res.status(404).send("No Employees Found");
       }
@@ -117,12 +113,14 @@ export const getEmployeesbyBranch = async (req, res) => {
 
 export const getEmployeeById = async (req, res) => {
     try {
-        const user_id = req.params.user_id;
-        const [result] = await db.query(
-            "SELECT u.user_id, u.name, u.email, u.contact, e.employee_id, e.salary, b.branch_id, b.branch_name " +
-            "FROM users u JOIN employees e ON u.user_id = e.user_id " +
-            "JOIN branches b ON e.branch_id = b.branch_id WHERE u.user_id = ?",
-            [user_id]
+        const employee_id = parseInt(req.params.employee_id, 10);
+        if (isNaN(employee_id)) {
+            return res.status(400).send("Invalid Employee ID");
+        }        const [result] = await db.execute(
+            "SELECT u.name, u.contact, e.employee_id " +
+            "FROM employees e JOIN users u ON u.user_id = e.user_id " +
+            "WHERE e.employee_id = ?",
+            [employee_id]
         );
         if (result.length === 0) return res.status(404).send("Employee Not Found");
         res.status(200).json({ employee: result[0] });
@@ -161,15 +159,18 @@ export const getAvailableSlots = async (req, res) => {
     }
 };
 
-export const getServiceDuration = async (req, res) => {
+export const getServiceDetails = async (req, res) => {
     try {
         const services = req.query.services;
         if (!services) return res.status(400).json({ message: "Services parameter is required" });
 
         const serviceIds = services.split(',').map(id => parseInt(id));
-        if (serviceIds.some(isNaN) || serviceIds.length === 0) return res.status(400).json({ message: "Invalid service IDs provided" });
+        if (serviceIds.some(isNaN) || serviceIds.length === 0) {
+            return res.status(400).json({ message: "Invalid service IDs provided" });
+        }
 
-        const [rows] = await db.query("SELECT service_id, duration FROM services WHERE service_id IN (?)", [serviceIds]);
+        const placeholders = serviceIds.map(() => '?').join(',');
+        const [rows] = await db.execute(`SELECT service_id, service_name, price, duration FROM services WHERE service_id IN (${placeholders})`, serviceIds);
         res.status(200).json({ services: rows });
     } catch (error) {
         console.error("Database Error:", error);
@@ -213,11 +214,11 @@ function addMinutes(time, minutes) {
   
 export const confirmBooking = async (req, res) => {
     try {
-      const { branch_id, employee_id, date, start_time, end_time, customer_id } = req.body;
+      const { branch_id , customer_id, employee_id, date, start_time, end_time } = req.body;
   
       const [appointmentResult] = await db.execute(
-        `INSERT INTO appointments (branch_id, employee_id, date, start_time, end_time, customer_id) VALUES (?, ?, ?, ?, ?, ?)`,
-        [branch_id, employee_id, date, start_time, end_time, customer_id]
+        `INSERT INTO appointments (branch_id, customer_id, employee_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)`,
+        [branch_id, customer_id, employee_id, date, start_time, end_time]
       );
 
       const branchQuery = `SELECT b.address FROM branches b WHERE b.branch_id = ?`;
@@ -278,12 +279,12 @@ export const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "mushahidmuzammir11339@gmail.com",
-      pass: "cqyo axfx fpwj vezf"  
+      pass: "mqvm wspb xytk tovs"  
     },
     tls: {
       rejectUnauthorized: false  
     }
-  });
+});
 
 export const makeSales = async (req, res) => {
     try {
@@ -336,5 +337,19 @@ export const getEmployeeServices = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 }
+
+export const getSpecialServices = async (req, res) => {
+    try {
+        const [services] = await db.execute("SELECT * FROM special_services");
+        if (services.length === 0) return res.status(404).send("No Services Found");
+        res.status(200).json({ services });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+
+
 
 

@@ -1,0 +1,81 @@
+<div class="w-full h-auto min-h-screen">
+    <app-header></app-header>
+    <div class="flex flex-col md:flex-row">
+        <div class="flex-1 px-6">
+          <div class="w-full mt-6">
+            <p class="text-3xl text-start font-bold text-[#176B87] animate-fade-in">
+              Select Your Preferred Services
+            </p>
+          </div>   
+          <div class="w-full px-6">              
+              <div #serviceSection class="gap-6 p-6">
+                    <mat-tab-group>
+                        <mat-tab *ngFor="let category of ['wedding', 'party', 'cultural', 'other']" [label]="category | titlecase">
+                      <div *ngIf="categorizedServices[category]?.length; else noServices">
+                        <div *ngFor="let service of categorizedServices[category]" class="p-4 border border-gray-200 rounded-lg shadow-md">
+                          <h2 class="text-lg font-bold text-[#176B87]">{{ service.service_name }}</h2>
+                          <p class="text-gray-700">{{ service.description }}</p>
+                          <p class="text-green-600 font-semibold">LKR {{ service.price }}</p>
+                          <p class="text-sm text-gray-500">Duration: {{ service.duration }} mins</p>
+                        </div>
+                      </div>
+                      <ng-template #noServices>
+                        <p class="text-gray-500 italic">No services available in this category.</p>
+                      </ng-template>
+                    </mat-tab>
+                    </mat-tab-group>
+                    
+              </div>
+              <div #employeeContainer class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
+                <div *ngFor="let employee of employees" class="p-4">
+                  <a
+                    class="flex flex-col items-center shadow-lg rounded-lg overflow-hidden hover:shadow-xl p-4 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                    [ngClass]="{}">
+                    <img [src]="employee.image_url" alt="Employee"
+                      class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
+                    <div class="text-center mt-3">
+                      <h5 class="text-lg font-semibold text-gray-800">{{ employee.name }}</h5>
+                      <h6 class="text-sm text-gray-600">{{ employee.title }}</h6>
+                    </div>
+                  </a>
+                </div>
+              </div>   
+              <div class="w-full flex justify-center my-8" #confirmButton>
+                <button class="px-12 py-4 rounded-full bg-blue-600 hover:bg-blue-700 transition-all text-lg font-bold text-white shadow-md">
+                  Confirm Selection
+                </button>
+              </div>
+          </div>
+        </div>  
+        <div class="w-full md:w-1/3 p-6">
+            <div #summaryCard class="w-full bg-white shadow-lg rounded-lg p-6 border border-gray-200 sticky top-6 max-h-[80vh] overflow-hidden">
+                <div class="flex flex-row items-center gap-4">
+                    <img [src]="branch.image_url" class="w-20 h-20 rounded-lg object-cover">
+                    <div>
+                    <p class="text-lg font-semibold text-black">{{branch.branch_name}}</p>
+                    <p class="text-sm text-gray-600">{{branch.address}}</p>
+                    <p class="text-sm text-gray-600">📞 +94 {{branch.contact}}</p>
+                    </div>
+                </div>
+                <hr class="mt-4">
+                <div class="p-4">
+                    <div class="flex justify-between">
+                        <p  class="font-semibold text-gray-600">👤 Stylist</p>
+                        <p  class="font-semibold text-black">selectedEmployee.name</p>
+                    </div>
+                    <hr class="my-3">
+                    <div class="flex justify-between">
+                        <p>service.service_nam</p>
+                        <p>💵 LKR service.price</p>
+                    </div>
+                    <hr class="my-3">
+                    <div class="flex justify-between text-lg font-semibold">
+                        <p>Total</p>
+                        <p>💰 LKR totalPrice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
