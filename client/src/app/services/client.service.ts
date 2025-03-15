@@ -73,6 +73,18 @@ export class ClientService {
   getSpecialServices(){
     return this.http.get(`${this.clientUrl}/getSpecialServices`)
   }
+
+  getSpecialServiceDetails(serviceIds: string): Observable<any> {
+    return this.http.get<any>(`${this.clientUrl}/getSpecialServiceDetails`, { 
+        params: { services: serviceIds }
+    });
+  }
+
+  getServiceEmployees(serviceIds: string): Observable<any> {
+    return this.http.get<any>(`${this.clientUrl}/getServiceEmployees`, { 
+        params: { services: serviceIds }
+    });
+  }
   
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCheckboxModule} from '@angular/material/checkbox'
 import { CommonModule} from '@angular/common';
@@ -16,11 +16,20 @@ import { MatTabsModule } from '@angular/material/tabs'
   styleUrl: './select-occasion.component.css'
 })
 export class SelectOccasionComponent implements OnInit {
+    @ViewChild('confirmButton') confirmButton !: ElementRef
+  
+
   branch_id !: number;
   branch !: any;
   employees : Employee[] = [];
   services !: any;
   categorizedServices : { [key : string]: any[] } = {};
+  selectedServices: number[] = [];
+  totalPrice : number = 0;
+  serviceDetails : any[] = [];
+  serviceEmployees !: any ;
+  selectedEmployeeId !: number;
+
 
   constructor(
     private clientService : ClientService,
@@ -49,9 +58,57 @@ export class SelectOccasionComponent implements OnInit {
         acc[category] = [];
       }
       acc[category].push(service);
-      console.log("AAc", acc)
       return acc;
     }, {});
   }
+
+  toggleService(service_id:number, event:any){
+    if(event.checked){
+      this.selectedServices.push(service_id);
+      this.fetchServicesDetails();
+      setTimeout(() => {
+        this.confirmButton?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }else{
+      this.selectedServices = this.selectedServices.filter(id => id !== service_id);
+    }
+    this.fetchEmployees();
+  }
+
+  private fetchServicesDetails(): void {
+    const serviceIds = this.selectedServices.join(',');
+    console.log('Service IDs:', serviceIds);
+    this.clientService.getServiceDetails(serviceIds).subscribe(
+      res => {
+        this.serviceDetails = res.services;
+        this.calculateTotalPrice(res.services);
+      },
+      error => console.error('Error fetching service durations:', error)
+    );
+  }
+
+  private calculateTotalPrice(services: { service_id: number; price: number }[]): void {
+    this.totalPrice = services.reduce((sum, service) => sum + service.price, 0);
+    console.log('Total Price:', this.totalPrice);
+  }
+
+  private fetchEmployees(): void {
+    const serviceIds = this.selectedServices.join(',');
+    console.log('Service IDs:', serviceIds);
+    this.clientService.getServiceEmployees(serviceIds).subscribe(
+      res => {
+        this.serviceEmployees = res.employees
+        console.log(res.employees);
+      },
+      error => console.error('Error fetching service durations:', error)
+    );
+  }
+
+  selectEmployee(employeeId : number){
+    this.selectedEmployeeId = employeeId;
+    console.log("Selected Employee:", this.selectedEmployeeId); 
+  }
+
+
   
 }

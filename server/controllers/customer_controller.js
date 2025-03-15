@@ -349,6 +349,57 @@ export const getSpecialServices = async (req, res) => {
     }
 }
 
+export const getSpecialServiceDetails = async (req, res) => {
+    try {
+        const services = req.query.services;
+        if (!services) return res.status(400).json({ message: "Services parameter is required" });
+
+        const serviceIds = services.split(',').map(id => parseInt(id));
+        if (serviceIds.some(isNaN) || serviceIds.length === 0) {
+            return res.status(400).json({ message: "Invalid service IDs provided" });
+        }
+
+        const placeholders = serviceIds.map(() => '?').join(',');
+        const [rows] = await db.execute(`SELECT service_id, service_name, price, duration FROM special_services WHERE service_id IN (${placeholders})`, serviceIds);
+        res.status(200).json({ services: rows });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+export const getServiceEmployees = async (req, res) => {
+    try {
+        const services = req.query.services;
+        if (!services) return res.status(400).json({ message: "Services parameter is required" });
+
+        const serviceIds = services.split(',').map(id => parseInt(id));
+        if (serviceIds.some(isNaN) || serviceIds.length === 0) {
+            return res.status(400).json({ message: "Invalid service IDs provided" });
+        }
+
+        const placeholders = serviceIds.map(() => '?').join(',');
+
+        const query = `
+            SELECT u.user_id, u.name, e.title, e.image_url, e.employee_id 
+            FROM users u 
+            JOIN employees e ON u.user_id = e.user_id 
+            JOIN employee_service es ON e.employee_id = es.employee_id 
+            WHERE es.service_id IN (${placeholders}) 
+            GROUP BY u.user_id 
+            HAVING COUNT(DISTINCT es.service_id) = ?
+        `;
+
+        const [rows] = await db.execute(query, [...serviceIds, serviceIds.length]);
+
+        res.status(200).json({ employees: rows });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+
 
 
 

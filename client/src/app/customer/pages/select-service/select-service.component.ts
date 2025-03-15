@@ -102,6 +102,7 @@ export class SelectServiceComponent implements OnInit {
       error => console.error('Error fetching service durations:', error)
     );
   }
+  
   private calculateTotalPrice(services: { service_id: number; price: number }[]): void {
     this.totalPrice = services.reduce((sum, service) => sum + service.price, 0);
     console.log('Total Price:', this.totalPrice);
