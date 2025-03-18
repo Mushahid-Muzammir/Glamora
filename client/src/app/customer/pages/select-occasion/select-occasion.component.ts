@@ -28,6 +28,7 @@ export class SelectOccasionComponent implements OnInit {
   totalPrice : number = 0;
   serviceDetails : any[] = [];
   serviceEmployees !: any ;
+  selectedEmployee !: any;
   selectedEmployeeId !: number;
 
 
@@ -78,7 +79,7 @@ export class SelectOccasionComponent implements OnInit {
   private fetchServicesDetails(): void {
     const serviceIds = this.selectedServices.join(',');
     console.log('Service IDs:', serviceIds);
-    this.clientService.getServiceDetails(serviceIds).subscribe(
+    this.clientService.getSpecialServiceDetails(serviceIds).subscribe(
       res => {
         this.serviceDetails = res.services;
         this.calculateTotalPrice(res.services);
@@ -107,6 +108,22 @@ export class SelectOccasionComponent implements OnInit {
   selectEmployee(employeeId : number){
     this.selectedEmployeeId = employeeId;
     console.log("Selected Employee:", this.selectedEmployeeId); 
+    this.clientService.getEmployeeById(employeeId).subscribe(
+      (res : any) => {
+        this.selectedEmployee = res.employee;
+        console.log("Employee Details", this.selectedEmployee)
+      });
+  }
+
+  onSelectServices(){
+    this.router.navigate(['/date'], { 
+      queryParams: { 
+        special_services : this.selectedServices.join(','), 
+        branch_id : this.branch_id,
+        employee_id : this.selectedEmployeeId,
+        total_price : this.totalPrice 
+      }
+    });
   }
 
 

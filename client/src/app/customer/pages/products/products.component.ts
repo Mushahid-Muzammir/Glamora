@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClientService } from '../../../services/client.service';
+import { AuthService } from '../../../services/auth.service';
 import { Product } from '../../../data_interface';
 import { Router } from '@angular/router';
 
@@ -20,10 +21,14 @@ export class ProductsComponent implements OnInit {
   showConfirmationPopup: boolean = false;
   searchText !: string;
   filteredProducts : Product[] =[];
+  userId!: number;
+  customerId!: number;
 
   constructor(
     private clientService: ClientService,
-    private router : Router
+    private router : Router,
+    private authService: AuthService
+    
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +39,14 @@ export class ProductsComponent implements OnInit {
       },
       error => console.error("Error fetching products:", error)
     );
+
+    this.userId = this.authService.getUserId();
+    this.clientService.getCustomerById(this.userId).subscribe(
+      (res : any) => {
+        this.customerId = res.customer.customer_id;
+      },
+      error => console.error('Error fetching customer:', error)
+    );
   }
 
   filterProducts() {
@@ -41,17 +54,35 @@ export class ProductsComponent implements OnInit {
     this.filteredProducts = this.products.filter(product =>
       product.product_name.toLowerCase().includes(searchTextLower)
     );
-    console.log(this.filteredProducts);
   }
   
-
   addtoCart(product: Product): void {
-    this.cart.push(product);
+    const existingItem = this.cart.find(item => item.product_id === product.product_id); 
+  
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      this.cart.push({ ...product, quantity: 1 });
+    }
     this.calculateTotal();
   }
 
+  increaseQuantity(item: Product): void {
+    item.quantity += 1;
+    this.calculateTotal();
+  }
+  
+  decreaseQuantity(item: Product): void {
+    if (item.quantity > 1) {
+      item.quantity -= 1;
+    } else {
+      this.cart = this.cart.filter(cartItem => cartItem.product_id !== item.product_id);
+    }
+    this.calculateTotal();
+  }
+  
   calculateTotal(): void {
-    this.totalAmount = this.cart.reduce((total, item) => total + item.selling_price, 0);
+    this.totalAmount = this.cart.reduce((total, item) => total + item.selling_price * item.quantity, 0);
   }
 
   confirmCart(): void {
@@ -62,31 +93,30 @@ export class ProductsComponent implements OnInit {
     this.showPopup = true;
   }
 
-
   processPayment(paymentType: string): void {
   if (paymentType === 'Pending') {
-    this.showConfirmationPopup = true; // Show confirmation popup for "Pay Later"
+    this.showConfirmationPopup = true; 
     return;
   }
 
-  this.finalizePayment(paymentType);
+  this.finalizePayment();
 }
 
-  finalizePayment(paymentType: string): void {
-    this.router.navigate(['/home']);
+  finalizePayment(): void {
     const saleData = {
     items: this.cart,
+    customer_id: this.customerId,
     total_amount: this.totalAmount,
-    payment_type: paymentType
   };
 
   this.clientService.processSale(saleData).subscribe(
     (res: any) => {
       alert("Sale processed successfully!");
+      this.router.navigate(['/home']);
       this.cart = [];
       this.totalAmount = 0;
       this.showPopup = false;
-      this.showConfirmationPopup = false; // Hide confirmation popup after processing
+      this.showConfirmationPopup = false;
     },
     error => console.error("Error processing sale:", error)
   );

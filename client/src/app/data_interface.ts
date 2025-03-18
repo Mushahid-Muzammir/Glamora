@@ -28,6 +28,7 @@ export interface Product{
     description: string,
     cost_price: number,
     selling_price: number,
+    quantity : number,
     stock_level: number,
     expiry_date: Date
 }

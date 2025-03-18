@@ -1,0 +1,11 @@
+CREATE TABLE special_services_employees (
+    employee_id INT NOT NULL,
+    service_id INT NOT NULL,
+    PRIMARY KEY (employee_id, service_id),
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
+);
+
+ALTER TABLE `special_services_employees` ADD FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`) ON DELETE RESTRICT ON UPDATE RESTRICT; ALTER TABLE `special_services_employees` ADD FOREIGN KEY (`service_id`) REFERENCES `special_services`(`service_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `sales` ADD `payment_status` VARCHAR(255) NOT NULL DEFAULT 'Pending' AFTER `time`;

@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class SelectDateComponent implements OnInit {
   selectedServices: number[] = [];
+  selectedSpecialServices : number[] = [];
   serviceDetails : any[] = [];
   selectedDate: string = '';
   selectedBranch!: number;
@@ -63,20 +64,33 @@ export class SelectDateComponent implements OnInit {
       this.selectedBranch = Number(params['branch_id']);
       this.selectedEmployee = Number(params['employee_id']);
       this.selectedServices = params['services'] ? params['services'].split(',').map(Number) : [];
+      this.selectedSpecialServices = params['special_services'] ? params['special_services'].split(',').map(Number) : [];
       this.totalPrice = Number(params['total_price']);
+      console.log("Selected Special Services", this.selectedSpecialServices);
 
-      if (this.selectedServices.length > 0) {
         this.fetchServicesDuration();
         const serviceIds = this.selectedServices.join(',');
-        this.clientService.getServiceDetails(serviceIds).subscribe(
-          res => {
-            this.serviceDetails = res.services;
-          },
-            error => console.error('Error fetching service durations:', error)
-          );
-      }
-    });
-  }
+        const specialServiceIds = this.selectedSpecialServices.join(',')
+        if(this.selectedServices.length > 0){
+          this.clientService.getServiceDetails(serviceIds).subscribe(
+            res => {
+              this.serviceDetails = res.services;
+              console.log("Special Services", this.serviceDetails);
+
+            },
+              error => console.error('Error fetching service durations:', error)
+            );
+        }else{
+          this.clientService.getSpecialServiceDetails(specialServiceIds).subscribe(
+            res => {
+              this.serviceDetails = res.services;
+              console.log("Special Services", this.serviceDetails);
+            },
+              error => console.error('Error fetching service durations:', error)
+            );
+          }
+      });
+    }
 
   private fetchUserData(): void {
     this.clientService.getBranchbyId(this.selectedBranch).subscribe(
@@ -90,13 +104,22 @@ export class SelectDateComponent implements OnInit {
 
   private fetchServicesDuration(): void {
     const serviceIds = this.selectedServices.join(',');
-    console.log('Service IDs:', serviceIds);
-    this.clientService.getServiceDetails(serviceIds).subscribe(
-      res => {
-        this.calculateTotalDuration(res.services);
-      },
-      error => console.error('Error fetching service durations:', error)
-    );
+    const specialServiceIds = this.selectedSpecialServices.join(',')
+    if(serviceIds){
+      this.clientService.getServiceDetails(serviceIds).subscribe(
+        res => {
+          this.calculateTotalDuration(res.services);
+        },
+        error => console.error('Error fetching service durations:', error)
+      );
+    }else{
+      this.clientService.getServiceDetails(specialServiceIds).subscribe(
+        res => {
+          this.calculateTotalDuration(res.services);
+        },
+        error => console.error('Error fetching service durations:', error)
+      );
+    }
   }
 
   private calculateTotalDuration(services: { service_id: number; duration: number }[]): void {

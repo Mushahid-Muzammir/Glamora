@@ -288,35 +288,29 @@ export const transporter = nodemailer.createTransport({
 
 export const makeSales = async (req, res) => {
     try {
-        const { items, total_amount, payment_type } = req.body;
+        const { items, customer_id, total_amount, payment_type } = req.body;
   
         if (!items || items.length === 0) {
           return res.status(400).json({ error: "No items in the cart." });
         }     
         const saleDate = new Date();
       
-        const insertSalesQuery = `
-          INSERT INTO sales (product_id, quantity, total_amount, payment_type, sale_date) 
-          VALUES ?`;
+        const insertSalesQuery = `INSERT INTO sales (customer_id, total, sale_date) VALUES (?,?,?)`;
+    
       
-        const saleValues = items.map(item => [
-          item.id,
-          1, 
-          total_amount,
-          payment_type,
-          saleDate
-        ]);
-      
-        db.query(insertSalesQuery, [saleValues], (err, result) => {
-          if (err) {
-            console.error("Error inserting sale:", err);
-            return res.status(500).json({ error: "Error processing sale." });
-          }
-      
-          res.json({ message: "Sale processed successfully!" });
-        });
-    }catch{
+        const [result] = await db.execute(insertSalesQuery, [customer_id,total_amount, saleDate]);
+        const saleId = result.insertId; 
+        for (const item of items) {
+            await db.execute(
+                'INSERT INTO sales_details (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+                [saleId, item.product_id, item.quantity] 
+            );
+        }
+        res.status(200).json({ message: 'Sale recorded successfully!' });
 
+    } catch (error) {
+        console.error('Transaction Failed:', error);
+        res.status(500).json({ error: 'Failed to process sale' });
     }
 }
 
