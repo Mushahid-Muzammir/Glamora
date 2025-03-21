@@ -5,6 +5,7 @@ import { ClientService } from '../../../services/client.service';
 import { AuthService } from '../../../services/auth.service';
 import { Product } from '../../../data_interface';
 import { Router } from '@angular/router';
+import swt from 'sweetalert2'
 
 @Component({
   selector: 'app-products',
@@ -93,12 +94,12 @@ export class ProductsComponent implements OnInit {
     this.showPopup = true;
   }
 
-  processPayment(paymentType: string): void {
+    processPayment(paymentType: string): void {
+        this.showPopup = false;
   if (paymentType === 'Pending') {
     this.showConfirmationPopup = true; 
     return;
   }
-
   this.finalizePayment();
 }
 
@@ -110,13 +111,17 @@ export class ProductsComponent implements OnInit {
   };
 
   this.clientService.processSale(saleData).subscribe(
-    (res: any) => {
-      alert("Sale processed successfully!");
+      (res: any) => {
+      this.showConfirmationPopup = false;
+        swt.fire({
+            title: 'Success',
+            text: 'Sale processed successfully, You can collect the product at any of our branches',
+            icon: 'success',
+            confirmButtonText: 'OK'  
+        });  
       this.router.navigate(['/home']);
       this.cart = [];
       this.totalAmount = 0;
-      this.showPopup = false;
-      this.showConfirmationPopup = false;
     },
     error => console.error("Error processing sale:", error)
   );

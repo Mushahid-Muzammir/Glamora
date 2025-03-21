@@ -46,7 +46,7 @@ export class AddBranchComponent implements OnInit{
     this.adminService.addBranch(this.branchForm.value).subscribe({
       next: () => {
         alert('Branch created successfully!');
-        this.router.navigate(['/branch']); 
+        this.router.navigate(['/branches']); 
       },
       error: (err) => {
         console.error('Error creating branch:', err);
