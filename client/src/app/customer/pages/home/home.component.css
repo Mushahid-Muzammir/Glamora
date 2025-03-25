@@ -60,3 +60,29 @@
     animation-timeline: view();
     animation-range: entry 0% cover 60%;
   }
+
+#sp_image {
+    animation: slidefromRight 5s ease;
+    animation-timeline: view();
+    animation-range: entry 0% cover 70%;
+}
+
+#sp_text {
+    animation: slidefromLeft 5s ease;
+    animation-timeline: view();
+    animation-range: entry 0% cover 70%;
+}
+
+.custom-arrow {
+    @apply absolute top-1/2 transform -translate-y-1/2 p-3 bg-black/50 rounded-full transition hover:bg-black/70;
+}
+
+.left-arrow {
+    @apply left-5;
+}
+
+.right-arrow {
+    @apply right-5;
+}
+
+

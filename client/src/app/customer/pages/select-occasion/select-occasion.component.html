@@ -2,8 +2,8 @@
     <app-header></app-header>
     <div class="flex flex-col md:flex-row">
         <div class="flex-1 px-6">
-          <div class="w-full mt-6">
-            <p class="text-3xl text-start font-bold text-[#176B87] animate-fade-in">
+          <div class="w-full mt-6 px-6">
+            <p class="text-3xl font-bold text-[#176B87]">
               Select Your Preferred Services
             </p>
           </div>   
@@ -13,9 +13,9 @@
                         <mat-tab *ngFor="let category of ['wedding', 'party', 'cultural', 'other']" [label]="category | titlecase">
                           <div *ngIf="categorizedServices[category]?.length; else noServices">
                             <div *ngFor="let service of categorizedServices[category]" class="p-4 border border-gray-200 rounded-lg shadow-md">
-                              <h2 class="text-lg font-bold text-[#176B87]">{{ service.service_name }}</h2>
-                              <p class="text-gray-700">{{ service.description }}</p>
-                              <p class="text-green-600 font-semibold">LKR {{ service.price }}</p>
+                              <h2 class="text-lg font-bold text-black">{{ service.service_name }}</h2>
+                              <p class="text-sm text-gray-500">{{ service.description }}</p>
+                              <p class="text-medium text-black font-semibold">LKR {{ service.price }}</p>
                               <p class="text-sm text-gray-500">Duration: {{ service.duration }} mins</p>
                               <mat-checkbox class="mt-2 font-bold" (change)="toggleService(service.service_id, $event)">
                                 Select Service
@@ -29,24 +29,20 @@
                     </mat-tab-group>                    
               </div>
 
-              <div #employeeContainer class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
-                <div *ngFor="let employee of serviceEmployees" class="p-4">
-                  <a (click)="selectEmployee(employee.employee_id)"
-                    class="flex flex-col items-center shadow-lg rounded-lg overflow-hidden hover:shadow-xl p-4 transition-all duration-300 transform hover:scale-105 cursor-pointer"
-                    [ngClass]="{
-                      'border-2 border-blue-600': selectedEmployeeId === employee.employee_id
-
-                    }">
-                    <img alt="Employee"
-                    [src]="employee.image_url"
-                      class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
-                    <div class="text-center mt-3">
-                      <h5 class="text-lg font-semibold text-gray-800">{{employee.name}}</h5>
-                      <h6 class="text-sm text-gray-600">{{employee.title}}</h6>
-                    </div>
-                  </a>
-                </div>
-              </div>   
+              <div *ngIf="selectedServices.length > 0" #employeeContainer class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
+                  <div class="p-4">
+                      <a (click)="selectEmployeePerService()"
+                         class="flex flex-col items-center shadow-lg rounded-lg overflow-hidden hover:shadow-xl p-4 transition-all duration-300 transform hover:scale-105 cursor-pointer">
+                          <img alt="Employee"
+                               [src]=""
+                               class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
+                          <div class="text-center mt-3">
+                              <h5 class="text-lg font-semibold text-gray-800">Select Employee Per Service</h5>
+                              <h6 class="text-sm text-gray-600"></h6>
+                          </div>
+                      </a>
+                  </div>
+                 
 
               <div class="w-full flex justify-center my-8" #confirmButton>
                 <button (click)="onSelectServices()"

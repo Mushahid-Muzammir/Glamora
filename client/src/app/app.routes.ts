@@ -46,6 +46,7 @@ import { ViewRequestComponent } from './manager/pages/view-request/view-request.
 import { RequestsComponent } from './admin/pages/requests/requests.component';
 import { VerifyEmailComponent } from './customer/pages/verify-email/verify-email.component';
 import { SelectOccasionComponent } from './customer/pages/select-occasion/select-occasion.component';
+import { SelectEmployeeServiceComponent } from './customer/pages/select-employee-service/select-employee-service.component';
 
 export const routes: Routes = [
 { path : '', component: HomeComponent },
@@ -96,6 +97,7 @@ export const routes: Routes = [
 { path : "requests", component: RequestsComponent },
 { path : "viewRequest", component: ViewRequestComponent },
 { path : "verifyEmail", component: VerifyEmailComponent},
-{ path : "occasions/:branch_id", component: SelectOccasionComponent}
+{ path: "occasions/:branch_id", component: SelectOccasionComponent },
+{ path: "employeeService", component: SelectEmployeeServiceComponent }
 
 ];

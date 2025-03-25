@@ -113,7 +113,11 @@ export class SelectOccasionComponent implements OnInit {
         this.selectedEmployee = res.employee;
         console.log("Employee Details", this.selectedEmployee)
       });
-  }
+    }
+
+    selectEmployeePerService() {
+        this.router.navigate(['/employeeService']); 
+    }
 
   onSelectServices(){
     this.router.navigate(['/date'], { 

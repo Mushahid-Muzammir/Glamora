@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClientService } from '../../../services/client.service';
 import { AuthService } from '../../../services/auth.service';
+import { HeaderComponent } from '../../components/header/header.component';
 import { Product } from '../../../data_interface';
 import { Router } from '@angular/router';
 import swt from 'sweetalert2'
 
 @Component({
   selector: 'app-products',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+    standalone: true,
+    imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
