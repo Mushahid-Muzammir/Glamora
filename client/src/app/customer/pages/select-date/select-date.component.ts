@@ -32,7 +32,8 @@ export class SelectDateComponent implements OnInit {
   availableSlots: any[] = [];
   selectedSlot: any = null;
   today: string = new Date().toISOString().split('T')[0]; 
-  showPopup  : boolean = false;
+  showPopup: boolean = false;
+  type: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -75,7 +76,8 @@ export class SelectDateComponent implements OnInit {
           this.clientService.getServiceDetails(serviceIds).subscribe(
             res => {
               this.serviceDetails = res.services;
-              console.log("Special Services", this.serviceDetails);
+                  console.log("Special Services", this.serviceDetails);
+                  this.type = "regular";
 
             },
               error => console.error('Error fetching service durations:', error)
@@ -84,7 +86,8 @@ export class SelectDateComponent implements OnInit {
           this.clientService.getSpecialServiceDetails(specialServiceIds).subscribe(
             res => {
               this.serviceDetails = res.services;
-              console.log("Special Services", this.serviceDetails);
+                  console.log("Special Services", this.serviceDetails);
+                  this.type = "special";
             },
               error => console.error('Error fetching service durations:', error)
             );
@@ -108,7 +111,8 @@ export class SelectDateComponent implements OnInit {
     if(serviceIds){
       this.clientService.getServiceDetails(serviceIds).subscribe(
         res => {
-          this.calculateTotalDuration(res.services);
+              this.calculateTotalDuration(res.services);
+
         },
         error => console.error('Error fetching service durations:', error)
       );
@@ -153,12 +157,14 @@ export class SelectDateComponent implements OnInit {
     }
 
     const bookingData = {
-      branch_id: this.selectedBranch,
-      customer_id: this.customerId,
-      employee_id: this.selectedEmployee.employee_id,
-      date: this.selectedDate,
-      start_time: this.selectedSlot.start_time,
-      end_time: this.selectedSlot.end_time
+        branch_id: this.selectedBranch,
+        customer_id: this.customerId,
+        date: this.selectedDate,
+        start_time: this.selectedSlot.start_time,
+        end_time: this.selectedSlot.end_time,
+        amount: this.totalPrice,
+        type: this.type,
+        services: this.selectedServices ? this.selectedServices : this.selectedSpecialServices,
     };
 
     console.log('Booking Data:', bookingData);

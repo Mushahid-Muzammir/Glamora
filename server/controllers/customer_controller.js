@@ -51,7 +51,6 @@ export const getCustomerbyId = async (req, res) => {
     try {
         const user_id = Number(req.params.user_id);  
         
-        // Check if user_id is available
         if (!user_id) {
             return res.status(400).send("user_id is required");
         }
@@ -179,21 +178,18 @@ export const getServiceDetails = async (req, res) => {
 };
 
 function generateAvailableSlots(open_time, close_time, existing_app, total_time) {
-    total_time = Number(total_time); // Ensure total_time is a number
+    total_time = Number(total_time); 
     let slots = [];
     let current_time = open_time;
-    console.log("Total time (minutes):", typeof(total_time)); // Log the total_time
-
+    console.log("Total time (minutes):", typeof(total_time)); 
 
     while (addMinutes(current_time, total_time) <= close_time) {
         let next_time = addMinutes(current_time, total_time);
 
-        // Check if this slot overlaps with any existing appointments
         if (!existing_app.some(app => isOverlapping(current_time, next_time, app.start_time, app.end_time))) {
             slots.push({ start_time: current_time, end_time: next_time });
         }
 
-        // Move to the next potential slot based on the total duration of services
         current_time = next_time;
     }
 
@@ -214,12 +210,27 @@ function addMinutes(time, minutes) {
   
 export const confirmBooking = async (req, res) => {
     try {
-      const { branch_id , customer_id, employee_id, date, start_time, end_time } = req.body;
+      const { branch_id , customer_id, services, type, date, start_time, end_time } = req.body;
   
       const [appointmentResult] = await db.execute(
-        `INSERT INTO appointments (branch_id, customer_id, employee_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)`,
-        [branch_id, customer_id, employee_id, date, start_time, end_time]
-      );
+        `INSERT INTO appointments (branch_id, customer_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?)`,
+        [branch_id, customer_id, date, start_time, end_time]
+        );
+        const insertId = appointmentResult.insertId;
+
+        for (const service of services) {
+            const { service_id } = service; 
+            if (type === 'regular') {
+                const [clientResult] = await db.execute(
+                    `INSERT INTO client_service(appointment_id, service_id) VALUES (?, ?)`, [insertId, service_id]
+                );
+            } else {
+                const [specialResult] = await db.execute(
+                    `INSERT INTO client_special_services(appointment_id, service_id) VALUES (?, ?)`, [insertId, service_id]
+                );
+            }
+        }
+
 
       const branchQuery = `SELECT b.address FROM branches b WHERE b.branch_id = ?`;
       const [branchResult] = await db.execute(branchQuery, [branch_id]);
@@ -228,16 +239,14 @@ export const confirmBooking = async (req, res) => {
         return res.status(500).json({ error: "Could not fetch branch" });
       }
   
-      const branchAddress = branchResult[0].address;
-  
-      // Fetch customer email
+      const branchAddress = branchResult[0].address; 
       const emailQuery = `SELECT u.email FROM customers c JOIN users u ON u.user_id = c.user_id WHERE c.customer_id = ?`;
       const [emailResult] = await db.execute(emailQuery, [customer_id]);
   
-      if (emailResult.length === 0) {
-        return res.status(500).json({ error: "Could not fetch customer email" });
-      }
-  
+        if (emailResult.length === 0) {
+            return res.status(500).json({ error: "Could not fetch customer email" });
+        }
+    
       const userEmail = emailResult[0].email;
   
       const mailOptions = {
@@ -256,9 +265,8 @@ export const confirmBooking = async (req, res) => {
                 
         Best Regards,
         Salon Team`
-            };
+    };
   
-      // Send email and send response only ONCE
       transporter.sendMail(mailOptions)
         .then(() => {
           console.log("Email sent successfully");
@@ -279,7 +287,7 @@ export const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "mushahidmuzammir11339@gmail.com",
-      pass: "mqvm wspb xytk tovs"  
+        pass: "pybn bsue ovty tbcd"  
     },
     tls: {
       rejectUnauthorized: false  
@@ -297,7 +305,6 @@ export const makeSales = async (req, res) => {
       
         const insertSalesQuery = `INSERT INTO sales (customer_id, total, sale_date) VALUES (?,?,?)`;
     
-      
         const [result] = await db.execute(insertSalesQuery, [customer_id,total_amount, saleDate]);
         const saleId = result.insertId; 
         for (const item of items) {
@@ -393,6 +400,30 @@ export const getServiceEmployees = async (req, res) => {
     }
 };
 
+export const getEmployeeEachService = async (req, res) => {
+    try {
+        const service_id = Number(req.query.service_id);
+        if (!service_id) return res.status(400).json({ message: "Services parameter is required" });
+
+        if (isNaN(service_id)) {
+            return res.status(400).json({ message: "Invalid service ID provided" });
+        }
+        const query = `
+        SELECT es.service_id, u.user_id, u.name, e.employee_id, e.image_url, e.title from users u
+        JOIN employees e ON u.user_id = e.user_id
+        JOIN employee_service es ON e.employee_id = es.employee_id
+        WHERE es.service_id = ?
+        `;
+        const [rows] = await db.execute(query, [service_id]);
+
+
+        res.status(200).json({ employees: rows });
+
+    } catch(error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
 
 
 

@@ -84,7 +84,13 @@ export class ClientService {
     return this.http.get<any>(`${this.clientUrl}/getServiceEmployees`, { 
         params: { services: serviceIds }
     });
-  }
+   }
+
+   getEmployeeEachService(serviceId: number): Observable<any> {
+    return this.http.get<any>(`${this.clientUrl}/getEmployeeEachService`, {
+        params: { service_id: serviceId }
+    });
+   }
   
 }
 

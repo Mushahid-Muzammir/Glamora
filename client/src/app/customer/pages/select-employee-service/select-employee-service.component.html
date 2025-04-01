@@ -7,32 +7,46 @@
                     Select Professional
                 </p>
             </div>
+
             <div class="w-full px-6">
                 <div #serviceSection class="gap-6 p-6">
-                    <div *ngIf="categorizedServices[category]?.length; else noServices">
-                        <div *ngFor="let service of categorizedServices[category]" class="p-4 border border-gray-200 rounded-lg shadow-md">
-                            <h2 class="text-lg font-bold text-black">{{ service.service_name }}</h2>
-                            <p class="text-sm text-gray-500">{{ service.description }}</p>
-                            <p class="text-medium text-black font-semibold">LKR {{ service.price }}</p>
-                            <p class="text-sm text-gray-500">Duration: {{ service.duration }} mins</p>
-                            <mat-checkbox class="mt-2 font-bold" (change)="toggleService(service.service_id, $event)">
-                                Select Service
-                            </mat-checkbox>
+                    <div *ngFor="let service of serviceDetails" class="flex flex-col gap-2 p-4 border border-gray-200 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold text-black">{{ service.service_name }}</h2>
+                        <p class="text-sm text-gray-500">Duration: {{ service.duration }} mins</p>
+                        <div>
+                            <button (click)="selectEmployee(service.service_id)"
+                                    class="text-sm px-8 py-3 border border-gray-200 rounded-full hover:bg-blue-700">
+                               {{ selectedEmployees[service.service_id] ? selectedEmployees[service.service_id].name : 'Select Professional'}}
+                            </button>
                         </div>
-                    </div>                        
-                </div>
 
-                
+                        <div *ngIf="showPopup[service.service_id]" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                            <div class="bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div *ngFor="let employee of serviceEmployees">
+                                    <a (click)="selectedEmployee(employee, service.service_id)"
+                                       class="flex flex-col items-center shadow-lg rounded-lg overflow-hidden hover:shadow-xl p-4 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                                       [ngClass]="{ 'border-2 border-blue-600' : selectedEmployees[service.service_id]?.employee_id === employee.employee_id}">
+                                        <img [src]="employee.image_url" alt="Employee"
+                                             class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
+                                        <div class="text-center mt-3">
+                                            <h5 class="text-lg font-semibold text-gray-800">{{ employee.name }}</h5>
+                                            <h6 class="text-sm text-gray-600">{{ employee.title }}</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
 
-                <div class="w-full flex justify-center my-8" #confirmButton>
-                    <button (click)="onSelectServices()"
-                            class="px-12 py-4 rounded-full bg-blue-600 hover:bg-blue-700 transition-all text-lg font-bold text-white shadow-md">
-                        Confirm Selection
-                    </button>
+                            <div *ngIf="!(serviceEmployees)">
+                                <p class="text-sm text-red-500">No employees available for this service.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-1/3 p-6">
+
+        <div class="w-full md:w-1/3 p-6"
+          [ngClass]="{ 'blur-sm pointer-events-none': anyPopupOpen() }">
             <div #summaryCard class="w-full bg-white shadow-lg rounded-lg p-6 border border-gray-200 sticky top-6 max-h-[80vh] overflow-hidden">
                 <div class="flex flex-row items-center gap-4">
                     <img [src]="branch.image_url" class="w-20 h-20 rounded-lg object-cover">
@@ -42,11 +56,13 @@
                         <p class="text-sm text-gray-600">📞 +94 {{branch.contact}}</p>
                     </div>
                 </div>
+
                 <hr class="mt-4">
+
                 <div class="p-4">
-                    <div *ngIf="selectedEmployeeId" class="flex justify-between">
+                    <div class="flex justify-between">
                         <p class="font-semibold text-gray-600">👤 Stylist</p>
-                        <p class="font-semibold text-black">{{selectedEmployee.name}}</p>
+                        <p class="font-semibold text-black">selectedEmployee.name</p>
                     </div>
                     <hr class="my-3">
                     <div *ngFor="let service of serviceDetails" class="flex justify-between">
@@ -58,9 +74,15 @@
                         <p>Total</p>
                         <p>💰 LKR {{totalPrice}}</p>
                     </div>
+                    <div class="w-full flex justify-center my-8" #confirmButton>
+                        <button (click)="onSelectServices()"
+                                class="px-10 py-3 rounded-full bg-[#176B87] hover:bg-blue-700 transition-all text-medium font-bold text-white shadow-md">
+                            Confirm Selection
+                        </button>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
-

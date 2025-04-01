@@ -30,6 +30,8 @@ export class SelectOccasionComponent implements OnInit {
   serviceEmployees !: any ;
   selectedEmployee !: any;
   selectedEmployeeId !: number;
+  selectedEmployees: { [key: number]: any } = {};
+
 
 
   constructor(
@@ -105,18 +107,21 @@ export class SelectOccasionComponent implements OnInit {
     );
   }
 
-  selectEmployee(employeeId : number){
-    this.selectedEmployeeId = employeeId;
-    console.log("Selected Employee:", this.selectedEmployeeId); 
-    this.clientService.getEmployeeById(employeeId).subscribe(
-      (res : any) => {
-        this.selectedEmployee = res.employee;
-        console.log("Employee Details", this.selectedEmployee)
-      });
+    selectEmployee(employee: any) {
+        for (let service of this.serviceDetails) {
+            this.selectedEmployees[service.service_id] = employee;
+
+        }
     }
 
     selectEmployeePerService() {
-        this.router.navigate(['/employeeService']); 
+        this.router.navigate(['/employeeService'], {
+            queryParams: {
+                special_services: this.selectedServices.join(','),
+                branch_id: this.branch_id,
+                total_price: this.totalPrice
+            }
+        }); 
     }
 
   onSelectServices(){
@@ -129,7 +134,4 @@ export class SelectOccasionComponent implements OnInit {
       }
     });
   }
-
-
-  
 }

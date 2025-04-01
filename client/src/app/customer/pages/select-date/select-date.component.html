@@ -28,22 +28,10 @@
             (click)="selectSlot(slot)"
             class="px-6 py-3 rounded-lg border text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-sm"
             [ngClass]="{
-              'bg-blue-600 text-white shadow-md': selectedSlot === slot,
+              'bg-[#176B87] text-white shadow-md': selectedSlot === slot,
               'bg-white text-black border-gray-300 hover:bg-gray-200': selectedSlot !== slot
             }">
             {{ slot.start_time }} - {{ slot.end_time }}
-          </button>
-        </div>
-    
-        <div class="w-full flex justify-center mt-6">
-          <button (click)="openPopup()" 
-            [disabled]="!selectedSlot"
-            class="px-12 py-4 rounded-3xl font-semibold transition-all duration-300 transform hover:scale-105 "
-            [ngClass]="{
-              'bg-green-600 text-white': selectedSlot,
-              'bg-gray-400 text-gray-200 cursor-not-allowed': !selectedSlot
-            }">
-            Confirm
           </button>
         </div>
 
@@ -70,21 +58,18 @@
               </div>
               <hr>
         
-              <!-- Selected Services -->
               <div *ngFor="let service of serviceDetails" class="flex justify-between">
                 <p>{{ service.service_name }}</p>
                 <p>💵 LKR {{ service.price }}</p>
               </div>
               <hr>
         
-              <!-- Total Price -->
               <div class="flex justify-between text-lg font-semibold">
                 <p>Total</p>
                 <p>💰 LKR {{ totalPrice }}</p>
               </div>
             </div>
         
-            <!-- Action Buttons -->
             <div class="flex justify-between mt-4">
               <button (click)="closePopup()" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500">Cancel</button>
               <button (click)="confirmBooking()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Confirm</button>
@@ -113,31 +98,40 @@
         </div>
         <hr class="mt-4 mb-6">    
         <div class="p-4">
-          <div class="flex justify-between mb-4">
-            <p *ngIf="selectedEmployee" class="font-semibold text-gray-600">👤 Stylist</p>
-            <p *ngIf="selectedEmployee" class="font-semibold text-black">{{selectedEmployee.name}}</p>
-          </div>
-          <div class="flex justify-between mb-4">
-            <p *ngIf="selectedDate" class="font-semibold text-gray-600">📅 Date</p>
-            <p *ngIf="selectedDate" class="font-semibold text-black">{{selectedDate}}</p>
-          </div>
-          <div class="flex justify-between mb-4">
-            <p *ngIf="selectedSlot" class="font-semibold text-gray-600">⏰ Time</p>
-            <p *ngIf="selectedSlot" class="font-semibold text-black">{{selectedSlot.start_time}} - {{selectedSlot.end_time}}</p>
-          </div>
-          <hr class="my-6">          
-          <div *ngFor="let service of serviceDetails" class="flex justify-between mb-4">
-            <p>{{service.service_name}}</p>
-            <p>💵 LKR {{service.price}}</p>
-          </div>          
-          <hr class="my-6">          
-          <div class="flex justify-between text-lg font-semibold">
-            <p>Total</p>
-            <p>💰 LKR {{totalPrice}}</p>
-          </div>
+            <div class="flex justify-between mb-4">
+                <p *ngIf="selectedEmployee" class="font-semibold text-gray-600">👤 Stylist</p>
+                <p *ngIf="selectedEmployee" class="font-semibold text-black">{{selectedEmployee.name}}</p>
+            </div>
+            <div class="flex justify-between mb-4">
+                <p *ngIf="selectedDate" class="font-semibold text-gray-600">📅 Date</p>
+                <p *ngIf="selectedDate" class="font-semibold text-black">{{selectedDate}}</p>
+            </div>
+            <div class="flex justify-between mb-4">
+                <p *ngIf="selectedSlot" class="font-semibold text-gray-600">⏰ Time</p>
+                <p *ngIf="selectedSlot" class="font-semibold text-black">{{selectedSlot.start_time}} - {{selectedSlot.end_time}}</p>
+            </div>
+            <hr class="my-6">
+            <div *ngFor="let service of serviceDetails" class="flex justify-between mb-4">
+                <p>{{service.service_name}}</p>
+                <p>💵 LKR {{service.price}}</p>
+            </div>
+            <hr class="my-6">
+            <div class="flex justify-between text-lg font-semibold">
+                <p>Total</p>
+                <p>💰 LKR {{totalPrice}}</p>
+            </div>
+            <div class="w-full flex justify-center mt-6">
+                <button (click)="openPopup()"
+                [disabled]="!selectedSlot"
+                 class="px-12 py-4 rounded-3xl font-semibold transition-all duration-300 transform hover:scale-105 "
+                 [ngClass]="{
+                  'bg-[#176B87] text-white': selectedSlot,
+                  'bg-gray-400 text-gray-200 cursor-not-allowed': !selectedSlot}">
+                    Confirm
+                </button>
+            </div>
         </div>
       </div>
     </div> 
-
   </div>
 </div>
