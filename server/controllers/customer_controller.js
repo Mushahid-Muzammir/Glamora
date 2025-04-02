@@ -162,7 +162,6 @@ export const getServiceDetails = async (req, res) => {
     try {
         const services = req.query.services;
         if (!services) return res.status(400).json({ message: "Services parameter is required" });
-
         const serviceIds = services.split(',').map(id => parseInt(id));
         if (serviceIds.some(isNaN) || serviceIds.length === 0) {
             return res.status(400).json({ message: "Invalid service IDs provided" });
@@ -189,7 +188,6 @@ function generateAvailableSlots(open_time, close_time, existing_app, total_time)
         if (!existing_app.some(app => isOverlapping(current_time, next_time, app.start_time, app.end_time))) {
             slots.push({ start_time: current_time, end_time: next_time });
         }
-
         current_time = next_time;
     }
 
@@ -210,7 +208,7 @@ function addMinutes(time, minutes) {
   
 export const confirmBooking = async (req, res) => {
     try {
-      const { branch_id , customer_id, services, type, date, start_time, end_time } = req.body;
+      const { branch_id , customer_id, services, type, date, start_time, end_time, employeeService } = req.body;
   
       const [appointmentResult] = await db.execute(
         `INSERT INTO appointments (branch_id, customer_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?)`,
@@ -218,15 +216,15 @@ export const confirmBooking = async (req, res) => {
         );
         const insertId = appointmentResult.insertId;
 
-        for (const service of services) {
-            const { service_id } = service; 
+        for (const service_id in employeeService) {
+            const employee_id  = employeeService[service_id]; 
             if (type === 'regular') {
                 const [clientResult] = await db.execute(
-                    `INSERT INTO client_service(appointment_id, service_id) VALUES (?, ?)`, [insertId, service_id]
+                    `INSERT INTO client_service(appointment_id, service_id, employee_id) VALUES (?, ?, ?)`, [insertId, service_id, employee_id]
                 );
             } else {
                 const [specialResult] = await db.execute(
-                    `INSERT INTO client_special_services(appointment_id, service_id) VALUES (?, ?)`, [insertId, service_id]
+                    `INSERT INTO client_special_services(appointment_id, service_id, employee_id) VALUES (?, ?, ?)`, [insertId, service_id, employee_id]
                 );
             }
         }

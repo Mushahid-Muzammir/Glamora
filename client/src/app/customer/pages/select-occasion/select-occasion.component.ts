@@ -19,26 +19,24 @@ export class SelectOccasionComponent implements OnInit {
     @ViewChild('confirmButton') confirmButton !: ElementRef
   
 
-  branch_id !: number;
-  branch !: any;
-  employees : Employee[] = [];
-  services !: any;
-  categorizedServices : { [key : string]: any[] } = {};
-  selectedServices: number[] = [];
-  totalPrice : number = 0;
-  serviceDetails : any[] = [];
-  serviceEmployees !: any ;
-  selectedEmployee !: any;
-  selectedEmployeeId !: number;
-  selectedEmployees: { [key: number]: any } = {};
+      branch_id !: number;
+      branch !: any;
+      employees : Employee[] = [];
+      services !: any;
+      categorizedServices : { [key : string]: any[] } = {};
+      selectedServices: number[] = [];
+      totalPrice : number = 0;
+      serviceDetails : any[] = [];
+      serviceEmployees !: any ;
+      selectedEmployee !: any;
+      selectedEmployeeId !: number;
+      selectedEmployees: { [key: number] : any } = {};
 
-
-
-  constructor(
-    private clientService : ClientService,
-    private route : ActivatedRoute,
-    private router : Router,
-  ) {}
+      constructor(
+        private clientService : ClientService,
+        private route : ActivatedRoute,
+        private router : Router,
+      ) {}
 
   ngOnInit(): void {
     this.branch_id = Number(this.route.snapshot.paramMap.get('branch_id') || '');
@@ -92,7 +90,7 @@ export class SelectOccasionComponent implements OnInit {
 
   private calculateTotalPrice(services: { service_id: number; price: number }[]): void {
     this.totalPrice = services.reduce((sum, service) => sum + service.price, 0);
-    console.log('Total Price:', this.totalPrice);
+
   }
 
   private fetchEmployees(): void {
@@ -100,7 +98,7 @@ export class SelectOccasionComponent implements OnInit {
     console.log('Service IDs:', serviceIds);
     this.clientService.getServiceEmployees(serviceIds).subscribe(
       res => {
-        this.serviceEmployees = res.employees
+            this.serviceEmployees = res.employees;
         console.log(res.employees);
       },
       error => console.error('Error fetching service durations:', error)
@@ -110,11 +108,18 @@ export class SelectOccasionComponent implements OnInit {
     selectEmployee(employee: any) {
         for (let service of this.serviceDetails) {
             this.selectedEmployees[service.service_id] = employee;
-
         }
+        this.selectedEmployeeId = employee.employee_id;
+    }
+
+    isSelectedEmployee(employee: any): boolean {
+        return Object.values(this.selectedEmployees).some(
+            (selected) => selected.employee_id === employee.employee_id
+        );
     }
 
     selectEmployeePerService() {
+        console.log("Services", this.selectedServices)
         this.router.navigate(['/employeeService'], {
             queryParams: {
                 special_services: this.selectedServices.join(','),
@@ -124,14 +129,16 @@ export class SelectOccasionComponent implements OnInit {
         }); 
     }
 
-  onSelectServices(){
-    this.router.navigate(['/date'], { 
-      queryParams: { 
-        special_services : this.selectedServices.join(','), 
-        branch_id : this.branch_id,
-        employee_id : this.selectedEmployeeId,
-        total_price : this.totalPrice 
-      }
-    });
-  }
+    onSelectServices() {
+        this.router.navigate(['/date'], { 
+          queryParams: { 
+                special_services : this.selectedServices.join(','), 
+                branch_id : this.branch_id,
+                employee_id : this.selectedEmployeeId,
+                total_price: this.totalPrice,
+                selectedList: this.selectedEmployees
+          }
+        });
+    }
+
 }

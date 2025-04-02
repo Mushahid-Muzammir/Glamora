@@ -9,31 +9,34 @@ import Swal from 'sweetalert2';
 
 
 @Component({
-  selector: 'app-select-date',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './select-date.component.html',
-  styleUrl: './select-date.component.css'
+    selector: 'app-select-date',
+    standalone: true,
+    imports: [CommonModule, FormsModule],
+    templateUrl: './select-date.component.html',
+    styleUrl: './select-date.component.css'
 })
 export class SelectDateComponent implements OnInit {
-  selectedServices: number[] = [];
-  selectedSpecialServices : number[] = [];
-  serviceDetails : any[] = [];
-  selectedDate: string = '';
-  selectedBranch!: number;
-  selectedEmployee !: any;
-  totalPrice !: number;
-  branchName: string = '';
-  branch !: any;
-  branch_id !: number;
-  userId!: number;
-  customerId!: number;
-  totalDuration: number = 0;
-  availableSlots: any[] = [];
-  selectedSlot: any = null;
-  today: string = new Date().toISOString().split('T')[0]; 
-  showPopup: boolean = false;
-  type: string = '';
+    selectedServices: number[] = [];
+    selectedSpecialServices: number[] = [];
+    serviceDetails: any[] = [];
+    selectedDate: string = '';
+    selectedBranch!: number;
+    selectedEmployee !: any;
+    totalPrice !: number;
+    branchName: string = '';
+    branch !: any;
+    branch_id !: number;
+    userId!: number;
+    customerId!: number;
+    totalDuration: number = 0;
+    availableSlots: any[] = [];
+    selectedSlot: any = null;
+    today: string = new Date().toISOString().split('T')[0];
+    showPopup: boolean = false;
+    type: string = '';
+    serviceEmployees: { [key: number]: any } = {};
+    employeeServiceDetails: { [key: number]: number } = {};
+
 
   constructor(
     private route: ActivatedRoute,
@@ -53,21 +56,24 @@ export class SelectDateComponent implements OnInit {
       },
       error => console.error('Error fetching customer:', error)
     );
-    this.clientService.getEmployeeById(this.selectedEmployee).subscribe(
-      (res : any) => {
-        this.selectedEmployee = res.employee;
-        console.log("Employee Details", this.selectedEmployee)
-      });
+    //this.clientService.getEmployeeById(this.selectedEmployee).subscribe(
+    //  (res : any) => {
+    //    this.selectedEmployee = res.employee;
+    //    console.log("Employee Details", this.selectedEmployee)
+    //  });
   }
 
   private extractQueryParams(): void {
     this.route.queryParams.subscribe(params => {
-      this.selectedBranch = Number(params['branch_id']);
-      this.selectedEmployee = Number(params['employee_id']);
-      this.selectedServices = params['services'] ? params['services'].split(',').map(Number) : [];
-      this.selectedSpecialServices = params['special_services'] ? params['special_services'].split(',').map(Number) : [];
-      this.totalPrice = Number(params['total_price']);
-      console.log("Selected Special Services", this.selectedSpecialServices);
+          this.selectedBranch = Number(params['branch_id']);
+          this.selectedEmployee = Number(params['employee_id']);
+          this.selectedServices = params['services'] ? params['services'].split(',').map(Number) : [];
+          this.selectedSpecialServices = params['special_services'] ? params['special_services'].split(',').map(Number) : [];
+          this.totalPrice = Number(params['total_price']);
+        this.serviceEmployees = JSON.parse(params['selectedList']);
+        for (const service_id in this.serviceEmployees) {
+            this.employeeServiceDetails[service_id] = this.serviceEmployees[service_id].employee_id;
+        }
 
         this.fetchServicesDuration();
         const serviceIds = this.selectedServices.join(',');
@@ -76,9 +82,7 @@ export class SelectDateComponent implements OnInit {
           this.clientService.getServiceDetails(serviceIds).subscribe(
             res => {
               this.serviceDetails = res.services;
-                  console.log("Special Services", this.serviceDetails);
                   this.type = "regular";
-
             },
               error => console.error('Error fetching service durations:', error)
             );
@@ -86,7 +90,6 @@ export class SelectDateComponent implements OnInit {
           this.clientService.getSpecialServiceDetails(specialServiceIds).subscribe(
             res => {
               this.serviceDetails = res.services;
-                  console.log("Special Services", this.serviceDetails);
                   this.type = "special";
             },
               error => console.error('Error fetching service durations:', error)
@@ -148,7 +151,8 @@ export class SelectDateComponent implements OnInit {
 
   selectSlot(slot: any): void {
     this.selectedSlot = slot;
-  }
+    }
+
 
   confirmBooking(): void {
     if (!this.selectedSlot) {
@@ -165,6 +169,7 @@ export class SelectDateComponent implements OnInit {
         amount: this.totalPrice,
         type: this.type,
         services: this.selectedServices ? this.selectedServices : this.selectedSpecialServices,
+        employeeService : this.employeeServiceDetails
     };
 
     console.log('Booking Data:', bookingData);

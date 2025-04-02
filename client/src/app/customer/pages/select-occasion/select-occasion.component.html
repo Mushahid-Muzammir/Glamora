@@ -46,9 +46,8 @@
                       <a (click)="selectEmployee(employee)"
                          class="flex flex-col items-center shadow-lg rounded-lg overflow-hidden hover:shadow-xl p-4 transition-all duration-300 transform hover:scale-105 cursor-pointer"
                          [ngClass]="{
-                      'border-2 border-blue-600': selectedEmployeeId === employee.employee_id
-
-                    }">
+                               'border-2 border-blue-600': isSelectedEmployee(employee)
+                           }">
                           <img alt="Employee"
                                [src]="employee.image_url"
                                class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
@@ -75,9 +74,9 @@
                 </div>
                 <hr class="mt-4">
                 <div class="p-4">
-                    <div *ngIf="selectedEmployeeId" class="flex justify-between">
+                    <div class="flex justify-between">
                         <p class="font-semibold text-gray-600">👤 Stylist</p>
-                        <p class="font-semibold text-black">{{selectedEmployee.name}}</p>
+                        <p class="font-semibold text-black">{{selectedEmployees[selectedServices[0]]?.name}}</p>
                     </div>
                     <hr class="my-3">
                     <div *ngFor="let service of serviceDetails" class="flex justify-between">

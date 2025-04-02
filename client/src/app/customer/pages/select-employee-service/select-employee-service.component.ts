@@ -5,7 +5,7 @@ import { ClientService } from '../../../services/client.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Employee } from '../../../data_interface'
+import { Employee } from '../../../data_interface';
 import { Router } from '@angular/router'; 
 
 @Component({
@@ -72,7 +72,6 @@ export class SelectEmployeeServiceComponent implements OnInit {
 
     selectedEmployee(employee: any, serviceId: number) {
         this.selectedEmployees[serviceId] = employee;
-        console.log("Selected Employees", this.selectedEmployees)
         this.showPopup[serviceId] = false;
     }
 
@@ -81,12 +80,14 @@ export class SelectEmployeeServiceComponent implements OnInit {
     }
 
     onSelectServices() {
+        console.log("Services", this.selectedEmployees)
         this.router.navigate(['/date'], {
             queryParams: {
                 special_services: this.selectedSpecialServices.join(','),
                 branch_id: this.selectedBranch,
                 employees: this.selectedEmployee,
-                total_price: this.totalPrice
+                total_price: this.totalPrice,
+                selectedList: JSON.stringify(this.selectedEmployees)
             }
         });
     }
