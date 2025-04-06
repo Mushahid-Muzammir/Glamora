@@ -1,12 +1,12 @@
 import express from 'express';
-import { confirmBooking, getAvailableSlots, getBranchById, getBranches, getCustomerbyId, getEmployeeById, getEmployeesbyBranch, getEmployeeServices, getProducts, getServiceDetails, getServiceEmployees, getServices, getSpecialServiceDetails, getSpecialServices, makeSales, getEmployeeEachService } from '../controllers/customer_controller.js';
+import { confirmBooking, getAvailableSlots, getBranchById, getBranches, getCustomerbyId, getEmployeeById, getServicesByGender, getEmployeeServices, getProducts, getServiceDetails, getServiceEmployees, getServices, getSpecialServiceDetails, getSpecialServices, makeSales, getEmployeeEachService } from '../controllers/customer_controller.js';
 
 export const customerRoute = express.Router();
 
 customerRoute.get("/getProducts", getProducts);
 customerRoute.get("/getServices", getServices);
 customerRoute.get("/getBranches", getBranches);
-customerRoute.get("/getEmployees", getEmployeesbyBranch);
+customerRoute.get("/getServicesByGender", getServicesByGender);
 customerRoute.get("/getCustomerbyId/:user_id", getCustomerbyId);
 customerRoute.get("/getBranchById/:branch_id", getBranchById);
 customerRoute.get("/getServiceDetails", getServiceDetails);

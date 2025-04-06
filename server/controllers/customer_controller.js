@@ -91,19 +91,18 @@ export const getBranchById = async (req, res) => {
     }
 }
 
-export const getEmployeesbyBranch = async (req, res) => {
+export const getServicesByGender = async (req, res) => {
     try {
-        const branch_id = Number(req.query.branch_id); 
         const gender = req.query.gender; 
         const query =
-        "SELECT u.user_id, u.name, u.contact, u.email, e.employee_id, e.image_url, e.title, e.branch_id, b.branch_name FROM users u JOIN employees e ON u.user_id = e.user_id JOIN branches b ON e.branch_id = b.branch_id WHERE b.branch_id = ? AND e.service_gender = ?";
-      const [results] = await db.execute(query, [branch_id, gender]);
+        "SELECT s.service_id, s.service_name, s.description, s.price, s.duration FROM services s WHERE s.service_gender = ?";
+      const [results] = await db.execute(query, [gender]);
       if (results.length === 0) {
-        return res.status(404).send("No Employees Found");
+        return res.status(404).send("No Services Found");
       }
-      const employees = results;
-      console.log(employees);
-      return res.status(200).json({ employees: employees });
+      const services = results;
+        console.log(services);
+        return res.status(200).json({ services: services });
     } catch (error) {
       console.error("Unexpected Error:", error);
       return res.status(500).send("An error occurred: " + error.message);

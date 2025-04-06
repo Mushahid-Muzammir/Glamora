@@ -15,10 +15,9 @@ export class ClientService {
     return this.http.get<Branch[]>(`${this.clientUrl}/getBranches`);
   }
 
-  getEmployees(branch_id : number, gender : string): Observable<Employee[]> {
-    return this.http.get<Employee[]>(`${this.clientUrl}/getEmployees/`, {
+    getServicesByGender(gender: string): Observable<Service[]> {
+        return this.http.get<Service[]>(`${this.clientUrl}/getServicesByGender/`, {
       params:{
-        branch_id : branch_id,
         gender : gender
       }
     });

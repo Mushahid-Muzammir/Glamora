@@ -16,9 +16,7 @@ import { MatTabsModule } from '@angular/material/tabs'
   styleUrl: './select-occasion.component.css'
 })
 export class SelectOccasionComponent implements OnInit {
-    @ViewChild('confirmButton') confirmButton !: ElementRef
-  
-
+    @ViewChild('confirmButton') confirmButton !: ElementRef 
       branch_id !: number;
       branch !: any;
       employees : Employee[] = [];
@@ -32,11 +30,11 @@ export class SelectOccasionComponent implements OnInit {
       selectedEmployeeId !: number;
       selectedEmployees: { [key: number] : any } = {};
 
-      constructor(
-        private clientService : ClientService,
-        private route : ActivatedRoute,
-        private router : Router,
-      ) {}
+  constructor(
+    private clientService : ClientService,
+    private route : ActivatedRoute,
+    private router : Router,
+  ) {}
 
   ngOnInit(): void {
     this.branch_id = Number(this.route.snapshot.paramMap.get('branch_id') || '');
@@ -78,7 +76,6 @@ export class SelectOccasionComponent implements OnInit {
 
   private fetchServicesDetails(): void {
     const serviceIds = this.selectedServices.join(',');
-    console.log('Service IDs:', serviceIds);
     this.clientService.getSpecialServiceDetails(serviceIds).subscribe(
       res => {
         this.serviceDetails = res.services;
@@ -90,7 +87,6 @@ export class SelectOccasionComponent implements OnInit {
 
   private calculateTotalPrice(services: { service_id: number; price: number }[]): void {
     this.totalPrice = services.reduce((sum, service) => sum + service.price, 0);
-
   }
 
   private fetchEmployees(): void {
@@ -99,46 +95,44 @@ export class SelectOccasionComponent implements OnInit {
     this.clientService.getServiceEmployees(serviceIds).subscribe(
       res => {
             this.serviceEmployees = res.employees;
-        console.log(res.employees);
       },
-      error => console.error('Error fetching service durations:', error)
+      error => console.error('Error fetching Employees:', error)
     );
   }
 
-    selectEmployee(employee: any) {
-        for (let service of this.serviceDetails) {
-            this.selectedEmployees[service.service_id] = employee;
+  selectEmployee(employee: any) {
+    for (let service of this.serviceDetails) {
+        this.selectedEmployees[service.service_id] = employee;
+    }
+    this.selectedEmployeeId = employee.employee_id;
+    }
+
+  isSelectedEmployee(employee: any): boolean {
+    return Object.values(this.selectedEmployees).some(
+        (selected) => selected.employee_id === employee.employee_id
+    );
+  }
+
+  selectEmployeePerService() {
+    this.router.navigate(['/employeeService'], {
+        queryParams: {
+            special_services: this.selectedServices.join(','),
+            branch_id: this.branch_id,
+            total_price: this.totalPrice
         }
-        this.selectedEmployeeId = employee.employee_id;
-    }
+    }); 
+  }
 
-    isSelectedEmployee(employee: any): boolean {
-        return Object.values(this.selectedEmployees).some(
-            (selected) => selected.employee_id === employee.employee_id
-        );
-    }
-
-    selectEmployeePerService() {
-        console.log("Services", this.selectedServices)
-        this.router.navigate(['/employeeService'], {
-            queryParams: {
-                special_services: this.selectedServices.join(','),
-                branch_id: this.branch_id,
-                total_price: this.totalPrice
-            }
-        }); 
-    }
-
-    onSelectServices() {
-        this.router.navigate(['/date'], { 
-          queryParams: { 
-                special_services : this.selectedServices.join(','), 
-                branch_id : this.branch_id,
-                employee_id : this.selectedEmployeeId,
-                total_price: this.totalPrice,
-                selectedList: this.selectedEmployees
-          }
-        });
-    }
+  onSelectServices() {
+    this.router.navigate(['/date'], { 
+        queryParams: { 
+            special_services : this.selectedServices.join(','), 
+            branch_id : this.branch_id,
+            employee_id : this.selectedEmployeeId,
+            total_price: this.totalPrice,
+            selectedList: this.selectedEmployees
+        }
+    });
+  }
 
 }

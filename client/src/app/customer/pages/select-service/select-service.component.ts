@@ -21,20 +21,21 @@ export class SelectServiceComponent implements OnInit {
   @ViewChild('serviceSection') serviceSection !: ElementRef
   @ViewChild('confirmButton') confirmButton !: ElementRef
 
-  searchText : string = '';
-  filteredServices : Service[] = [];
-  services: Service[] = [];
-  employees : Employee[] = [];
-  serviceDetails : any[] = [];
-  selectedGender: string | null = null;
-  serviceForm !: FormGroup;
-  branch !: any;
-  selectedEmployee !: any;
-  branch_id !: number;
-  selectedServices: number[] = [];
-  totalPrice : number = 0;
-  selectedEmployeeId !: number;
-  
+    searchText : string = '';
+    filteredServices : Service[] = [];
+    services: any[] = [];
+    serviceDetails : any[] = [];
+    selectedGender: string | null = null;
+    serviceForm !: FormGroup;
+    branch !: any;
+    selectedEmployee !: any;
+    branch_id !: number;
+    selectedServices: number[] = [];
+    serviceEmployees !: any;
+    totalPrice : number = 0;
+    selectedEmployeeId !: number;
+    selectedEmployees: { [key: number]: any } = {};
+
   constructor(
     private clientService : ClientService,
     private route : ActivatedRoute,
@@ -46,67 +47,77 @@ export class SelectServiceComponent implements OnInit {
     this.clientService.getBranchbyId(this.branch_id).subscribe(
       (res : any) => {
         this.branch = res.branch[0];
-        console.log("Branch:",this.branch);
       });  
   }
 
   selectGender(gender: string) {
     this.selectedGender = gender;
-    this.clientService.getEmployees(this.branch_id, this.selectedGender).subscribe(
-      (res : any) =>{
-        this.employees = res.employees;
+    this.clientService.getServicesByGender(this.selectedGender).subscribe(
+        (res: any) => {
+            this.services = res.services;
+            this.filteredServices = this.services;
       });
-  }
-
-  selectEmployee(employeeId : number){
-    this.selectedEmployeeId = employeeId;
-    console.log("Selected Employee:", this.selectedEmployeeId);
-    setTimeout(() => {
-      this.serviceSection?.nativeElement.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-      });
-    }, 2500);
-    this.clientService.getEmployeeServices(employeeId).subscribe(
-      (res : any) =>{
-        this.services = res.services;
-        this.filteredServices = [...this.services];
-        this.clientService.getEmployeeById(employeeId).subscribe(
-          (res : any) => {
-            this.selectedEmployee = res.employee;
-            console.log("Employee Details", this.selectedEmployee)
-          });
-      });  
-  }
-
-  toggleService(service_id:number, event:any){
-    if(event.checked){
-      this.selectedServices.push(service_id);
-      this.fetchServicesDetails();
-      setTimeout(() => {
-        this.confirmButton?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
-    }else{
-      this.selectedServices = this.selectedServices.filter(id => id !== service_id);
     }
+
+  toggleServices(service_id: number, event: any) {
+    if (event.checked) {
+        this.selectedServices.push(service_id);
+    } else {
+        this.selectedServices = this.selectedServices.filter(id => id !== service_id);
+      }
+      this.fetchServicesDetails();
+    }
+
+    private fetchServicesDetails(): void {
+        const serviceIds = this.selectedServices.join(',');
+        this.clientService.getServiceDetails(serviceIds).subscribe(
+            res => {
+                this.serviceDetails = res.services;
+                this.calculateTotalPrice(this.serviceDetails);
+            },
+            error => console.error('Error fetching service details:', error)
+        );
+        this.fetchEmployees();
+    }
+
+    private calculateTotalPrice(services: { service_id: number; price: number }[]): void {
+        this.totalPrice = services.reduce((sum, service) => sum + service.price, 0);
+        console.log('Total Price:', this.totalPrice);
+    }
+   
+  fetchEmployees() {
+    const serviceIds = this.selectedServices.join(',');
+    this.clientService.getServiceEmployees(serviceIds).subscribe(
+        (res: any) => {
+            this.serviceEmployees = res.employees;
+        },
+        error => console.error('Error fetching Employees:', error)
+    )
   }
 
-  private fetchServicesDetails(): void {
-    const serviceIds = this.selectedServices.join(',');
-    console.log('Service IDs:', serviceIds);
-    this.clientService.getServiceDetails(serviceIds).subscribe(
-      res => {
-        this.serviceDetails = res.services;
-        this.calculateTotalPrice(res.services);
-      },
-      error => console.error('Error fetching service durations:', error)
-    );
+  selectEmployee(employee: any) {
+    for (let service of this.serviceDetails) {
+        this.selectedEmployees[service.service_id] = employee;
+    }
+    this.selectedEmployee = employee;
   }
-  
-  private calculateTotalPrice(services: { service_id: number; price: number }[]): void {
-    this.totalPrice = services.reduce((sum, service) => sum + service.price, 0);
-    console.log('Total Price:', this.totalPrice);
-  }
+
+    isSelectedEmployee(employeeId: number) {
+        return Object.values(this.selectedEmployees).some(
+            (selected) => selected.employee_id === employeeId
+        );
+    }
+
+    selectEmployeePerService() {
+        const serviceIds = this.selectedServices.join(',');
+        this.router.navigate(['/employeeService'], {
+            queryParams: {
+                serviceIds: serviceIds,
+                branch_id: this.branch_id,
+                total_price: this.totalPrice
+            }
+        });
+    }
 
   onSelectServices(){
     this.router.navigate(['/date'], { 
@@ -121,9 +132,10 @@ export class SelectServiceComponent implements OnInit {
 
   filterServices() {
     const searchTextLower = this.searchText.toLowerCase();
-    this.filteredServices = this.services.filter(
+      this.filteredServices = this.services.filter(
       (service) =>
         service.service_name.toLowerCase().includes(searchTextLower)
     );
-  }
+   }
+
 }
