@@ -1,4 +1,3 @@
-import { get } from "mongoose";
 import { db } from "../server.js";
 import nodemailer from 'nodemailer'
 
@@ -25,6 +24,17 @@ export const getProductById = async (req, res) => {
     }
 };
 
+export const getBestSellingProducts = async (req, res) => {
+    try {
+        const [products] = await db.execute("SELECT sd.product_id, p.image_url, p.product_name, p.description, p.selling_price, COUNT(sd.product_id) AS most_selled_product FROM sales_details sd JOIN products p ON sd.product_id = p.product_id GROUP BY sd.product_id ORDER BY most_selled_product DESC LIMIT 3 ");
+        if (products.length === 0) return res.status(404).send("No Products Found");
+        res.status(200).json({ products : products });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
 export const getBranches = async (req, res) => {
     try {
         const [branches] = await db.execute("SELECT * FROM branches");
@@ -49,21 +59,16 @@ export const getCustomers = async (req, res) => {
 
 export const getCustomerbyId = async (req, res) => {
     try {
-        const user_id = Number(req.params.user_id);  
-        
+        const user_id = Number(req.params.user_id);         
         if (!user_id) {
             return res.status(400).send("user_id is required");
         }
 
-        const [result] = await db.execute("SELECT customer_id FROM customers WHERE user_id = ?", [user_id]);
-        
-        console.log("Database result:", result);
-        
+        const [result] = await db.execute("SELECT customer_id FROM customers WHERE user_id = ?", [user_id]);        
         const customer = result[0]; 
         if (!customer) {
             return res.status(404).send(`No User Found with user_id: ${user_id}`);
         }
-
         res.status(200).json({ customer: customer });
     } catch (error) {
         console.error("Database Error:", error);
@@ -79,7 +84,6 @@ export const getBranchById = async (req, res) => {
             return res.status(400).send("branch_id is required");
         }
         const result = await db.execute("SELECT * FROM branches WHERE branch_id = ?", [branch_id]);       
-        console.log("Database result:", result);       
         const branch = result[0]; 
         if (!branch) {
             return res.status(404).send(`No User Found with user_id: ${user_id}`);
@@ -95,12 +99,12 @@ export const getServicesByGender = async (req, res) => {
     try {
         const gender = req.query.gender; 
         const query =
-        "SELECT s.service_id, s.service_name, s.description, s.price, s.duration FROM services s WHERE s.service_gender = ?";
-      const [results] = await db.execute(query, [gender]);
-      if (results.length === 0) {
-        return res.status(404).send("No Services Found");
-      }
-      const services = results;
+        "SELECT s.service_id, s.service_name, s.description, s.price, s.duration FROM services s WHERE s.service_type = 'normal' AND s.service_gender = ?";
+          const [results] = await db.execute(query, [gender]);
+          if (results.length === 0) {
+            return res.status(404).send("No Services Found");
+          }
+          const services = results;
         console.log(services);
         return res.status(200).json({ services: services });
     } catch (error) {
@@ -132,7 +136,7 @@ export const getServices = async (req, res) => {
     try {
         const [services] = await db.execute("SELECT * FROM services");
         if (services.length === 0) return res.status(404).send("No Services Found");
-        res.status(200).json({ services });
+        res.status(200).json({ services: services });
     } catch (error) {
         console.error("Database Error:", error);
         res.status(500).send("Internal Server Error");
@@ -338,7 +342,7 @@ export const getEmployeeServices = async (req, res) => {
 
 export const getSpecialServices = async (req, res) => {
     try {
-        const [services] = await db.execute("SELECT * FROM special_services");
+        const [services] = await db.execute("SELECT * FROM services s WHERE s.service_type = 'special' ");
         if (services.length === 0) return res.status(404).send("No Services Found");
         res.status(200).json({ services });
     } catch (error) {
@@ -358,7 +362,7 @@ export const getSpecialServiceDetails = async (req, res) => {
         }
 
         const placeholders = serviceIds.map(() => '?').join(',');
-        const [rows] = await db.execute(`SELECT service_id, service_name, price, duration FROM special_services WHERE service_id IN (${placeholders})`, serviceIds);
+        const [rows] = await db.execute(`SELECT service_id, service_name, price, duration, service_type FROM services WHERE service_id IN (${placeholders})`, serviceIds);
         res.status(200).json({ services: rows });
     } catch (error) {
         console.error("Database Error:", error);
@@ -370,7 +374,6 @@ export const getServiceEmployees = async (req, res) => {
     try {
         const services = req.query.services;
         if (!services) return res.status(400).json({ message: "Services parameter is required" });
-
         const serviceIds = services.split(',').map(id => parseInt(id));
         if (serviceIds.some(isNaN) || serviceIds.length === 0) {
             return res.status(400).json({ message: "Invalid service IDs provided" });
@@ -417,6 +420,17 @@ export const getEmployeeEachService = async (req, res) => {
         res.status(200).json({ employees: rows });
 
     } catch(error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+export const getTestimonials = async (req, res) => {
+    try {
+        const [testimonials] = await db.execute("SELECT u.name, t.text FROM testimonials t JOIN customers c ON t.customer_id = c.customer_id JOIN users u ON u.user_id = c.user_id");
+        if (testimonials.length === 0) return res.status(404).send("No Testimonials Found");
+        res.status(200).json({ testimonials : testimonials });
+    } catch (error) {
         console.error("Database Error:", error);
         res.status(500).send("Internal Server Error");
     }

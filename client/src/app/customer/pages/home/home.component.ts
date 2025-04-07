@@ -6,7 +6,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { ClientService } from '../../../services/client.service';
-import { Service } from '../../../data_interface';
+import { Product, Service } from '../../../data_interface';
 import { CarouselModule } from 'primeng/carousel';
 import { trigger, transition, style, animate } from '@angular/animations';
 
@@ -38,6 +38,8 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     @Input() items: { title: string; description: string }[] = [];
     currentIndex = signal(0);
     intervalId: any;
+    products: any[] = [];
+    testimonials: any[] = [];
 
     slides = [
         { title: 'Book with Ease!', description: 'Your Look is Just a Click Away', bg: 'images/bg1.jpg' },
@@ -56,13 +58,17 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.clientService.getServices().subscribe((res: any) => {
-            this.services = res.services;
+        this.clientService.getBestSellingProducts().subscribe((res: any) => {
+            this.products = res.products;
         });
-
         this.intervalId = setInterval(() => {
             this.currentIndex.set((this.currentIndex() + 1) % this.slides.length);
         }, 4000);
+
+        this.clientService.getTestimonials().subscribe(
+            (res: any) => {
+                this.testimonials = res.testimonials;
+            });
     }
 
     ngAfterViewInit(): void {

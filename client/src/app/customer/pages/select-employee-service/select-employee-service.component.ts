@@ -34,7 +34,7 @@ export class SelectEmployeeServiceComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             this.selectedBranch = Number(params['branch_id']);
-            this.selectedSpecialServices = params['special_services'] ? params['special_services'].split(',').map(Number) : [];
+            this.selectedSpecialServices = params['services'] ? params['services'].split(',').map(Number) : [];
             this.totalPrice = Number(params['total_price']);   
         });
         this.fetchDetails();

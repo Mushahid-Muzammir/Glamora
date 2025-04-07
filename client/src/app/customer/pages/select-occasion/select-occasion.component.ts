@@ -91,7 +91,7 @@ export class SelectOccasionComponent implements OnInit {
 
   private fetchEmployees(): void {
     const serviceIds = this.selectedServices.join(',');
-    console.log('Service IDs:', serviceIds);
+    console.log('Service IDsss:', serviceIds);
     this.clientService.getServiceEmployees(serviceIds).subscribe(
       res => {
             this.serviceEmployees = res.employees;
@@ -116,7 +116,7 @@ export class SelectOccasionComponent implements OnInit {
   selectEmployeePerService() {
     this.router.navigate(['/employeeService'], {
         queryParams: {
-            special_services: this.selectedServices.join(','),
+            services: this.selectedServices.join(','),
             branch_id: this.branch_id,
             total_price: this.totalPrice
         }

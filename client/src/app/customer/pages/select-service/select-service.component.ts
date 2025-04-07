@@ -112,7 +112,7 @@ export class SelectServiceComponent implements OnInit {
         const serviceIds = this.selectedServices.join(',');
         this.router.navigate(['/employeeService'], {
             queryParams: {
-                serviceIds: serviceIds,
+                services: serviceIds,
                 branch_id: this.branch_id,
                 total_price: this.totalPrice
             }

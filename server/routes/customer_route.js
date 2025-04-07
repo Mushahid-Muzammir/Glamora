@@ -1,5 +1,5 @@
 import express from 'express';
-import { confirmBooking, getAvailableSlots, getBranchById, getBranches, getCustomerbyId, getEmployeeById, getServicesByGender, getEmployeeServices, getProducts, getServiceDetails, getServiceEmployees, getServices, getSpecialServiceDetails, getSpecialServices, makeSales, getEmployeeEachService } from '../controllers/customer_controller.js';
+import { confirmBooking, getAvailableSlots, getBranchById, getBranches, getCustomerbyId, getEmployeeById, getServicesByGender, getEmployeeServices, getProducts, getServiceDetails, getServiceEmployees, getServices, getSpecialServiceDetails, getSpecialServices, makeSales, getEmployeeEachService, getBestSellingProducts, getTestimonials } from '../controllers/customer_controller.js';
 
 export const customerRoute = express.Router();
 
@@ -19,6 +19,8 @@ customerRoute.get("/getSpecialServices", getSpecialServices);
 customerRoute.get("/getSpecialServiceDetails", getSpecialServiceDetails);
 customerRoute.get("/getServiceEmployees", getServiceEmployees);
 customerRoute.get("/getEmployeeEachService", getEmployeeEachService);
+customerRoute.get("/getBestSellingProducts", getBestSellingProducts);
+customerRoute.get("/getTestimonials", getTestimonials);
 
 
 

@@ -551,7 +551,6 @@ export const getAppointments = async (req, res) => {
         u.name, 
         u.contact, 
         b.branch_name, 
-        a.service_status, 
         a.payment_mode, 
         a.payment_status,
         a.appointment_id
@@ -559,7 +558,6 @@ export const getAppointments = async (req, res) => {
       JOIN branches b ON a.branch_id = b.branch_id 
       JOIN customers c ON a.customer_id = c.customer_id 
       JOIN users u ON c.user_id = u.user_id 
-      WHERE a.app_status = 'active'
       ORDER BY a.booked_date DESC, a.start_time ASC
     `);
 

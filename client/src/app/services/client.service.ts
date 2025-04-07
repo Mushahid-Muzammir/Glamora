@@ -89,7 +89,15 @@ export class ClientService {
     return this.http.get<any>(`${this.clientUrl}/getEmployeeEachService`, {
         params: { service_id: serviceId }
     });
-   }
+    }
+
+    getBestSellingProducts(): Observable<Product> {
+        return this.http.get<Product>(`${this.clientUrl}/getBestSellingProducts`);
+    }
+
+    getTestimonials(): Observable<any> {
+        return this.http.get<any>(`${this.clientUrl}/getTestimonials`);
+    }
   
 }
 
