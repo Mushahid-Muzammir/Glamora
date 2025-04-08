@@ -526,7 +526,7 @@ export const getServiceById =  async (req, res) => {
 export const getTodayAppointments = async (req, res) => {
   try {
     const currentDate = new Date().toISOString().split("T")[0];
-    const query = "SELECT a.appointment_id, a.customer_id, a.start_time, a.end_time, a.payment_status, u.name, u.contact, b.branch_name FROM appointments a JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id JOIN employees e ON a.employee_id = e.employee_id JOIN users s on s.user_id = e.user_id JOIN branches b ON a.branch_id = b.branch_id WHERE a.date = CURDATE()";
+    const query = "SELECT a.appointment_id, a.customer_id, a.start_time, a.end_time, a.payment_status, u.name, u.contact, b.branch_name FROM appointments a JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id JOIN branches b ON a.branch_id = b.branch_id WHERE a.date = CURDATE()";
   const [results] = await db.execute(query, [currentDate])
       if (results.length === 0) {
         return res.status(404).send("No Appointments Found");
@@ -616,4 +616,19 @@ export const updateRequest = async (req, res) => {
     console.error("Database Error:", error);
     return res.status(500).send("Internal Server Error");
   }
+}
+
+export const getTodaySales = async (req, res) => {
+    try {
+        const currentDate = new Date().toISOString().split("T")[0];
+        const [result] = await db.execute("SELECT SUM(total) AS total_sales FROM sales WHERE sale_date = ?", [currentDate]);
+        if (result[0].total_sales === null) {
+            return res.status(200).json({totalSales : 0});
+        }
+        const totalSales = result[0].total_sales;
+        return res.status(200).json({ total_sales: totalSales });
+    } catch (error) {
+        console.error("Database Error:", error);
+        return res.status(500).send("Internal Server Error");
+    }
 }

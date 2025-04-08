@@ -59,7 +59,7 @@ export const routes: Routes = [
     { path : 'contact', component :ContactComponent},
     { path: 'date', component: SelectDateComponent, canActivate: [AuthGuard] },
     { path: 'products', component: ProductsComponent },
-    { path: "admin", component: AuthorityLoginComponent, canActivate: [AuthGuard] },
+    { path: "admin", component: AuthorityLoginComponent },
     { path : "staff", component: AuthorityLoginComponent },
     { path : "manager", component: AuthorityLoginComponent },
     { path: "adminHome", component: AdminHomeComponent, canActivate: [AuthGuard] },

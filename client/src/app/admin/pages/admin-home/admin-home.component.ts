@@ -17,7 +17,8 @@ export class AdminHomeComponent implements OnInit {
   appointments : Appointment[] = [];
   searchText: string = '';
   filteredAppointments : any[] =[];
-  employees : Employee[] = [];
+  employees: Employee[] = [];
+  totalSales : number  = 0;
   itemsPerPage : number = 5;
   currentPage : number = 1;
 
@@ -36,8 +37,13 @@ export class AdminHomeComponent implements OnInit {
       this.adminService.getEmployees().subscribe(
         (res : any) => {
           this.employees = res.employees;
-        });
-  }
+          });
+      this.adminService.getTodaySales().subscribe(
+          (res: any) => {
+              this.totalSales = res.totalSales;
+          });
+   }
+
 
   filterAppointments() {
     const searchTextLower = this.searchText.toLowerCase();
