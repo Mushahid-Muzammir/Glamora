@@ -243,7 +243,6 @@ export const getEmployees = async (req, res) => {
       return res.status(404).send("No Employees Found");
     }
     const employees = results;
-    console.log(employees);
     return res.status(200).json({ employees: employees });
   } catch (error) {
     console.error("Unexpected Error:", error);
@@ -622,13 +621,29 @@ export const getTodaySales = async (req, res) => {
     try {
         const currentDate = new Date().toISOString().split("T")[0];
         const [result] = await db.execute("SELECT SUM(total) AS total_sales FROM sales WHERE sale_date = ?", [currentDate]);
-        if (result[0].total_sales === null) {
-            return res.status(200).json({totalSales : 0});
-        }
         const totalSales = result[0].total_sales;
-        return res.status(200).json({ total_sales: totalSales });
+        if (totalSales === null) {
+            return res.status(200).json({ totalSales: 0 });
+        }
+        return res.status(200).json({ totalSales: totalSales });
     } catch (error) {
         console.error("Database Error:", error);
         return res.status(500).send("Internal Server Error");
     }
 }
+
+export const getTodayRevenueByServices = async (req, res) => {
+    try {
+        const currentDate = new Date().toISOString().split("T")[0];
+        const [result] = await db.execute("SELECT SUM(amount) AS total_amount from appointments WHERE date = ? AND app_status = 'Completed'", [currentDate]);
+        const todayRevenue = result[0].total_amount;
+        if (todayRevenue === null) {
+            return res.status(200).json({ todayRevenue: 0 });
+        }
+        return res.status(200).json({ todayRevenue: todayRevenue });
+    } catch (error) {
+        console.error("Database Error:", error);
+        return res.status(500).send("Internal Server Error");
+    }
+}
+

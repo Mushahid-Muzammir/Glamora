@@ -14,13 +14,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
   styleUrl: './admin-home.component.css'
 })
 export class AdminHomeComponent implements OnInit {
-  appointments : Appointment[] = [];
-  searchText: string = '';
-  filteredAppointments : any[] =[];
-  employees: Employee[] = [];
-  totalSales : number  = 0;
-  itemsPerPage : number = 5;
-  currentPage : number = 1;
+appointments : Appointment[] = [];
+searchText: string = '';
+filteredAppointments : any[] =[];
+employees: Employee[] = [];
+totalSales: number = 0;
+totalRevenue: number = 0;
+itemsPerPage : number = 5;
+currentPage : number = 1;
 
 
   constructor(
@@ -32,7 +33,6 @@ export class AdminHomeComponent implements OnInit {
       (res:any) => {
         this.appointments = res.appointments;
         this.filteredAppointments = [...this.appointments]; 
-        console.log(this.appointments);
       });
       this.adminService.getEmployees().subscribe(
         (res : any) => {
@@ -42,8 +42,11 @@ export class AdminHomeComponent implements OnInit {
           (res: any) => {
               this.totalSales = res.totalSales;
           });
+      this.adminService.getTodayRevenueByServices().subscribe(
+          (res: any) => {
+              this.totalRevenue = res.todayRevenue;
+          });
    }
-
 
   filterAppointments() {
     const searchTextLower = this.searchText.toLowerCase();

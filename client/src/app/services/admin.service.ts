@@ -89,10 +89,14 @@ export class AdminService {
 
   cancelAppointment(appointment_id: number, status : string){
     return this.http.put(`${this.adminUrl}/cancelAppointment/${appointment_id}`, { status });
+  }
+
+  getTodaySales(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.adminUrl}/getTodaySales`);
     }
 
-    getTodaySales(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.adminUrl}/getTodaySales`);
+    getTodayRevenueByServices(): Observable<any> {
+        return this.http.get<any>(`${this.adminUrl}/getTodayRevenueByServices`);
     }
 
   getManagers(): Observable<Manager[]>{
