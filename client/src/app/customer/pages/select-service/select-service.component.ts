@@ -114,7 +114,8 @@ export class SelectServiceComponent implements OnInit {
             queryParams: {
                 services: serviceIds,
                 branch_id: this.branch_id,
-                total_price: this.totalPrice
+                total_price: this.totalPrice,
+                type: 'regular',
             }
         });
     }
@@ -123,9 +124,10 @@ export class SelectServiceComponent implements OnInit {
     this.router.navigate(['/date'], { 
       queryParams: { 
         services : this.selectedServices.join(','), 
-        branch_id : this.branch_id,
-        employee_id : this.selectedEmployeeId,
-        total_price : this.totalPrice 
+        branch_id: this.branch_id,
+            selectedList: JSON.stringify(this.selectedEmployees),
+        total_price: this.totalPrice,
+        type: 'regular'
       }
     });
   }

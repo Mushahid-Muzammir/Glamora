@@ -18,8 +18,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class AppointmentComponent implements OnInit {
   searchText: string = '';
   filteredAppointments : any[] =[];
-    appointments: Appointment[] = [];
-    selectedDate !: Date;
+  appointments : Appointment[] = [];
+  selectedDate !: Date;
+  showPopup: boolean = false;
+  selectedAppointment: any = null;
   currentPage: number = 1;   
   itemsPerPage: number = 5;
 
@@ -92,6 +94,15 @@ export class AppointmentComponent implements OnInit {
             (appointment) => appointment.appointment_id !== appointment_id
           );
         });
-      }
+    }
+
+    viewAppointment(appointment: Appointment) {
+        this.selectedAppointment = appointment;
+        this.showPopup = true;
+    }
+
+    closePopup() {
+        this.showPopup = false;
+    }
 
 }

@@ -69,7 +69,8 @@ export class SelectDateComponent implements OnInit {
           this.selectedEmployee = Number(params['employee_id']);
           this.selectedServices = params['services'] ? params['services'].split(',').map(Number) : [];
           this.selectedSpecialServices = params['special_services'] ? params['special_services'].split(',').map(Number) : [];
-          this.totalPrice = Number(params['total_price']);
+        this.totalPrice = Number(params['total_price']);
+        this.type = params['type'];
         this.serviceEmployees = JSON.parse(params['selectedList']);
         for (const service_id in this.serviceEmployees) {
             this.employeeServiceDetails[service_id] = this.serviceEmployees[service_id].employee_id;
@@ -82,7 +83,6 @@ export class SelectDateComponent implements OnInit {
           this.clientService.getServiceDetails(serviceIds).subscribe(
             res => {
               this.serviceDetails = res.services;
-                  this.type = "regular";
             },
               error => console.error('Error fetching service durations:', error)
             );
@@ -90,7 +90,6 @@ export class SelectDateComponent implements OnInit {
           this.clientService.getSpecialServiceDetails(specialServiceIds).subscribe(
             res => {
               this.serviceDetails = res.services;
-                  this.type = "special";
             },
               error => console.error('Error fetching service durations:', error)
             );

@@ -211,11 +211,11 @@ function addMinutes(time, minutes) {
   
 export const confirmBooking = async (req, res) => {
     try {
-      const { branch_id , customer_id, services, type, date, start_time, end_time, employeeService } = req.body;
+      const { branch_id , customer_id, services, type, date, start_time, end_time, amount, employeeService } = req.body;
   
       const [appointmentResult] = await db.execute(
-        `INSERT INTO appointments (branch_id, customer_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?)`,
-        [branch_id, customer_id, date, start_time, end_time]
+          `INSERT INTO appointments (branch_id, customer_id, date, start_time, end_time, amount) VALUES (?, ?, ?, ?, ?, ?)`,
+          [branch_id, customer_id, date, start_time, end_time, amount]
         );
         const insertId = appointmentResult.insertId;
 
@@ -231,7 +231,6 @@ export const confirmBooking = async (req, res) => {
                 );
             }
         }
-
 
       const branchQuery = `SELECT b.address FROM branches b WHERE b.branch_id = ?`;
       const [branchResult] = await db.execute(branchQuery, [branch_id]);

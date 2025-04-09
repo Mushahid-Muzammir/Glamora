@@ -22,6 +22,7 @@ export class SelectEmployeeServiceComponent implements OnInit {
     serviceEmployees: any[] = [];
     totalPrice !: number;
     branch !: any;
+    type: string = '';
     showPopup: { [key: string]: boolean } = {};
     selectedEmployees: { [key: number]: any } = {};
 
@@ -35,7 +36,8 @@ export class SelectEmployeeServiceComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.selectedBranch = Number(params['branch_id']);
             this.selectedSpecialServices = params['services'] ? params['services'].split(',').map(Number) : [];
-            this.totalPrice = Number(params['total_price']);   
+            this.totalPrice = Number(params['total_price']); 
+            this.type = params['type'];
         });
         this.fetchDetails();
     }    
@@ -87,7 +89,8 @@ export class SelectEmployeeServiceComponent implements OnInit {
                 branch_id: this.selectedBranch,
                 employees: this.selectedEmployee,
                 total_price: this.totalPrice,
-                selectedList: JSON.stringify(this.selectedEmployees)
+                selectedList: JSON.stringify(this.selectedEmployees),
+                type: this.type
             }
         });
     }

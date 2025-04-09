@@ -552,17 +552,19 @@ export const getAppointments = async (req, res) => {
         b.branch_name, 
         a.payment_mode, 
         a.payment_status,
-        a.appointment_id
+        a.appointment_id,
+        a.app_status
       FROM appointments a 
       JOIN branches b ON a.branch_id = b.branch_id 
       JOIN customers c ON a.customer_id = c.customer_id 
       JOIN users u ON c.user_id = u.user_id 
-      ORDER BY a.booked_date DESC, a.start_time ASC
+      ORDER BY a.booked_date DESC, a.start_time DESC
     `);
 
     if (results.length === 0) {
       return res.status(404).send("No Appointments Found");
-    }
+      }
+      console.log("Results", results);
     return res.status(200).json({ appointments: results });
   } catch (error) {
     console.error("Database Error:", error);

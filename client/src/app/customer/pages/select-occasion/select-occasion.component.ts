@@ -118,7 +118,9 @@ export class SelectOccasionComponent implements OnInit {
         queryParams: {
             services: this.selectedServices.join(','),
             branch_id: this.branch_id,
-            total_price: this.totalPrice
+            total_price: this.totalPrice,
+            type: "special"
+
         }
     }); 
   }
@@ -130,7 +132,8 @@ export class SelectOccasionComponent implements OnInit {
             branch_id : this.branch_id,
             employee_id : this.selectedEmployeeId,
             total_price: this.totalPrice,
-            selectedList: this.selectedEmployees
+            selectedList: this.selectedEmployees,
+            type: "special"
         }
     });
   }
