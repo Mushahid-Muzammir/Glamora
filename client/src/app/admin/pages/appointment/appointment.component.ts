@@ -18,7 +18,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class AppointmentComponent implements OnInit {
   searchText: string = '';
   filteredAppointments : any[] =[];
-  appointments : Appointment[] = [];
+    appointments: Appointment[] = [];
+    selectedDate !: Date;
   currentPage: number = 1;   
   itemsPerPage: number = 5;
 
@@ -31,45 +32,66 @@ export class AppointmentComponent implements OnInit {
     this.adminService.getAppointments().subscribe(
       (res : any) => {
         this.appointments = res.appointments;
-        this.filteredAppointments = [...this.appointments]; 
+            this.filteredAppointments = [...this.appointments];
       });
-  }
-
-  filterAppointments() {
-    const searchTextLower = this.searchText.toLowerCase();
-    this.filteredAppointments = this.appointments.filter(
-      (appointment) =>
-        appointment.appointment_id.toString().includes(searchTextLower) ||
-        appointment.name.toLowerCase().includes(searchTextLower)
-    );
-}
-
-confirmCancel(appointment_id : number , status : string){
-  Swal.fire({
-    title: 'Are you sure you want to cancel this appointment?',
-    showDenyButton: true,
-    confirmButtonText: `Yes`,
-    denyButtonText: `No`,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.cancelAppointment(appointment_id , status);
-      Swal.fire('Appointment cancelled!', '', 'success')
-    } else if (result.isDenied) {
-      Swal.fire('Appointment not cancelled', '', 'info')
     }
-  })
-}
 
-cancelAppointment(appointment_id: number, status : string) {
-  status = "cancelled"; 
-  this.adminService.cancelAppointment(appointment_id, status).subscribe(
-    (res: any) => {
-      this.appointments = this.appointments.filter(
-        (appointment) => appointment.appointment_id !== appointment_id
-      );
-      this.filteredAppointments = this.filteredAppointments.filter(
-        (appointment) => appointment.appointment_id !== appointment_id
-      );
-    });
-  }
+    formatDateOnly(date: any): string {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = (`0${d.getMonth() + 1}`).slice(-2);
+        const day = (`0${d.getDate()}`).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
+    filterAppointments() {
+        const searchTextLower = this.searchText.toLowerCase();
+        const selectedDateString = this.selectedDate
+            ? this.formatDateOnly(this.selectedDate)
+            : null;
+
+        this.filteredAppointments = this.appointments.filter((appointment) => {
+            const matchSearch =
+                appointment.appointment_id.toString().includes(searchTextLower) ||
+                appointment.name.toLowerCase().includes(searchTextLower);
+
+            const appointmentDateString = this.formatDateOnly(appointment.date);
+
+            const matchDate = selectedDateString
+                ? appointmentDateString === selectedDateString
+                : true;
+
+            return matchSearch && matchDate;
+        });
+    }
+
+   confirmCancel(appointment_id : number , status : string){
+       Swal.fire({
+           title: 'Are you sure you want to cancel this appointment?',
+           showDenyButton: true,
+           confirmButtonText: `Yes`,
+           denyButtonText: `No`,
+       }).then((result) => {
+           if (result.isConfirmed) {
+               this.cancelAppointment(appointment_id, status);
+               Swal.fire('Appointment cancelled!', '', 'success')
+           } else if (result.isDenied) {
+               Swal.fire('Appointment not cancelled', '', 'info')
+           }
+       });
+    }
+
+    cancelAppointment(appointment_id: number, status : string) {
+      status = "cancelled"; 
+      this.adminService.cancelAppointment(appointment_id, status).subscribe(
+        (res: any) => {
+          this.appointments = this.appointments.filter(
+            (appointment) => appointment.appointment_id !== appointment_id
+          );
+          this.filteredAppointments = this.filteredAppointments.filter(
+            (appointment) => appointment.appointment_id !== appointment_id
+          );
+        });
+      }
+
 }

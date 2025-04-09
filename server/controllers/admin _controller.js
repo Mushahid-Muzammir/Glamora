@@ -563,9 +563,7 @@ export const getAppointments = async (req, res) => {
     if (results.length === 0) {
       return res.status(404).send("No Appointments Found");
     }
-
     return res.status(200).json({ appointments: results });
-
   } catch (error) {
     console.error("Database Error:", error);
     return res.status(500).send("Internal Server Error");

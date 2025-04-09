@@ -62,7 +62,7 @@ export interface Appointment {
     contact : number,
     start_time : string,
     end_time : string,
-    date : Date,
+    date : string,
     service_status : string,
     payment_mode: string,
     payment_status : string
