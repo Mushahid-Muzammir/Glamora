@@ -572,6 +572,34 @@ export const getAppointments = async (req, res) => {
   }
 };
 
+export const getAppointmentDetailsById = async (req, res) => {
+    try {
+        const appointment_id = req.params.appointment_id;
+        const [result] = await db.execute(`
+        SELECT
+        cs.appointment_id,
+        cs.employee_id,
+        u.name,
+        s.service_name,
+        s.duration
+        FROM appointments a
+        JOIN client_service cs ON a.appointment_id = cs.appointment_id
+        JOIN employees e ON e.employee_id = cs.employee_id
+        JOIN users u ON e.user_id = u.user_id
+        JOIN services s ON s.service_id = cs.service_id
+        WHERE a.appointment_id = ?`, [appointment_id]);
+
+        if (result.length === 0) {
+            return res.status(404).send("Appointment Not Found");
+        }
+        return res.status(200).json({ appointmentDetails: result });
+
+    } catch (error) {
+        console.error("Database Error:", error);
+        return res.status(500).send("Internal Server Error");
+    }
+}
+
 export const cancelAppointment = async (req, res) => {
   try{
     const appointment_id = req.params.appointment_id;

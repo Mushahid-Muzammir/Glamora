@@ -21,7 +21,8 @@ export class AppointmentComponent implements OnInit {
   appointments : Appointment[] = [];
   selectedDate !: Date;
   showPopup: boolean = false;
-  selectedAppointment: any = null;
+    selectedAppointment: any = null;
+    appointmentDetails: any[] = [];
   currentPage: number = 1;   
   itemsPerPage: number = 5;
 
@@ -97,6 +98,10 @@ export class AppointmentComponent implements OnInit {
     }
 
     viewAppointment(appointment: Appointment) {
+        this.adminService.getAppointmentDetailsById(appointment.appointment_id).subscribe(
+            (res: any) => {
+                this.appointmentDetails = res.appointmentDetails;
+            });
         this.selectedAppointment = appointment;
         this.showPopup = true;
     }
