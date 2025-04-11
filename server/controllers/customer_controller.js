@@ -111,7 +111,25 @@ export const getServicesByGender = async (req, res) => {
       console.error("Unexpected Error:", error);
       return res.status(500).send("An error occurred: " + error.message);
     }
-  };
+};
+
+export const getServiceDetails = async (req, res) => {
+    try {
+        const services = req.query.services;
+        if (!services) return res.status(400).json({ message: "Services parameter is required" });
+        const serviceIds = services.split(',').map(id => parseInt(id));
+        if (serviceIds.some(isNaN) || serviceIds.length === 0) {
+            return res.status(400).json({ message: "Invalid service IDs provided" });
+        }
+
+        const placeholders = serviceIds.map(() => '?').join(',');
+        const [rows] = await db.execute(`SELECT service_id, service_name, price, duration FROM services WHERE service_id IN (${placeholders})`, serviceIds);
+        res.status(200).json({ services: rows });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 export const getEmployeeById = async (req, res) => {
     try {
@@ -155,24 +173,6 @@ export const getAvailableSlots = async (req, res) => {
         const availableSlots = generateAvailableSlots(open_time, close_time, existing_app, total_time);
         console.log("Available Slots", availableSlots);
         res.json({ availableSlots });
-    } catch (error) {
-        console.error("Database Error:", error);
-        res.status(500).send("Internal Server Error");
-    }
-};
-
-export const getServiceDetails = async (req, res) => {
-    try {
-        const services = req.query.services;
-        if (!services) return res.status(400).json({ message: "Services parameter is required" });
-        const serviceIds = services.split(',').map(id => parseInt(id));
-        if (serviceIds.some(isNaN) || serviceIds.length === 0) {
-            return res.status(400).json({ message: "Invalid service IDs provided" });
-        }
-
-        const placeholders = serviceIds.map(() => '?').join(',');
-        const [rows] = await db.execute(`SELECT service_id, service_name, price, duration FROM services WHERE service_id IN (${placeholders})`, serviceIds);
-        res.status(200).json({ services: rows });
     } catch (error) {
         console.error("Database Error:", error);
         res.status(500).send("Internal Server Error");
