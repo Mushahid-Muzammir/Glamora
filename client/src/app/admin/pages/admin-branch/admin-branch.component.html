@@ -14,7 +14,7 @@
               (input)="filterBranches()"
                type="text" class="p-3 rounded-[30px] border border-gray-400" placeholder="Search...">
             </div>
-            <button routerLink="/addBranch" class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add a Branch</button>
+            <button (click)="openPopup()" class="bg-[#6482AD] text-white font-semibold px-4 py-3 rounded-[30px]">+Add a Branch</button>
           </div>
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
@@ -39,19 +39,98 @@
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.close_time}}</td>
                 <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.name}}</td>
                 <td class="py-4 px-4 border-b space-x-1 border-gray-200 text-sm text-gray-700">
-                  <button (click)="editBranch(branch)" class="bg-[#6482AD] text-white font-semibold px-4 py-2 rounded-[30px]">Edit</button>
-                  <button class="bg-[#FF4D4D] text-white font-semibold px-4 py-2 rounded-[30px]">Delete</button>
+                  <button (click)="editBranch(branch)" class="bg-[#6482AD] text-white font-semibold px-5 py-3 rounded-[30px]">Edit</button>
+                  <button (click)="confirmDeleteBranch(branch.branch_id)" class="bg-[#FF4D4D] text-white font-semibold px-5 py-3 rounded-[30px]">Delete</button>
                 </td>
               </tr>            
             </tbody>
           </table>
-          <div class="py-4 flex justify-end">
-            <pagination-controls 
-          (pageChange)="currentPage = $event"
-          previousLabel="Previous"
-          nextLabel="Next">
-          </pagination-controls>
+              <div class="py-4 flex justify-end">
+                <pagination-controls 
+                  (pageChange)="currentPage = $event"
+                  previousLabel="Previous"
+                  nextLabel="Next">
+                </pagination-controls>
+              </div>
+
+          <div *ngIf="showForm" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div class="bg-white w-full max-w-md pb-3 rounded-lg shadow-lg">
+
+                  <div class="w-full flex flex-col bg-white p-8">
+                      <div class="flex flex-row justify-between">
+                          <h2 class="text-3xl font-bold text-gray-800 mb-5">Add New Branch</h2>
+                          <button (click)="closePopup()" class="text-gray-400 hover:text-gray-700 text-2xl">
+                              &times;
+                          </button>
+                      </div>
+                      <form [formGroup]="branchForm" (ngSubmit)="onAddbranch()" class="flex flex-col space-y-3 items-center">
+
+                          <mat-form-field class="w-[100%]">
+                              <mat-label>Branch Name</mat-label>
+                              <input matInput type="text" formControlName="name">
+                              <mat-error *ngIf="branchForm.get('name')?.hasError('required')" class="text-red-500 text-xs mt-1">
+                                  Branch Name is required
+                              </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field class="w-[100%]">
+                              <mat-label>Contact Number</mat-label>
+                              <input matInput type="text" formControlName="contact">
+                              <mat-error *ngIf="branchForm.get('contact')?.hasError('required')" class="text-red-500 text-xs mt-1" >
+                                  Contact Number is required
+                              </mat-error>
+                              <mat-error *ngIf="branchForm.get('contact')?.hasError('pattern') && branchForm.get('contact')?.touched">
+                                  Invalid contact number (10 digits only)
+                              </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field class="w-[100%]">
+                              <mat-label>Address</mat-label>
+                              <input matInput type="text" formControlName="address">
+                              <mat-error *ngIf="branchForm.get('address')?.hasError('required')" class="text-red-500 text-xs mt-1">
+                                  Address is required
+                              </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field class="w-[100%]">
+                              <mat-label>Assigned Manager</mat-label>
+                              <mat-select formControlName="manager_id">
+                                  <mat-option *ngFor="let manager of managers" [value]="manager.manager_id">
+                                      {{ manager.name }}
+                                  </mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="branchForm.get('manager_id')?.hasError('required')" class="text-red-500 text-xs mt-1">
+                                  Manager selection is required
+                              </mat-error>
+                          </mat-form-field>
+
+                          <div class="w-[100%] flex flex-col gap-6">
+                              <mat-form-field class="w-full">
+                                  <mat-label>Open Time</mat-label>
+                                  <input matInput type="time" formControlName="open_time">
+                                  <mat-error *ngIf="branchForm.get('open_time')?.hasError('required')" class="text-red-500 text-xs mt-1">
+                                      Open Time is required
+                                  </mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field class="w-full">
+                                  <mat-label>Close Time</mat-label>
+                                  <input matInput type="time" formControlName="close_time">
+                                  <mat-error *ngIf="branchForm.get('close_time')?.hasError('required')" class="text-red-500 text-xs mt-1">
+                                      Close Time is required
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+
+                          <button class="w-[80%] bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-700 transition duration-300">
+                              Add Branch
+                          </button>
+
+                      </form>
+                  </div>
+              </div>
           </div>
+
         </div>
       </div>
     </div>   

@@ -35,7 +35,6 @@ import { EditEmployeeComponent } from './admin/pages/edit-employee/edit-employee
 import { AdminBranchComponent } from './admin/pages/admin-branch/admin-branch.component';
 import { StaffAppointmentComponent } from './staff/pages/staff-appointment/staff-appointment.component';
 import { AddManagerComponent } from './admin/pages/add-manager/add-manager.component';
-import { AddBranchComponent } from './admin/pages/add-branch/add-branch.component';
 import { ManagersComponent } from './admin/pages/managers/managers.component';
 import { EditBranchComponent } from './admin/pages/edit-branch/edit-branch.component';
 import { EditManagerComponent } from './admin/pages/edit-manager/edit-manager.component';
@@ -47,6 +46,7 @@ import { RequestsComponent } from './admin/pages/requests/requests.component';
 import { VerifyEmailComponent } from './customer/pages/verify-email/verify-email.component';
 import { SelectOccasionComponent } from './customer/pages/select-occasion/select-occasion.component';
 import { SelectEmployeeServiceComponent } from './customer/pages/select-employee-service/select-employee-service.component';
+import { SeeBookingsComponent } from './customer/pages/see-bookings/see-bookings.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -72,7 +72,6 @@ export const routes: Routes = [
     { path: "addManager", component: AddManagerComponent, canActivate: [AuthGuard] },
     { path: "appointment", component: AppointmentComponent, canActivate: [AuthGuard] },
     { path: "branches", component: AdminBranchComponent, canActivate: [AuthGuard] },
-    { path: "addBranch", component: AddBranchComponent, canActivate: [AuthGuard] },
     { path: "editBranch/:branch_id", component: EditBranchComponent, canActivate: [AuthGuard] },
     { path: "managerAppointment", component: ManagerAppointmentComponent, canActivate: [AuthGuard] },
     { path: "staffAppointment", component: StaffAppointmentComponent, canActivate: [AuthGuard] },
@@ -98,6 +97,7 @@ export const routes: Routes = [
     { path: "viewRequest", component: ViewRequestComponent, canActivate: [AuthGuard] },
     { path: "verifyEmail", component: VerifyEmailComponent, canActivate: [AuthGuard] },
     { path: "occasions/:branch_id", component: SelectOccasionComponent, canActivate: [AuthGuard] },
-    { path: "employeeService", component: SelectEmployeeServiceComponent, canActivate: [AuthGuard] }
+    { path: "employeeService", component: SelectEmployeeServiceComponent, canActivate: [AuthGuard] },
+    { path: "seeBookings", component: SeeBookingsComponent, canActivate: [AuthGuard] }, 
 
 ];

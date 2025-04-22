@@ -76,8 +76,7 @@ export class EditBranchComponent implements OnInit {
   onUpdateBranch(){
     this.adminService.editBranch(this.branch_id, this.branchForm.value).subscribe(
       () => {
-        console.log("Form Value at front end:",this.branchForm.value);
-        this.router.navigate(['/branch']);
+        this.router.navigate(['/branches']);
       });
   }
 

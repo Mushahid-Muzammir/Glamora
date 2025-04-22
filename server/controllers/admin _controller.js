@@ -40,7 +40,6 @@ export const addBranch = async (req, res) => {
 export const getBranchById = async (req, res) => {
   try {
     const branch_id = req.params.branch_id;
-    console.log("Branch Id:", branch_id);
 
     const query = "SELECT * FROM branches WHERE branch_id = ?";
     const [result] = await db.execute(query, [branch_id]);
@@ -50,7 +49,6 @@ export const getBranchById = async (req, res) => {
     }
 
     const branch = result[0];
-    console.log("Branch:", branch);
 
     return res.status(200).json({ branch });
   } catch (error) {
@@ -62,7 +60,6 @@ export const getBranchById = async (req, res) => {
 export const updateBranch = async (req, res) => {
   try {
     const branch_id = req.params.branch_id;
-    console.log("Received data", req.body);
     const {
       branch_name,
       address,
@@ -96,6 +93,25 @@ export const updateBranch = async (req, res) => {
     console.error("Error updating branch", error);
     return res.status(500).send({ error: "Server error" });
   }
+};
+
+export const deleteBranch = async (req, res) => {
+    try {
+        const branch_id = req.params.branch_id;
+
+        const query = "DELETE FROM branches WHERE branch_id = ?";
+        const [result] = await db.execute(query, [branch_id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Branch not found" });
+        }
+
+        return res.status(200).json({ message: "Branch deleted successfully" });
+
+    } catch (error) {
+        console.error("Internal Server Error:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
 };
 
 export const getCustomers = async (req, res) => {

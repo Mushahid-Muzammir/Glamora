@@ -1,6 +1,6 @@
 import express from "express";
 import {upload}  from "../controllers/img_controller.js"
-import { addProduct, addService, getAppointments, getProductById, getProducts, updateProduct, updateService, getServiceById, getEmployeeById, updateEmployee, getEmployeeServices, addBranch, addManager, getBranchById, updateBranch, getManagerById, updateManager, addEmployee, getRequests, updateRequest, cancelAppointment, getTodaySales, getTodayRevenueByServices, getAppointmentDetailsById } from "../controllers/admin _controller.js";
+import { addProduct, addService, getAppointments, getProductById, getProducts, updateProduct, updateService, getServiceById, getEmployeeById, updateEmployee, getEmployeeServices, addBranch, addManager, getBranchById, updateBranch, getManagerById, updateManager, addEmployee, getRequests, updateRequest, cancelAppointment, getTodaySales, getTodayRevenueByServices, getAppointmentDetailsById, deleteBranch } from "../controllers/admin _controller.js";
 import { getCustomers } from "../controllers/admin _controller.js";
 import { getEmployees } from "../controllers/admin _controller.js";
 import { getServices } from "../controllers/admin _controller.js";
@@ -42,3 +42,4 @@ adminRoute.get("/getRequests", getRequests);
 adminRoute.put("/updateStatus/:leave_id", updateRequest);
 adminRoute.get("/getTodaySales", getTodaySales);
 adminRoute.get("/getTodayRevenueByServices", getTodayRevenueByServices);
+adminRoute.delete("/deleteBranch/:branch_id", deleteBranch);

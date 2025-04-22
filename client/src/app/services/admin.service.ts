@@ -129,6 +129,10 @@ export class AdminService {
 
   updateLeaveStatus(leaveId: number, status: string) {
     return this.http.put(`${this.adminUrl}/updateStatus/${leaveId}`, { status });
-  }
+    }
+
+    deleteBranch(branch_id: number) {
+        return this.http.delete(`${this.adminUrl}/deleteBranch/${branch_id}`);
+    }
 
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddBranchComponent } from './add-branch.component';
+import { SeeBookingsComponent } from './see-bookings.component';
 
-describe('AddBranchComponent', () => {
-  let component: AddBranchComponent;
-  let fixture: ComponentFixture<AddBranchComponent>;
+describe('SeeBookingsComponent', () => {
+  let component: SeeBookingsComponent;
+  let fixture: ComponentFixture<SeeBookingsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddBranchComponent]
+      imports: [SeeBookingsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddBranchComponent);
+    fixture = TestBed.createComponent(SeeBookingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

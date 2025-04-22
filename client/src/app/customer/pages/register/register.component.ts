@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]{10}$'), // Allows only a 10-digit number
+          Validators.pattern('^[0-9]{10}$'), 
         ],
       ],
       email: ['', [Validators.required, Validators.email]],

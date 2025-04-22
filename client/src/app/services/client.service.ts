@@ -98,6 +98,10 @@ export class ClientService {
     getTestimonials(): Observable<any> {
         return this.http.get<any>(`${this.clientUrl}/getTestimonials`);
     }
+
+    getMyBookings(customer_id: number): Observable<any> {
+        return this.http.get(`${this.clientUrl}/getMyBookings/${customer_id}`);
+    }
   
 }
 

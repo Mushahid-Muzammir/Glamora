@@ -435,6 +435,19 @@ export const getTestimonials = async (req, res) => {
     }
 }
 
+export const getMyBookings = async (req, res) => {
+    try {
+        const customer_id = req.params.customer_id;
+        const [bookings] = await db.execute(
+            "SELECT a.appointment_id, a.date, a.start_time, a.end_time, a.app_status, s.service_name, b.branch_name, u.name FROM client_service cs JOIN appointments a ON a.appointment_id = cs.appointment_id JOIN employees e ON e.employee_id = cs.employee_id JOIN services s ON s.service_id = cs.service_id JOIN branches b ON b.branch_id = a.branch_id JOIN users u ON u.user_id = e.user_id WHERE a.customer_id = ?", [customer_id]);
+        if (bookings.length === 0) return res.status(404).send("No Bookings Found");
+        res.status(200).json({ bookings: bookings });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
 
 
 

@@ -33,6 +33,10 @@ export class HeaderComponent implements OnInit {
     this.authService.setLoggedIn(false);
     this.authService.clearUser();
     this.router.navigate(['/login']);
-  }
+    }
+
+    seeBookings() {
+        this.router.navigate(['/seeBookings']);
+    }
 
 }

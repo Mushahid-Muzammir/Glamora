@@ -6,11 +6,11 @@
                 [circular]="true"
                 [showNavigators]="true"
                 [showIndicators]="true"
-                class="relative">        <!-- Ensure parent is relative -->
+                class="relative">
         <ng-template pTemplate="item" let-content>
             <div class="relative w-full h-screen flex items-center justify-center bg-cover bg-center"
                  [ngStyle]="{ 'background-image': 'url(' + content.bg + ')' }">
-                <div class="w-full h-screen flex items-center justify-center bg-black/50"><!-- Dark overlay for readability -->
+                <div class="w-full h-screen flex items-center justify-center bg-black/50">
                     <div class="text-center space-y-4 px-6 md:px-12">
                         <p class="text-5xl md:text-7xl font-bold text-white">{{ content.title }}</p>
                         <p class="text-lg md:text-3xl font-medium text-[#FFD89B]">{{ content.description }}</p>
@@ -131,7 +131,6 @@
                     [showNavigators]="true"
                     [showIndicators]="true"
                     class="relative">
-            <!-- Ensure parent is relative -->
             <ng-template pTemplate="item" let-content>
                 <div class="max-w-screen-xl mx-auto flex flex-col items-center justify-center">
                     <!--<img [src]="content.image_url" class="w-[200px] h-[200px] object-cover rounded-[50%]" />-->
