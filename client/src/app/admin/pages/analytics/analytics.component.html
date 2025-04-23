@@ -1,57 +1,74 @@
-<div class="w-full h-screen flex flex-row overflow-hidden bg-[#F2F2F2]">
+<div class="w-full h-screen flex flex-row bg-[#F2F2F2]">
     <app-sidebar></app-sidebar>
     <div class="w-full">
       <app-topbar></app-topbar>
       <div class="px-6">
-        <div class="flex flex-row gap-8 mt-6">
-          <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
-            <div class="w-full flex flex-row justify-center">
-              <img src="images/sales.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-              <p class="text-lg font-medium text-left text-black">
-                Today Sales
-              </p>
-            </div>
-            <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
-              LKR. 4900
-            </p>
+          <div class="flex flex-row gap-8 mt-6">
+              <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+                  <div class="w-full flex flex-row justify-center">
+                      <img src="images/sales.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+                      <p class="text-lg font-medium text-left text-black">
+                          Today Sales
+                      </p>
+                  </div>
+                  <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+                      LKR {{totalSales}}
+                  </p>
+              </div>
+
+              <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+                  <div class="w-full flex flex-row justify-center">
+                      <img src="images/revenue.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+                      <p class="text-lg font-medium text-left text-black">
+                          Today Revenue
+                      </p>
+                  </div>
+                  <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+                      LKR {{totalRevenue}}
+                  </p>
+              </div>
+
+              <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+                  <div class="w-full flex flex-row justify-center">
+                      <img src="images/appointments.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+                      <p class="text-lg font-medium text-left text-green-700">
+                          Total Appointments
+                      </p>
+                  </div>
+                  <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+                      {{ appointments.length }}
+                  </p>
+              </div>
+
+              <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
+                  <div class="w-full flex flex-row justify-center">
+                      <img src="images/employees.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
+                      <p class="text-lg font-medium text-left text-black">
+                          Active Employees
+                      </p>
+                  </div>
+                  <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
+                      {{ employees.length }}
+                  </p>
+              </div>
           </div>
-    
-          <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
-            <div class="w-full flex flex-row justify-center">
-              <img src="images/revenue.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-              <p class="text-lg font-medium text-left text-black">
-                Today Revenue
-              </p>
-            </div>
-            <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
-              LKR. 4900
-            </p>
+
+          <div class="flex flex-wrap gap-8 mt-10">
+              <canvas baseChart
+                      height="50"
+                      [type]="chartType"
+                      [data]="chartData"
+                      [options]="chartOptions">
+              </canvas>
+
+              <canvas baseChart
+                      height="50"
+                      [type]="chartType"
+                      [data]="chartData2"
+                      [options]="chartOptions">
+              </canvas>
           </div>
-      
-          <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
-            <div class="w-full flex flex-row justify-center">
-              <img src="images/appointments.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-              <p class="text-lg font-medium text-left text-green-700">
-                Total Appointments
-              </p>
-            </div>
-            <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
-              LKR. 4900
-            </p>
           </div>
-      
-          <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
-            <div class="w-full flex flex-row justify-center">
-              <img src="images/employees.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-              <p class="text-lg font-medium text-left text-black">
-                Active Employees
-              </p>
-            </div>
-            <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
-              LKR. 4900
-            </p>
-          </div>
-        </div>
       </div>
     </div>
       

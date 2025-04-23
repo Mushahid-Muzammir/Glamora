@@ -267,44 +267,44 @@ export const getEmployees = async (req, res) => {
 };
 
 export const addEmployee = async (req, res) => {
-  try {
-    const hashed_password = await bcrypt.hash("glamora123", 10);
+    try {
+        const hashed_password = await bcrypt.hash("glamora123", 10);
 
-    console.log("Received data: ", req.body)
+        const employee = {
+            name: req.body.name,
+            contact: req.body.contact,
+            email: req.body.email,
+            branch_id: req.body.branch,
+            salary: req.body.salary,
+            services: req.body.services
+        };
 
-    const employee = {
-      name: req.body.name,
-      contact: req.body.contact,
-      email: req.body.email, 
-      branch_id : req.body.branch,
-      salary: req.body.salary,
-    };
+        const [userResult] = await db.execute(
+            `INSERT INTO users (name, contact, role, email, password) VALUES (?, ?, ?, ?, ?)`,
+            [employee.name, employee.contact, 'staff', employee.email, hashed_password]
+        );
+        const userId = userResult.insertId;
 
-    const userInsertQuery = `
-      INSERT INTO users (name, contact, role, email, password) 
-      VALUES (?, ?, ?, ?, ?)`;
+        const [empResult] = await db.execute(
+            `INSERT INTO employees (user_id, branch_id, salary) VALUES (?, ?, ?)`,
+            [userId, employee.branch_id, employee.salary]
+        );
+        const employee_id = empResult.insertId;
 
-    const [userResult] = await db.execute(userInsertQuery, [
-      employee.name,
-      employee.contact,
-      'staff',
-      employee.email,
-      hashed_password,
-    ]);
+        if (employee.services && employee.services.length > 0) {
+            const placeholders = employee.services.map(() => "(?, ?)").join(", ");
+            const values = employee.services.flatMap(service_id => [employee_id, service_id]);
 
-    const userId = userResult.insertId;
+            const insertQuery = `INSERT INTO employee_service (employee_id, service_id) VALUES ${placeholders}`;
+            await db.execute(insertQuery, values);
+        }
 
-    const employeeInsertQuery = `
-      INSERT INTO employees (user_id, branch_id, salary) 
-      VALUES (?, ?, ?)`;
+        res.status(200).json({ message: "Employee added with services" });
 
-  const [result] =   await db.execute(employeeInsertQuery, [userId, employee.branch_id, employee.salary]);
-
-    res.status(201).json({ message: 'Employee added successfully' });
-  } catch (error) {
-    console.error('Error adding employee:', error);
-    res.status(500).json({ error: 'Failed to add employee' });
-  }
+    } catch (error) {
+        console.error('Error adding employee:', error);
+        res.status(500).json({ error: 'Failed to add employee' });
+    }
 };
 
 export const updateEmployee = async (req, res) => {
@@ -689,5 +689,41 @@ export const getTodayRevenueByServices = async (req, res) => {
         console.error("Database Error:", error);
         return res.status(500).send("Internal Server Error");
     }
+}
+
+export const getAppointmentCountByService = async (req, res) => {
+
+    try {
+        const [rows] = await db.execute(`
+      SELECT s.service_name, COUNT(*) AS total
+      FROM appointments a
+      JOIN client_service cs ON a.appointment_id = cs.appointment_id
+      JOIN services s ON cs.service_id = s.service_id
+      GROUP BY s.service_name
+    `);
+        res.status(200).json({ appointmentData: rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching chart data');
+    }
+
+}
+
+export const getAppointmentCountByBranch = async (req, res) => {
+
+    try {
+        const [rows] = await db.execute(`
+      SELECT b.branch_name, COUNT(*) AS total
+      FROM appointments a
+      JOIN client_service cs ON a.appointment_id = cs.appointment_id
+      JOIN branches b ON a.branch_id = b.branch_id
+      GROUP BY b.branch_name
+    `);
+        res.status(200).json({ branchData: rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching chart data');
+    }
+
 }
 

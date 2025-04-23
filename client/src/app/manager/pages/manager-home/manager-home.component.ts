@@ -23,7 +23,8 @@ export class ManagerHomeComponent implements OnInit {
   filteredEmployees : any[] =[];
   filteredAppointments : any[] =[];
   searchText: string = '';
-  itemsPerPage : number = 3;
+    itemsPerPage: number = 3;
+    totalRevenue: number = 0;
 
 
   constructor(
@@ -53,7 +54,12 @@ export class ManagerHomeComponent implements OnInit {
         );
       },
       (error) => console.error("Error fetching branch ID:", error)
-    );    
+      );   
+
+      this.managerService.getTodayRevenueByServices(this.branchId).subscribe(
+          (res: any) => {
+              this.totalRevenue = res.todayRevenue;
+          });
   } 
 
   filterAppointments() {

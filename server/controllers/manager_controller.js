@@ -129,13 +129,12 @@ import bcrypt from "bcrypt";
     try {
       const currentDate = new Date().toISOString().split("T")[0];
       const branch_id = req.params.branch_id;
-      const query = "SELECT a.appointment_id, a.customer_id, a.start_time, a.end_time, a.payment_status, u.name, u.contact, b.branch_name FROM appointments a JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id JOIN employees e ON a.employee_id = e.employee_id JOIN users s on s.user_id = e.user_id JOIN branches b ON a.branch_id = b.branch_id WHERE a.date = CURDATE() AND a.branch_id = ?";
+        const query = "SELECT a.appointment_id, a.customer_id, a.start_time, a.end_time, a.payment_status, u.name, u.contact, b.branch_name FROM appointments a JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id JOIN branches b ON a.branch_id = b.branch_id WHERE a.date = CURDATE() AND a.branch_id = ?";
     const [results]  = await db.execute(query, [branch_id]);
         if (results.length === 0) {
           return res.status(404).send("No Appointments Found");
         }
         const appointments = results;
-        console.log(appointments);
         return res.status(200).json({ appointments : appointments });
       
     } catch (error) {
@@ -229,4 +228,20 @@ import bcrypt from "bcrypt";
       console.error("Database Error:", error);
       return res.status(500).send("Internal Server Error");
     }
-  }
+}
+
+  export const getTodayRevenueByServices = async (req, res) => {
+      try {
+        const branch_id = req.params.branch_id;
+        const currentDate = new Date().toISOString().split("T")[0];
+        const [result] = await db.execute("SELECT SUM(amount) AS total_amount from appointments WHERE date = ? AND app_status = 'Completed' AND branch_id = ?", [currentDate, branch_id]);
+        const todayRevenue = result[0].total_amount;
+        if (todayRevenue === null) {
+            return res.status(200).json({ todayRevenue: 0 });
+        }
+        return res.status(200).json({ todayRevenue: todayRevenue });
+    } catch (error) {
+        console.error("Database Error:", error);
+        return res.status(500).send("Internal Server Error");
+    }
+}

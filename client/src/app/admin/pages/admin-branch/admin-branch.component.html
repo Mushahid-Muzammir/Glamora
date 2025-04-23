@@ -19,26 +19,26 @@
           <table class="w-full mt-6 rounded-[30px]">       
             <thead>
               <tr>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Branch ID</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Address</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Open Time</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Close Time</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Manager</th>
-                <th class="py-4 px-4 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Branch ID</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Name</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Contact</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Address</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Open Time</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Close Time</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Manager</th>
+                <th class="py-4 px-2 border-b-2 border-gray-200 text-left text-medium font-semibold text-gray-700">Action</th>
               </tr>
             </thead>
             <tbody >
               <tr *ngFor="let branch of filteredBranches| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">#{{branch.branch_id}}</td>
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.branch_name}}</td>
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.contact}}</td>
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.address}}</td>
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.open_time}}</td>
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.close_time}}</td>
-                <td class="py-4 px-4 border-b border-gray-200 text-sm text-gray-700">{{branch.name}}</td>
-                <td class="py-4 px-4 border-b space-x-1 border-gray-200 text-sm text-gray-700">
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">#{{branch.branch_id}}</td>
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{branch.branch_name}}</td>
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{branch.contact}}</td>
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{branch.address}}</td>
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{branch.open_time}}</td>
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{branch.close_time}}</td>
+                <td class="py-4 px-2 border-b border-gray-200 text-sm text-gray-700">{{branch.name}}</td>
+                <td class="py-4 px-2 border-b space-x-1 border-gray-200 text-sm text-gray-700">
                   <button (click)="editBranch(branch)" class="bg-[#6482AD] text-white font-semibold px-5 py-3 rounded-[30px]">Edit</button>
                   <button (click)="confirmDeleteBranch(branch.branch_id)" class="bg-[#FF4D4D] text-white font-semibold px-5 py-3 rounded-[30px]">Delete</button>
                 </td>

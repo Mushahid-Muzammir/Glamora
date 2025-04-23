@@ -135,4 +135,12 @@ export class AdminService {
         return this.http.delete(`${this.adminUrl}/deleteBranch/${branch_id}`);
     }
 
+    getAppointmentCountByService() {
+        return this.http.get(`${this.adminUrl}/getAppointmentCountByService`);
+    }
+
+    getAppointmentCountByBranch() {
+        return this.http.get(`${this.adminUrl}/getAppointmentCountByBranch`);
+    }
+
 }

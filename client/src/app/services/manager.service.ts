@@ -47,7 +47,11 @@ export class ManagerService {
 
   getTodayAppointments(branch_id : number): Observable<Appointment[]>{
     return this.http.get<Appointment[]>(`${this.managerUrl}/getTodayAppointments/${branch_id}`);
-  }
+   }
+
+  getTodayRevenueByServices(branch_id: number): Observable<any> {
+     return this.http.get<any>(`${this.managerUrl}/getTodayRevenueByServices/${branch_id}`);
+   }
 
   addEmployee(employeeData : FormData){
     return this.http.post(`${this.managerUrl}/addEmployee`, employeeData);
