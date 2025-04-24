@@ -63,6 +63,10 @@ export class ManagerService {
 
   updateLeaveStatus(leaveId: number, status: string) {
     return this.http.put(`${this.managerUrl}/updateStatus/${leaveId}`, { status });
+    }
+
+    getAppointmentCountByService(branch_id: number) {
+        return this.http.get(`${this.managerUrl}/getAppointmentCountByService/${branch_id}`);
   }
   
 }

@@ -19,6 +19,6 @@ export class SidebarComponent {
 
   logout() {
     this.authService.clearUser();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin']);
   }
 }

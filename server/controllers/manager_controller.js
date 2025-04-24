@@ -245,3 +245,25 @@ import bcrypt from "bcrypt";
         return res.status(500).send("Internal Server Error");
     }
 }
+
+export const getAppointmentCountByService = async (req, res) => {
+
+    try {
+        const branch_id = req.params.branch_id;
+        const [rows] = await db.execute(`
+      SELECT s.service_name, COUNT(*) AS total
+      FROM appointments a
+      JOIN client_service cs ON a.appointment_id = cs.appointment_id
+      JOIN services s ON cs.service_id = s.service_id
+      WHERE a.branch_id = ?
+      GROUP BY s.service_name
+    `, [branch_id]);
+        res.status(200).json({ appointmentData: rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching chart data');
+    }
+
+}
+
+

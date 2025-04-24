@@ -2,6 +2,7 @@ import { Component,ViewChild, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { TopbarComponent } from "../../components/topbar/topbar.component";
 import { Appointment, Employee } from '../../../data_interface';
+import { AdminService } from '../../../services/admin.service';
 import { BaseChartDirective } from "ng2-charts";
 import { 
     ChartConfiguration,
@@ -26,9 +27,9 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend,
-    BarController
+    BarController,
+    
 );
-import { AdminService } from '../../../services/admin.service';
 
 @Component({
     selector: 'app-analytics',
@@ -54,7 +55,7 @@ export class AnalyticsComponent {
                 ticks: {
                     color: '#333',         
                     font: {
-                        size: 14,
+                        size: 13,
                         weight: 'bold',
                     }   
                 }
