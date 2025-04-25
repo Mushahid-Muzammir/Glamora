@@ -31,26 +31,100 @@
               <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
                   <div class="w-full flex flex-row justify-center">
                       <img src="images/appointments.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                      <p class="text-lg font-medium text-left text-green-700">
+                      <a (click)="openAppointmentsPopup()" class="text-lg font-medium text-left text-blue-600 hover:text-blue-700 cursor-pointer">
                           Today Appointments
-                      </p>
+                      </a>
                   </div>
                   <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
                       {{ appointments.length }}
                   </p>
               </div>
 
+              <div *ngIf="showAppointmentsPopup" class=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                  <div class="bg-white w-[80%] pb-3 rounded-lg shadow-lg">
+                      <div class="w-full flex flex-col bg-white p-8">
+                          <div class="flex flex-row justify-between">
+                              <h2 class="text-3xl font-bold text-gray-800 mb-5">Active Employees Today</h2>
+                              <button (click)="closeAppointmentsPopup()" class="text-gray-400 hover:text-gray-700 text-2xl">
+                                  &times;
+                              </button>
+                          </div>
+                          <div>
+                              <table class="w-full mt-6 rounded-[30px]">
+                                  <thead>
+                                      <tr>
+                                          <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">ID</th>
+                                          <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Name</th>
+                                          <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Contact</th>
+                                          <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Start</th>
+                                          <th class="py-4 px-8 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">End</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr *ngFor="let appointment of appointments">
+                                          <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">#{{appointment.appointment_id}}</td>
+                                          <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.name}}</td>
+                                          <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.contact}}</td>
+                                          <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.start_time}}</td>
+                                          <td class="py-4 px-6 border-b border-gray-200 text-sm text-gray-700">{{appointment.end_time}}</td>
+
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+
               <div class="flex flex-col space-y-2 justify-center w-[270px] h-[130px] rounded-[40px] bg-white">
                   <div class="w-full flex flex-row justify-center">
                       <img src="images/employees.svg" class="w-6 h-6 inline-block mr-2" alt="dashboard icon">
-                      <p class="text-lg font-medium text-left text-black">
+                      <a (click)="openEmployeesPopup()" class="text-lg font-medium text-left text-blue-600 cursor-pointer">
                           Active Employees
-                      </p>
+                      </a>
                   </div>
                   <p class="w-full h-[38px] text-[25px] font-semibold text-center text-black">
                       {{ employees.length }}
                   </p>
               </div>
+              <div *ngIf="showEmployeesPopup"
+                   class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
+                  <div class="bg-white w-[90%] max-w-5xl max-h-[90vh] rounded-lg shadow-lg overflow-hidden flex flex-col">
+
+                      <!-- Header -->
+                      <div class="flex justify-between items-center p-6 border-b">
+                          <h2 class="text-2xl font-bold text-gray-800">Today Appointments</h2>
+                          <button (click)="closeEmployeesPopup()" class="text-gray-400 hover:text-gray-700 text-3xl font-bold">
+                              &times;
+                          </button>
+                      </div>
+
+                      <!-- Scrollable Table Area -->
+                      <div class="overflow-y-auto px-6 py-4 flex-grow">
+                          <table class="w-full rounded-[30px]">
+                              <thead class="sticky top-0 bg-white z-10">
+                                  <tr>
+                                      <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">ID</th>
+                                      <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Name</th>
+                                      <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Contact</th>
+                                      <th class="py-4 px-6 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-700">Branch</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let employee of employees">
+                                      <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">#{{employee.employee_id}}</td>
+                                      <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">{{employee.name}}</td>
+                                      <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">{{employee.contact}}</td>
+                                      <td class="py-3 px-6 border-b border-gray-200 text-sm text-gray-700">{{employee.branch_name}}</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+
+                  </div>
+              </div>
+
           </div>
 
           <div class="flex flex-wrap gap-8 mt-10">

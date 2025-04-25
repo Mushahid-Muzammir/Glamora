@@ -46,6 +46,8 @@ export class ManagerAnalyticsComponent {
     appointments: Appointment[] = [];
     totalSales: number = 0;
     totalRevenue: number = 0;
+    showAppointmentsPopup: boolean = false;
+
 
     public chartType: keyof ChartTypeRegistry = 'bar';
     public chartOptions: ChartOptions = {

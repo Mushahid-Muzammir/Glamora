@@ -2,6 +2,7 @@ import { Component,ViewChild, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { TopbarComponent } from "../../components/topbar/topbar.component";
 import { Appointment, Employee } from '../../../data_interface';
+import { CommonModule } from '@angular/common'; 
 import { AdminService } from '../../../services/admin.service';
 import { BaseChartDirective } from "ng2-charts";
 import { 
@@ -33,7 +34,7 @@ ChartJS.register(
 
 @Component({
     selector: 'app-analytics',
-    imports: [SidebarComponent, TopbarComponent, BaseChartDirective],
+    imports: [SidebarComponent, TopbarComponent, CommonModule, BaseChartDirective],
     templateUrl: './analytics.component.html',
     styleUrl: './analytics.component.css'
 })
@@ -46,6 +47,8 @@ export class AnalyticsComponent {
     appointments: Appointment[] = [];
     totalSales: number = 0;
     totalRevenue: number = 0;
+    showAppointmentsPopup: boolean = false;
+    showEmployeesPopup: boolean = false;
 
     public chartType: keyof ChartTypeRegistry = 'bar';
     public chartOptions: ChartOptions = {
@@ -138,5 +141,21 @@ export class AnalyticsComponent {
             (res: any) => {
                 this.totalRevenue = res.todayRevenue;
             });
+    }
+
+    openAppointmentsPopup() {
+        this.showAppointmentsPopup = true;
+    }
+
+    closeAppointmentsPopup() {
+        this.showAppointmentsPopup = false;
+    }
+
+    openEmployeesPopup() {
+        this.showEmployeesPopup = true;
+    }
+
+    closeEmployeesPopup() {
+        this.showEmployeesPopup = false;
     }
 }

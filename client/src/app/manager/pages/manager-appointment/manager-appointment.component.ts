@@ -42,7 +42,6 @@ export class ManagerAppointmentComponent implements OnInit {
             this.appointments = res.appointments;
             console.log("Appointments:", this.appointments);
             this.filteredAppointments = [...this.appointments]; 
-
           },
           (error) => console.error("Error fetching employees:", error)
         );

@@ -1,13 +1,22 @@
 <div class="flex flex-row w-full h-[60px] bg-white">
     <div class="flex flex-row gap-8 ml-auto mr-4">
-      <a 
-        (click)="viewRequest()">
-        <img src="images/message.svg" class="w-6 h-6 inline-block mt-4" alt="dashboard icon">
-      </a>
-      <div class="py-2">
-        <p class="text-[15px] font-semibold text-black">Welcome, {{user.name}}</p>
-        <p class="text-sm text-gray-400">{{user.role}}</p>
-      </div>
-      <img src="images/profile.png" class="w-11 h-10 inline-block mt-2" alt="dashboard icon">    
+        <a (click)="viewRequest()">
+            <img src="images/message.svg" class="w-6 h-6 inline-block mt-4" alt="dashboard icon">
+        </a>
+        <div class="py-2">
+            <p class="text-[15px] font-semibold text-black">Welcome, {{user.name}}</p>
+            <p class="text-sm text-gray-400">{{user.role}}</p>
+        </div>
+        <button (click)="toggleDropdown()" class="flex items-center focus:outline-none">
+            <img src="images/profile.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-gray-300" />
+        </button>
+
+        <div *ngIf="dropdownOpen"
+             class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+            <a (click)="logout()"
+               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                Logout
+            </a>
+        </div>
     </div>
   </div>

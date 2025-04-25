@@ -146,7 +146,7 @@ import bcrypt from "bcrypt";
   export const getAppointmentsByBranch = async (req, res) => {
     try {
     const branch_id = req.params.branch_id;
-      const [results] = await db.execute("SELECT a.appointment_id, u.name, u.contact, b.branch_name, a.date, a.start_time, a.end_time, a.service_status, a.payment_mode, a.payment_status FROM appointments a JOIN branches b ON a.branch_id = b.branch_id JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id WHERE a.branch_id = ?", [branch_id]);
+      const [results] = await db.execute("SELECT a.appointment_id, u.name, u.contact, b.branch_name, a.date, a.start_time, a.end_time, a.payment_mode, a.payment_status FROM appointments a JOIN branches b ON a.branch_id = b.branch_id JOIN customers c ON a.customer_id = c.customer_id JOIN users u ON c.user_id = u.user_id WHERE a.branch_id = ?", [branch_id]);
       if (results.length === 0) {
         return res.status(404).send("No Appointments Found");
       }
@@ -246,7 +246,7 @@ import bcrypt from "bcrypt";
     }
 }
 
-export const getAppointmentCountByService = async (req, res) => {
+  export const getAppointmentCountByService = async (req, res) => {
 
     try {
         const branch_id = req.params.branch_id;
