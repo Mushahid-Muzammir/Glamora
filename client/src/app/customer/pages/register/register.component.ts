@@ -59,6 +59,7 @@ export class RegisterComponent implements OnInit {
     this.authService.registerService(this.registerForm.value).subscribe({
       next: (res) => {
         alert('User created successfully. Check your email for verification.');
+        this.router.navigate(['/login']);
         this.registerForm.reset();
       },
       error: (err) => {

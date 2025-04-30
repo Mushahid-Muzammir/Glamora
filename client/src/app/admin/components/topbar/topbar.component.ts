@@ -26,13 +26,13 @@ viewRequests(){
   this.router.navigate(['/requests']);
     }
 
-    toggleDropdown() {
-        this.dropdownOpen = !this.dropdownOpen;
-    }
+toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+}
 
-    logout() {
-        this.authService.clearUser();
-        this.router.navigate(['/admin']);
-    }
+logout() {
+    this.authService.clearUser();
+    this.router.navigate(['/admin']);
+}
 
 }

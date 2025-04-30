@@ -15,6 +15,10 @@ export class StaffService {
    return this.http.get(`${this.staffUrl}/getAppointments/${employee_id}`);
   }
 
+  getTodayAppointments(employee_id : number){
+    return this.http.get(`${this.staffUrl}/getTodayAppointments/${employee_id}`);
+   }
+
   getEmployeeById(userId : number){
     return this.http.get(`${this.staffUrl}/getEmployeeById/${userId}`);
   }

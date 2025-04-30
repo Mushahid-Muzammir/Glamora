@@ -547,7 +547,6 @@ export const getTodayAppointments = async (req, res) => {
         return res.status(404).send("No Appointments Found");
       }
       const appointments = results;
-      console.log(appointments);
       return res.status(200).json({ appointments : appointments });
     }
    catch (error) {

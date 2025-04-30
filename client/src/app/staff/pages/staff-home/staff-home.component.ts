@@ -32,7 +32,7 @@ export class StaffHomeComponent implements OnInit {
       (res: any) => {
         this.employeeId = res.employee.employee_id;
         console.log("Employee Id:", this.employeeId);
-        this.staffService.getAppointments(this.employeeId).subscribe(
+        this.staffService.getTodayAppointments(this.employeeId).subscribe(
           (res : any) =>{
             this.appointments = res.appointments;
             console.log("Appointments : " ,this.appointments);
