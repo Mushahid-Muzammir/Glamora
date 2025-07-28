@@ -25,7 +25,7 @@ export const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "glamora",
+    database: "glamora2",
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
